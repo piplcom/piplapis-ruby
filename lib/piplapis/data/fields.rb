@@ -226,7 +226,7 @@ class Address < Field
         disp = vals.select{|v| not v.nil?}.join(', ')
         
         if not(@street.nil?) and (not(@house.nil?) or not(@apartment.nil?))
-            prefix = [ @house, @apartment ].select{|v| not v.nil?}.join('-')
+            prefix = [ @house, @apartment ].select{|v| not (v.nil? or v.length == 0)}.join('-')
             disp = prefix + ' ' + (disp || '')
         end
         if not(@po_box.nil?) and @street.nil?
