@@ -606,11 +606,11 @@ class SearchAPIResponse
     def self.from_dict(d)
         # Transform the dict to a response object and return the response.
         warnings_ = d['warnings'] || []
-        query = d['query']
+        query = (d['query'] || {}).empty? ? nil : d['query']
         if not(query.nil?)
             query = Person.from_dict(query)
         end
-        person = d['person']
+        person = (d['person'] || {}).empty? ? nil : d['person']
         if not(person.nil?)
             person = Person.from_dict(person)
         end
