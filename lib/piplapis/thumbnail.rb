@@ -69,7 +69,7 @@ def self.generate_thumbnail_url(params={})
     #                                               :width => 100, 
     #                                               :favicon_domain => 'twitter.com',
     #                                               :api_key => 'samplekey' })
-    # => => "http://apis.pipl.com/thumbnail/v2/?key=samplekey&image_url=http%3A%2F%2Fa7.t
+    # => "http://api.pipl.com/thumbnail/v2/?key=samplekey&image_url=http%3A%2F%2Fa7.t
     # wimg.com%2Fa%2Fab76f.jpg&height=100&width=100&favicon_domain=twitter.com&zoom_fa
     # ce=true"
     # 
