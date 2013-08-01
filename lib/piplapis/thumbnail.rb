@@ -22,6 +22,8 @@ require_relative 'data/utils'
 require_relative 'data/fields'
 
 THUMB_BASE_URL = 'http://api.pipl.com/thumbnail/v2/?'
+# HTTPS is also supported:
+#THUMB_BASE_URL = 'https://api.pipl.com/thumbnail/v2/?'
 THUMB_MAX_PIXELS = 500
 
 module ThumbnailApi

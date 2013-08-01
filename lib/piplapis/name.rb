@@ -59,6 +59,8 @@ class NameAPIRequest
     
     HEADERS = {'User-Agent' => 'piplapis/ruby/%s' % PiplApi::PIPLAPI_VERSION}
     BASE_URL = 'http://api.pipl.com/name/v2/json/?'
+    # HTTPS is also supported:
+    #BASE_URL = 'https://api.pipl.com/name/v2/json/?'
     
     def initialize(params={})
         # `api_key` is a valid API key (str), use "samplekey" for 

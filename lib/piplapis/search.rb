@@ -77,6 +77,8 @@ class SearchAPIRequest
     
     HEADERS = {'User-Agent' => 'piplapis/ruby/%s' % PiplApi::PIPLAPI_VERSION}
     BASE_URL = 'http://api.pipl.com/search/v3/json/?'
+    # HTTPS is also supported:
+    #BASE_URL = 'https://api.pipl.com/search/v3/json/?'
     
     def initialize(params={})
         # Initiate a new request object with given query params.
