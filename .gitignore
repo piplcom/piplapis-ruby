@@ -1,0 +1,10 @@
+*.gem
+*.rbc
+Gemfile.lock
+.ruby-version
+
+.bundle
+.idea
+coverage
+pkg
+
