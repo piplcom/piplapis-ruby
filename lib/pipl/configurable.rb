@@ -4,6 +4,7 @@ module Pipl
 
     SHOW_SOURCES_ALL = 'all'
     SHOW_SOURCES_MATCHING = 'matching'
+    SHOW_SOURCES_NONE = 'false'
 
     attr_accessor :api_key, :minimum_probability, :possible_results, :hide_sponsored, :live_feeds, :show_sources
     attr_accessor :user_agent

@@ -63,7 +63,9 @@ module Pipl
     end
 
     def fields_to_hash
-      h = {dob: @dob, gender: @gender}
+      h = {}
+      h[:dob] = @dob.to_hash if @dob
+      h[:gender] = @gender.to_hash if @gender
       self.class::CLASS_CONTAINER.values.each do |container|
         fields = instance_variable_get("@#{container}")
         h[container.to_sym] = fields.map { |field| field.to_hash }.compact unless fields.empty?
@@ -91,9 +93,9 @@ module Pipl
 
     def all_fields
       fields = self.class::CLASS_CONTAINER.values.map { |container| instance_variable_get("@#{container}") }
-                   .flatten.compact!
-      fields << @dob
-      fields << @gender
+                   .flatten.compact
+      fields << @dob if @dob
+      fields << @gender if @gender
       fields
     end
 
@@ -234,7 +236,7 @@ module Pipl
     end
 
     def unsearchable_fields
-      all_fields.select { |f| not f.is_searchable? }
+      all_fields.reject { |f| f.is_searchable? }
     end
 
   end

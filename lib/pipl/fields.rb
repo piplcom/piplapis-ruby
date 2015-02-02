@@ -24,7 +24,11 @@ module Pipl
     end
 
     def self.base_params_from_hash(h)
-      params = {inferred: h[:@inferred], type: h[:@type], display: h[:@display]}
+      params = {
+          inferred: h[:@inferred],
+          type: h[:@type],
+          display: h[:@display]
+      }
       params[:valid_since] = Date.strptime(h[:@valid_since], Pipl::DATE_FORMAT) if h.key? :@valid_since
       params[:date_range] = Pipl::DateRange.from_hash(h[:date_range]) if h.key? :date_range
       params
@@ -69,14 +73,6 @@ module Pipl
       @display = params[:display]
     end
 
-    def to_s
-      return @display if @display
-
-      vals = [@prefix, @first, @middle, @last, @suffix]
-      s = vals.any? ? vals.select { |v| v }.join(' ') : nil
-      s ? Pipl::Utils.to_utf8(s) : ''
-    end
-
     def to_hash
       {first: @first, middle: @middle, last: @last, prefix: @prefix, suffix: @suffix, raw: @raw}
           .reject { |_, value| value.nil? }
@@ -87,6 +83,14 @@ module Pipl
       last = Pipl::Utils.alpha_chars(@last || '')
       raw = Pipl::Utils.alpha_chars(@raw || '')
       (first.length > 1 and last.length > 1) or raw.length > 3
+    end
+
+    def to_s
+      return @display if @display
+
+      vals = [@prefix, @first, @middle, @last, @suffix]
+      s = vals.any? ? vals.select { |v| v }.map { |v| v.capitalize }.join(' ') : nil
+      s ? Pipl::Utils.to_utf8(s) : ''
     end
 
   end
@@ -103,14 +107,42 @@ module Pipl
       @country = params[:country]
       @state = params[:state]
       @city = params[:city]
-      @po_box = params[:po_box]
       @street = params[:street]
       @house = params[:house]
       @apartment = params[:apartment]
       @zip_code = params[:zip_code]
+      @po_box = params[:po_box]
       @type = params[:type]
       @raw = params[:raw]
       @display = params[:display]
+    end
+
+    def is_valid_country?
+      @country and Pipl::COUNTRIES.key? @country.upcase.to_sym
+    end
+
+    def is_valid_state?
+      is_valid_country? and Pipl::STATES.key?(@country.upcase.to_sym) and
+          @state and Pipl::STATES[@country.upcase.to_sym].key?(@state.upcase.to_sym)
+    end
+
+    def to_hash
+      {country: @country, state: @state, city: @city, street: @street, house: @house, apartment: @apartment,
+       zip_code: @zip_code, po_box: @po_box, raw: @raw}
+          .reject { |_, value| value.nil? }
+    end
+
+    def is_searchable?
+      (@raw and not @raw.empty?) or
+          (is_valid_country? and (@state.nil? or @state.empty? or is_valid_state?))
+    end
+
+    def country_full
+      Pipl::COUNTRIES[@country.upcase.to_sym] if @country
+    end
+
+    def state_full
+      Pipl::STATES[@country.upcase.to_sym][@state.upcase.to_sym] if is_valid_state?
     end
 
     def to_s
@@ -131,33 +163,6 @@ module Pipl
       end
 
       s ? Pipl::Utils.to_utf8(s) : ''
-    end
-
-    def is_valid_country?
-      @country and Pipl::COUNTRIES.key? @country.upcase.to_sym
-    end
-
-    def is_valid_state?
-      is_valid_country? and Pipl::STATES.key?(@country.upcase.to_sym) and
-          @state and Pipl::STATES[@country.upcase.to_sym].key?(@state.upcase.to_sym)
-    end
-
-    def country_full
-      Pipl::COUNTRIES[@country.upcase.to_sym] if @country
-    end
-
-    def state_full
-      Pipl::STATES[@country.upcase.to_sym][@state.upcase.to_sym] if is_valid_state?
-    end
-
-    def to_hash
-      {country: @country, state: @state, city: @city, street: @street, house: @house, apartment: @apartment,
-       zip_code: @zip_code, po_box: @po_box, raw: @raw}
-          .reject { |_, value| value.nil? }
-    end
-
-    def is_searchable?
-      @raw or (is_valid_country? and (@state.nil? or @state.empty? or is_valid_state?))
     end
 
   end
@@ -189,7 +194,7 @@ module Pipl
     end
 
     def is_searchable?
-      @number or (@raw and not @raw.empty?)
+      (@raw and not @raw.empty?) or not @number.nil?
     end
 
   end
@@ -215,11 +220,15 @@ module Pipl
     end
 
     def is_valid_email?
-      @address and RE_EMAIL.match(@address)
+      not RE_EMAIL.match(@address).nil?
     end
 
     def is_searchable?
-      is_valid_email? || (@address_md5 && @address_md5.length == 32)
+      is_valid_email? or (not @address_md5.nil? and @address_md5.length == 32)
+    end
+
+    def to_hash
+      {address: @address, address_md5: @address_md5}.reject { |_, value| value.nil? }
     end
 
     def username
@@ -228,10 +237,6 @@ module Pipl
 
     def domain
       @address.split('@')[1] if is_valid_email?
-    end
-
-    def to_hash
-      {address: @address, address_md5: @address_md5}.reject { |_, value| value.nil? }
     end
 
   end
@@ -249,13 +254,19 @@ module Pipl
       @display = params[:display]
     end
 
+    def to_hash
+      {title: @title, organization: @organization, industry: @industry,
+       date_range: @date_range ? @date_range.to_hash : nil}
+          .reject { |_, value| value.nil? }
+    end
+
     def to_s
       return @display if @display
 
       if @title and @organization
         s = @title + ' at ' + @organization
       else
-        s = @title || @organization || nil
+        s = @title || @organization
       end
 
       if s and @industry
@@ -276,12 +287,6 @@ module Pipl
       s ? Pipl::Utils.to_utf8(s) : ''
     end
 
-    def to_hash
-      {title: @title, organization: @organization, industry: @industry,
-       date_range: @date_range ? @date_range.to_hash : nil}
-          .reject { |_, value| value.nil? }
-    end
-
   end
 
 
@@ -297,13 +302,18 @@ module Pipl
       @display = params[:display]
     end
 
+    def to_hash
+      {degree: @degree, school: @school, date_range: @date_range ? @date_range.to_hash : nil}
+          .reject { |_, value| value.nil? }
+    end
+
     def to_s
       return @display if @display
 
       if @degree and @school
         s = @degree + ' from ' + @school
       else
-        s = @degree || @school || nil
+        s = @degree || @school
       end
 
       if s and @date_range
@@ -312,11 +322,6 @@ module Pipl
       end
 
       s ? Pipl::Utils.to_utf8(s) : ''
-    end
-
-    def to_hash
-      {degree: @degree, school: @school, date_range: @date_range ? @date_range.to_hash : nil}
-          .reject { |_, value| value.nil? }
     end
 
   end

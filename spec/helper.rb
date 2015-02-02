@@ -40,9 +40,14 @@ end
 
 def json_response(file)
   {
-      :body => fixture(file),
-      :headers => {
-          :content_type => 'application/json; charset=utf-8'
-      }
+      body: fixture(file),
+      headers: {content_type: 'application/json; charset=utf-8'}
+  }
+end
+
+def empty_json_response
+  {
+      body: '{}',
+      headers: {content_type: 'application/json; charset=utf-8'}
   }
 end

@@ -4,6 +4,7 @@ require 'net/http'
 require_relative 'configurable'
 require_relative 'containers'
 require_relative 'errors'
+require_relative 'fields'
 require_relative 'response'
 
 
@@ -31,6 +32,8 @@ module Pipl
       http, req = create_http_request(opts)
       if opts.key? :callback
         do_send_async http, req, opts[:callback]
+      elsif opts[:async] and block_given?
+        do_send_async http, req, Proc.new
       else
         do_send http, req
       end
@@ -57,14 +60,14 @@ module Pipl
 
       if opts[:phone]
         if opts[:phone].is_a? String
-          person.add_field Pipl::Phone(raw: opts[:phone])
+          person.add_field Pipl::Phone.new(raw: opts[:phone])
         else
           person.add_field Pipl::Phone.new(number: opts[:phone])
         end
       end
 
       if opts[:from_age] || opts[:to_age]
-        person.add_field Pipl::DOB.from_age_range(opts[:from_age] || 0, opts[:to_age] || 1000)
+        person.add_field Pipl::DOB.from_age_range((opts[:from_age] || 0).to_i, (opts[:to_age].to_i || 1000).to_i)
       end
 
       opts[:person] = person
@@ -86,8 +89,14 @@ module Pipl
       end
 
       if opts[:strict_validation]
-        unless [nil, 'and', 'or'].include?(opts[:query_params_mode])
-          raise ArgumentError.new('query_params_match should be one of "and"/"or"')
+        if opts[:minimum_probability] and not (0..1).include? opts[:minimum_probability]
+          raise ArgumentError.new('minimum_probability must be a float in 0..1')
+        end
+
+        unless [Pipl::Configurable::SHOW_SOURCES_ALL,
+                Pipl::Configurable::SHOW_SOURCES_MATCHING,
+                Pipl::Configurable::SHOW_SOURCES_NONE, nil].include? opts[:show_sources]
+          raise ArgumentError.new('show_sources must be one of all, matching or false')
         end
 
         unless opts.key? :search_pointer
@@ -102,7 +111,7 @@ module Pipl
     def create_http_request(opts)
       uri = URI(opts[:api_endpoint])
       keys = %w(minimum_probability possible_results hide_sponsored live_feeds show_sources)
-      query_params = ["key=#{opts[:api_key]}"] + keys.map { |k| "#{k}=#{opts[k]}" unless opts[k].nil? }
+      query_params = ["key=#{opts[:api_key]}"] + keys.map { |k| "#{k}=#{opts[k.to_sym]}" unless opts[k.to_sym].nil? }
       uri.query = query_params.compact.join('&')
 
       req = Net::HTTP::Post.new(uri.request_uri)
@@ -126,19 +135,22 @@ module Pipl
       if response.is_a? Net::HTTPSuccess
         SearchResponse.from_json(response.body)
       else
-        raise Pipl::APIError.from_json(response.body)
+        begin
+          err = Pipl::Client::APIError.from_json(response.body)
+        rescue
+          err = Pipl::Client::APIError.new response.message, response.code
+        end
+        raise err
       end
     end
 
     def do_send_async(http, req, callback)
       Thread.new do
         begin
-          response = http.request(req)
-          if response.is_a? Net::HTTPSuccess
-            callback.call response: SearchResponse.from_json(response.body)
-          else
-            callback.call error: Pipl::APIError.from_json(response.body)
-          end
+          response = do_send http, req
+          callback.call response: response
+        rescue Pipl::Client::APIError => err
+          callback.call error: err
         rescue Exception => msg
           callback.call error: msg
         end
