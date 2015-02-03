@@ -1,8 +1,5 @@
 require_relative '../helper'
 
-TODAY = Date.today
-TODAY_STR = TODAY.strftime(Pipl::DATE_FORMAT)
-
 describe Pipl::Field do
 
   it 'initialize with no params' do

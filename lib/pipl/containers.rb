@@ -190,12 +190,12 @@ module Pipl
           origin_url: h[:@origin_url],
           domain: h[:@domain],
           source_id: h[:@source_id],
-          person_id: h[:@person_id]
+          person_id: h[:@person_id],
+          match: h[:@match],
+          sponsored: h[:@sponsored],
+          premium: h[:@premium],
       }
-      params[:match] = h[:@match].to_f if h.key? :@match
-      params[:sponsored] = h[:@sponsored] == 'true' if h.key? :@sponsored
-      params[:premium] = h[:@premium] == 'true' if h.key? :@premium
-      params[:valid_since] = Pipl::Utils.str_to_date(h[:valid_since]) if h.key? :valid_since
+      params[:valid_since] = Pipl::Utils.str_to_date(h[:@valid_since]) if h.key? :@valid_since
       params[:fields] = self.fields_from_hash(h)
       self.new(params)
     end
@@ -214,8 +214,11 @@ module Pipl
     end
 
     def self.from_hash(h)
-      params = {id: h[:@id], search_pointer: h[:@search_pointer]}
-      params[:match] = h[:@match].to_f if h.key? :@match
+      params = {
+          id: h[:@id],
+          match: h[:@match],
+          search_pointer: h[:@search_pointer],
+      }
       params[:fields] = fields_from_hash(h)
       self.new(params)
     end
@@ -228,7 +231,7 @@ module Pipl
     end
 
     def is_searchable?
-      @search_pointer or
+      not @search_pointer.nil? or
           @names.any? { |f| f.is_searchable? } or
           @emails.any? { |f| f.is_searchable? } or
           @phones.any? { |f| f.is_searchable? } or

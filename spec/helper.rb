@@ -22,9 +22,8 @@ end
 
 ENV['PIPL_API_KEY'] = ENV.fetch 'PIPL_API_KEY', 'test_api_key'
 
-# def stub_get(url)
-#   stub_request(:get, pipl_url(url))
-# end
+TODAY = Date.today
+TODAY_STR = TODAY.strftime(Pipl::DATE_FORMAT)
 
 def stub_post(url = '/')
   stub_request(:post, Pipl.api_endpoint)
