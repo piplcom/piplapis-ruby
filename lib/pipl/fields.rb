@@ -27,7 +27,7 @@ module Pipl
       params = {
           inferred: h[:@inferred],
           type: h[:@type],
-          display: h[:@display]
+          display: h[:display]
       }
       params[:valid_since] = Date.strptime(h[:@valid_since], Pipl::DATE_FORMAT) if h.key? :@valid_since
       params[:date_range] = Pipl::DateRange.from_hash(h[:date_range]) if h.key? :date_range
@@ -42,12 +42,6 @@ module Pipl
 
     end
 
-    # def validate_type(type)
-    #   if (not defined? self.class::TYPES_SET) or (not (type is.nil?) and not (self.class::TYPES_SET.include? type))
-    #     raise ArgumentError, "Invalid type for #{self.class.name} #{type}"
-    #   end
-    # end
-
     def is_searchable?
       true
     end
@@ -56,8 +50,18 @@ module Pipl
 
 
   class Name < Field
-
-    TYPES = Set.new(%w(present maiden former alias))
+    # @!attribute first
+    #   @return [String] First name
+    # @!attribute middle
+    #   @return [String] Middle name or initial
+    # @!attribute last
+    #   @return [String] Last name
+    # @!attribute prefix
+    #   @return [String] Name prefix
+    # @!attribute suffix
+    #   @return [String] Name suffix
+    # @!attribute type
+    #   @return [String] Type of association of this name to a person. One of `present`, `maiden`, `former` or `alias`.
 
     attr_accessor :first, :middle, :last, :prefix, :suffix, :type, :raw, :display
 
@@ -97,10 +101,30 @@ module Pipl
 
 
   class Address < Field
+    # @!attribute country
+    #   @return [String] 2 letters country code
+    # @!attribute state
+    #   @return [String] 2 letters state code
+    # @!attribute city
+    #   @return [String] City
+    # @!attribute street
+    #   @return [String] Street
+    # @!attribute house
+    #   @return [String] House
+    # @!attribute apartment
+    #   @return [String] Apartment
+    # @!attribute zip_code
+    #   @return [String] Zip Code
+    # @!attribute po_box
+    #   @return [String] Post Office box number
+    # @!attribute type
+    #   @return [String] Type of association of this address to a person. One of `home`, `work` or `old`.
+    # @!attribute raw
+    #   @return [String] Unparsed address.
+    # @!attribute display
+    #   @return [String] well formatted representation of this address for display purposes.
 
-    TYPES = Set.new(%w(home work old))
-
-    attr_accessor :country, :state, :city, :po_box, :street, :house, :apartment, :zip_code, :type, :raw, :display
+    attr_accessor :country, :state, :city, :street, :house, :apartment, :zip_code, :po_box, :type, :raw, :display
 
     def initialize(params={})
       super params
@@ -168,8 +192,27 @@ module Pipl
   end
 
   class Phone < Field
-
-    TYPES = Set.new(%w(mobile home_phone home_fax work_phone work_fax pager))
+    # @!attribute country_code
+    #   @return [Fixnum] International country calling code
+    # @!attribute number
+    #   @return [Fixnum] Actual phone number
+    # @!attribute extension
+    #   @return [String] Office extension
+    # @!attribute type
+    #   @return [String] Type of association of this phone to a person.
+    #   Possible values are:
+    #     mobile
+    #     home_phone
+    #     home_fax
+    #     work_phone
+    #     work_fax
+    #     pager
+    # @!attribute raw
+    #   @return [String] Unparsed phone number
+    # @!attribute display
+    #   @return [String] Well formatted representation of this phone number for display purposes.
+    # @!attribute display_international
+    #   @return [String] Well formatted international representation of this phone number for display purposes.
 
     attr_accessor :country_code, :number, :extension, :type, :raw, :display, :display_international
 
@@ -201,8 +244,18 @@ module Pipl
 
   class Email < Field
 
-    TYPES = Set.new(%w(personal work))
     RE_EMAIL = Regexp.new('^[\w.%\-+]+@[\w.%\-]+\.[a-zA-Z]{2,6}$')
+
+    # @!attribute address
+    #   @return [String] Plain email address
+    # @!attribute address_md5
+    #   @return [String] MD5 hash of the email address
+    # @!attribute type
+    #   @return [String] Type of email association to a person. One of `personal` or `work`.
+    # @!attribute disposable
+    #   @return [Boolean] Indicating if this email comes from a disposable email provider.
+    # @!attribute email_provider
+    #   @return [Boolean] Indicating if this email comes from a well known email provider like gmail or yahoo.
 
     attr_accessor :address, :address_md5, :type, :disposable, :email_provider
 
@@ -337,10 +390,6 @@ module Pipl
       @thumbnail_token = params[:thumbnail_token]
     end
 
-    def is_valid_url?
-      @url and Pipl::Utils.is_valid_url?(@url)
-    end
-
   end
 
 
@@ -447,11 +496,31 @@ module Pipl
 
 
   class Url < Field
+    # @!attribute url
+    #   @return [String] Actual Url
+    # @!attribute category
+    #   @return [String] Category of the domain
+    #   Possible values are:
+    #     background_reports
+    #     contact_details
+    #     email_address
+    #     media
+    #     personal_profiles
+    #     professional_and_business
+    #     public_records
+    #     publications
+    #     school_and_classmates
+    #     web_pages
+    # @!attribute domain
+    #   @return [String] Canonical domain of the url
+    # @!attribute name
+    #   @return [String] Name of the website hosting the url
+    # @!attribute sponsored
+    #   @return [Boolean] Indicate if this url comes from a sponsored data source
+    # @!attribute sponsored
+    #   @return [String] Unique identifier of this url
 
-    CATEGORIES = Set.new(%w(background_reports contact_details email_address media personal_profiles
-                            professional_and_business public_records publications school_and_classmates web_pages))
-
-    attr_accessor :url, :category, :domain, :name, :sponsored
+    attr_accessor :url, :category, :domain, :name, :sponsored, :source_id
 
     def initialize(params={})
       super params
@@ -460,14 +529,11 @@ module Pipl
       @domain = params[:domain]
       @name = params[:name]
       @sponsored = params[:sponsored]
+      @source_id = params[:source_id]
     end
 
     def self.extra_metadata
-      [:category, :domain, :name, :sponsored]
-    end
-
-    def is_valid_url?
-      @url and Pipl::Utils.is_valid_url? @url
+      [:category, :domain, :name, :sponsored, :source_id]
     end
 
   end
@@ -475,13 +541,12 @@ module Pipl
 
   class Gender < Field
 
-    TYPES = Set.new(%w(male female))
-
     attr_accessor :content
 
     def initialize(params={})
       super params
-      raise ArgumentError.new("#{params[:content]} is not a valid gender") unless TYPES.include? params[:content]
+      raise ArgumentError.new("#{params[:content]} is not a valid gender") \
+      unless %w(male female).include? params[:content]
       @content = params[:content]
     end
 
@@ -498,14 +563,31 @@ module Pipl
 
   class Ethnicity < Field
 
-    TYPES = Set.new(%w(white black american_indian alaska_native asian_indian chinese filipino other_asian japanese
-                        korean vietnamese native_hawaiian guamanian chamorro samoan other_pacific_islander other))
+    # @!attribute content
+    #   @return [String] Ethnicity name based on the U.S Census Bureau.
+    #   Possible values are:
+    #     white
+    #     black
+    #     american_indian
+    #     alaska_native
+    #     asian_indian
+    #     chinese
+    #     filipino
+    #     other_asian
+    #     japanese
+    #     korean
+    #     vietnamese
+    #     native_hawaiian
+    #     guamanian
+    #     chamorro
+    #     samoan
+    #     other_pacific_islander
+    #     other
 
     attr_accessor :content
 
     def initialize(params={})
       super params
-      raise ArgumentError.new("#{params[:content]} is not a valid ethnicity") unless TYPES.include? params[:content]
       @content = params[:content]
     end
 
@@ -547,6 +629,27 @@ module Pipl
 
     def to_s
       Pipl::COUNTRIES[@country.upcase.to_sym] if @country
+    end
+
+  end
+
+
+  class Tag < Field
+
+    attr_accessor :content, :classification
+
+    def initialize(params={})
+      super params
+      @content = params[:content]
+      @classification = params[:classification]
+    end
+
+    def self.extra_metadata
+      [:classification]
+    end
+
+    def to_s
+      @content
     end
 
   end

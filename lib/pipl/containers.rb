@@ -20,11 +20,12 @@ module Pipl
         Ethnicity: 'ethnicities',
         Language: 'languages',
         OriginCountry: 'origin_countries',
-        Relationship: 'relationships'
+        Relationship: 'relationships',
+        Tag: 'tags',
     }
 
     attr_reader :names, :addresses, :phones, :emails, :jobs, :educations, :images, :usernames, :user_ids, :urls
-    attr_reader :relationships, :ethnicities, :languages, :origin_countries, :dob, :gender
+    attr_reader :relationships, :tags, :ethnicities, :languages, :origin_countries, :dob, :gender
 
     def initialize(params={})
       @names = []
@@ -41,6 +42,7 @@ module Pipl
       @languages = []
       @origin_countries = []
       @relationships = []
+      @tags = []
       @dob = nil
       @gender = nil
 
@@ -131,6 +133,14 @@ module Pipl
       @emails.first unless @emails.empty?
     end
 
+    def name
+      @names.first unless @names.empty?
+    end
+
+    def image
+      @images.first unless @images.empty?
+    end
+
   end
 
 
@@ -139,7 +149,19 @@ module Pipl
     CLASS_CONTAINER = FieldsContainer::CLASS_CONTAINER.clone
     CLASS_CONTAINER.delete :Relationship
 
-    TYPES = Set.new(%w(friend family work other))
+    # @!attribute valid_since
+    #   @see Field
+    # @!attribute inferred
+    #   @see Field
+    # @!attribute type
+    #   @return [String] Type of association of this relationship to a person.
+    #   Possible values are:
+    #     friend
+    #     family
+    #     work
+    #     other
+    # @!attribute subtype
+    #   @return [String] Subtype of association of this relationship to a person. Free text.
 
     attr_accessor :valid_since, :inferred, :type, :subtype
 

@@ -23,8 +23,8 @@ describe Pipl::Field do
   it 'extract base params from hash' do
     h = {:@inferred => true,
          :@type => 'type',
-         :@display => 'display',
          :@valid_since => TODAY_STR,
+         :display => 'display',
          date_range: {
              start: TODAY_STR,
              end: TODAY_STR,

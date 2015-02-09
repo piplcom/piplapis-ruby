@@ -8,7 +8,7 @@ module Pipl
 
     class SearchResponse
 
-      attr_reader :query, :person, :sources, :possible_persons, :warnings
+      attr_reader :query, :person, :sources, :possible_persons, :warnings, :visible_sources, :available_sources
 
       def initialize(params={})
         @query = params[:query]
@@ -16,6 +16,8 @@ module Pipl
         @sources = params[:sources]
         @possible_persons = params[:possible_persons]
         @warnings = params[:warnings]
+        @visible_sources = params[:visible_sources]
+        @available_sources = params[:available_sources]
       end
 
       def self.from_json(json_str)
@@ -27,6 +29,8 @@ module Pipl
         params[:sources] = h[:sources].map { |s| Pipl::Source.from_hash(s) } if h.key? :sources
         params[:possible_persons] = h[:possible_persons].map { |p| Pipl::Person.from_hash(p) } if h.key? :possible_persons
         params[:warnings] = h[:warnings]
+        params[:visible_sources] = h[:@visible_sources]
+        params[:available_sources] = h[:@available_sources]
 
         self.new(params)
       end
@@ -85,6 +89,14 @@ module Pipl
 
       def email
         @person.email if @person
+      end
+
+      def name
+        @person.name if @person
+      end
+
+      def image
+        @person.image if @person
       end
 
     end

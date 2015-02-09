@@ -1,0 +1,532 @@
+{
+  "@http_status_code": 200,
+  "@visible_sources": 2,
+  "@available_sources": 1,
+  "query": {
+    "emails": [
+      {
+        "address": "clark.kent@example.com",
+        "address_md5": "2610ee49440fe757e3cc4e46e5b40819"
+      }
+    ]
+  },
+  "person": {
+    "@id": "41a6a386-fa23-41e4-aa3d-9b686ee9a645",
+    "@match": 0.99766,
+    "names": [
+      {
+        "first": "Clark",
+        "middle": "Joseph",
+        "last": "Kent",
+        "display": "Clark Joseph Kent"
+      },
+      {
+        "first": "Kal",
+        "last": "El",
+        "display": "Kal El"
+      }
+    ],
+    "emails": [
+      {
+        "@inferred": true,
+        "@type": "work",
+        "address": "clark.kent@thedailyplanet.com",
+        "address_md5": "eb3e11de3c9cefc2d9d70972350e2b28"
+      },
+      {
+        "@disposable": true,
+        "address": "ck242@guerrillamail.com",
+        "address_md5": "999e509752141a0ee42ff455529c10fc"
+      },
+      {
+        "@email_provider": true,
+        "address": "clark@gmail.com",
+        "address_md5": "501548362894b9a08f071b1565d8aa14"
+      },
+      {
+        "address": "clark.kent@example.com",
+        "address_md5": "2610ee49440fe757e3cc4e46e5b40819"
+      }
+    ],
+    "usernames": [
+      {
+        "content": "superman@facebook"
+      },
+      {
+        "content": "@ckent"
+      }
+    ],
+    "phones": [
+      {
+        "@type": "home_phone",
+        "country_code": "1",
+        "number": "9785550145",
+        "display": "(978) 555-0145",
+        "display_international": "+1 978-555-0145"
+      }
+    ],
+    "gender": {
+      "content": "male"
+    },
+    "dob": {
+      "date_range": {
+        "start": "1986-01-01",
+        "end": "1987-05-13"
+      },
+      "display": "28 years old"
+    },
+    "languages": [
+      {
+        "region": "US",
+        "language": "en",
+        "display": "en_US"
+      }
+    ],
+    "ethnicities": [
+      {
+        "content": "other"
+      },
+      {
+        "content": "american_indian"
+      },
+      {
+        "content": "white"
+      }
+    ],
+    "origin_countries": [
+      {
+        "country": "US"
+      }
+    ],
+    "addresses": [
+      {
+        "@valid_since": "1999-02-01",
+        "country": "US",
+        "state": "KS",
+        "city": "Smallville",
+        "street": "Hickory Lane",
+        "house": "10",
+        "apartment": "1",
+        "zip_code": "66605",
+        "display": "10-1 Hickory Lane, Smallville, Kansas"
+      },
+      {
+        "@valid_since": "2005-02-12",
+        "@type": "work",
+        "country": "US",
+        "state": "KS",
+        "city": "Metropolis",
+        "street": "Broadway",
+        "house": "1000",
+        "apartment": "355",
+        "display": "1000-355 Broadway, Metropolis, Kansas"
+      }
+    ],
+    "jobs": [
+      {
+        "title": "Field Reporter",
+        "organization": "The Daily Planet",
+        "industry": "Journalism",
+        "date_range": {
+          "start": "2000-12-08",
+          "end": "2012-10-09"
+        },
+        "display": "Field Reporter at The Daily Planet (2000-2012)"
+      },
+      {
+        "title": "Junior Reporter",
+        "organization": "The Daily Planet",
+        "industry": "Journalism",
+        "date_range": {
+          "start": "1999-10-10",
+          "end": "2000-10-10"
+        },
+        "display": "Junior Reporter at The Daily Planet (1999-2000)"
+      }
+    ],
+    "educations": [
+      {
+        "degree": "B.Sc Advanced Science",
+        "school": "Metropolis University",
+        "date_range": {
+          "start": "2005-09-01",
+          "end": "2008-05-14"
+        },
+        "display": "B.Sc Advanced Science from Metropolis University (2005-2008)"
+      },
+      {
+        "school": "Smallville High",
+        "date_range": {
+          "start": "2001-09-01",
+          "end": "2005-06-01"
+        },
+        "display": "Smallville High (2001-2005)"
+      }
+    ],
+    "relationships": [
+      {
+        "names": [
+          {
+            "first": "Jonathan",
+            "last": "Kent",
+            "display": "Jonathan Kent"
+          }
+        ],
+        "emails": [
+          {
+            "address": "jkent@example.com",
+            "address_md5": "e81b8844517b6ab307a9e0fdf973ae3a"
+          }
+        ]
+      },
+      {
+        "names": [
+          {
+            "first": "Kara",
+            "last": "Kent",
+            "display": "Kara Kent"
+          }
+        ]
+      },
+      {
+        "names": [
+          {
+            "first": "Alexander",
+            "middle": "Joseph",
+            "last": "Luthor",
+            "display": "Alexander Joseph Luthor"
+          }
+        ]
+      },
+      {
+        "names": [
+          {
+            "first": "Chloe",
+            "middle": "Anne",
+            "last": "Sullivan",
+            "display": "Chloe Anne Sullivan"
+          }
+        ]
+      },
+      {
+        "names": [
+          {
+            "first": "Jor",
+            "last": "El",
+            "display": "Jor El"
+          }
+        ]
+      },
+      {
+        "names": [
+          {
+            "first": "Ron",
+            "last": "Troupe",
+            "display": "Ron Troupe"
+          }
+        ]
+      }
+    ],
+    "user_ids": [
+      {
+        "content": "11231@facebook"
+      }
+    ],
+    "images": [
+      {
+        "url": "http://vignette1.wikia.nocookie.net/smallville/images/e/ea/Buddies_forever.jpg",
+        "thumbnail_token": "AE2861B242686E7BD0CB4D9049298EB7D18FEF66D950E8AB78BCD3F484345CE74536C19A85D0BA3D32DC9E7D1878CD4D341254E7AD129255C6983E6E154C4530A0DAAF665EA325FC0206F8B1D7E0&dsid=53087"
+      },
+      {
+        "url": "http://vignette3.wikia.nocookie.net/smallville/images/5/55/S10E18-Booster21.jpg",
+        "thumbnail_token": "AE2861B242686E7BD0CB4D9049298EB5D18FEF66D950E8AB78BCD3F484345CE74536C19A85D0BA3D32DC9E7D1878CD4D341254E7AD12C25596CC3E7F51186468FD84B26F5EA234EF1546E7F5CDF7F7&dsid=53087"
+      }
+    ],
+    "urls": [
+      {
+        "@domain": "linkedin.com",
+        "@category": "professional_and_business",
+        "url": "https://www.linkedin.com/pub/superman/20/7a/365"
+      },
+      {
+        "@domain": "facebook.com",
+        "@category": "personal_profiles",
+        "url": "https://www.facebook.com/superman"
+      },
+      {
+        "@source_id": "edc6aa8fa3f211cfad7c12a0ba5b32f4",
+        "@domain": "linkedin.com",
+        "@name": "LinkedIn",
+        "@category": "professional_and_business",
+        "url": "http://linkedin.com/clark.kent"
+      },
+      {
+        "@source_id": "5d836a4acc55922e49fc709c7a39e233",
+        "@domain": "facebook.com",
+        "@name": "Facebook",
+        "@category": "personal_profiles",
+        "url": "http://facebook.com/superman"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "@id": "edc6aa8fa3f211cfad7c12a0ba5b32f4",
+      "@category": "professional_and_business",
+      "@name": "LinkedIn",
+      "@origin_url": "http://linkedin.com/clark.kent",
+      "@domain": "linkedin.com",
+      "@person_id": "41a6a386-fa23-41e4-aa3d-9b686ee9a645",
+      "@match": 0.99766,
+      "names": [
+        {
+          "first": "Clark",
+          "middle": "Joseph",
+          "last": "Kent",
+          "display": "Clark Joseph Kent"
+        }
+      ],
+      "tags": [
+        {
+          "content": "Clark Kent is the world's best superhero"
+        }
+      ]
+    },
+    {
+      "@id": "5d836a4acc55922e49fc709c7a39e233",
+      "@category": "personal_profiles",
+      "@name": "Facebook",
+      "@origin_url": "http://facebook.com/superman",
+      "@domain": "facebook.com",
+      "@person_id": "41a6a386-fa23-41e4-aa3d-9b686ee9a645",
+      "@match": 0.99766,
+      "names": [
+        {
+          "first": "Kal",
+          "last": "El",
+          "display": "Kal El"
+        }
+      ],
+      "usernames": [
+        {
+          "content": "superman@facebook"
+        },
+        {
+          "content": "@ckent"
+        }
+      ],
+      "phones": [
+        {
+          "@type": "home_phone",
+          "country_code": "1",
+          "number": "9785550145",
+          "display": "(978) 555-0145",
+          "display_international": "+1 978-555-0145"
+        }
+      ],
+      "gender": {
+        "content": "male"
+      },
+      "dob": {
+        "date_range": {
+          "start": "1986-01-01",
+          "end": "1987-05-13"
+        },
+        "display": "28 years old"
+      },
+      "languages": [
+        {
+          "region": "US",
+          "language": "en",
+          "display": "en_US"
+        }
+      ],
+      "ethnicities": [
+        {
+          "content": "other"
+        },
+        {
+          "content": "american_indian"
+        },
+        {
+          "content": "white"
+        }
+      ],
+      "origin_countries": [
+        {
+          "country": "US"
+        }
+      ],
+      "addresses": [
+        {
+          "@valid_since": "2005-02-12",
+          "@type": "work",
+          "country": "US",
+          "state": "KS",
+          "city": "Metropolis",
+          "street": "Broadway",
+          "house": "1000",
+          "apartment": "355",
+          "display": "1000-355 Broadway, Metropolis, Kansas"
+        },
+        {
+          "@valid_since": "1999-02-01",
+          "country": "US",
+          "state": "KS",
+          "city": "Smallville",
+          "street": "Hickory Lane",
+          "house": "10",
+          "apartment": "1",
+          "zip_code": "66605",
+          "display": "10-1 Hickory Lane, Smallville, Kansas"
+        }
+      ],
+      "jobs": [
+        {
+          "title": "Field Reporter",
+          "organization": "The Daily Planet",
+          "industry": "Journalism",
+          "date_range": {
+            "start": "2000-12-08",
+            "end": "2012-10-09"
+          },
+          "display": "Field Reporter at The Daily Planet (2000-2012)"
+        },
+        {
+          "title": "Junior Reporter",
+          "organization": "The Daily Planet",
+          "industry": "Journalism",
+          "date_range": {
+            "start": "1999-10-10",
+            "end": "2000-10-10"
+          },
+          "display": "Junior Reporter at The Daily Planet (1999-2000)"
+        }
+      ],
+      "educations": [
+        {
+          "degree": "B.Sc Advanced Science",
+          "school": "Metropolis University",
+          "date_range": {
+            "start": "2005-09-01",
+            "end": "2008-05-14"
+          },
+          "display": "B.Sc Advanced Science from Metropolis University (2005-2008)"
+        },
+        {
+          "school": "Smallville High",
+          "date_range": {
+            "start": "2001-09-01",
+            "end": "2005-06-01"
+          },
+          "display": "Smallville High (2001-2005)"
+        }
+      ],
+      "relationships": [
+        {
+          "names": [
+            {
+              "first": "Jonathan",
+              "last": "Kent",
+              "display": "Jonathan Kent"
+            }
+          ],
+          "emails": [
+            {
+              "address": "jkent@example.com",
+              "address_md5": "e81b8844517b6ab307a9e0fdf973ae3a"
+            }
+          ]
+        },
+        {
+          "names": [
+            {
+              "first": "Jor",
+              "last": "El",
+              "display": "Jor El"
+            }
+          ]
+        },
+        {
+          "names": [
+            {
+              "first": "Kara",
+              "last": "Kent",
+              "display": "Kara Kent"
+            }
+          ]
+        },
+        {
+          "names": [
+            {
+              "first": "Alexander",
+              "middle": "Joseph",
+              "last": "Luthor",
+              "display": "Alexander Joseph Luthor"
+            }
+          ]
+        },
+        {
+          "names": [
+            {
+              "first": "Ron",
+              "last": "Troupe",
+              "display": "Ron Troupe"
+            }
+          ]
+        },
+        {
+          "names": [
+            {
+              "first": "Chloe",
+              "middle": "Anne",
+              "last": "Sullivan",
+              "display": "Chloe Anne Sullivan"
+            }
+          ]
+        }
+      ],
+      "user_ids": [
+        {
+          "content": "11231@facebook"
+        }
+      ],
+      "images": [
+        {
+          "url": "http://vignette1.wikia.nocookie.net/smallville/images/e/ea/Buddies_forever.jpg",
+          "thumbnail_token": "AE2861B242686E7BD0CB4D9049298EB7D18FEF66D950E8AB78BCD3F484345CE74536C19A85D0BA3D32DC9E7D1878CD4D341254E7AD129255C6983E6E154C4530A0DAAF665EA325FC0206F8B1D7E0&dsid=53087"
+        },
+        {
+          "url": "http://vignette3.wikia.nocookie.net/smallville/images/5/55/S10E18-Booster21.jpg",
+          "thumbnail_token": "AE2861B242686E7BD0CB4D9049298EB5D18FEF66D950E8AB78BCD3F484345CE74536C19A85D0BA3D32DC9E7D1878CD4D341254E7AD12C25596CC3E7F51186468FD84B26F5EA234EF1546E7F5CDF7F7&dsid=53087"
+        }
+      ],
+      "urls": [
+        {
+          "@domain": "facebook.com",
+          "@category": "personal_profiles",
+          "url": "https://www.facebook.com/superman"
+        },
+        {
+          "@domain": "linkedin.com",
+          "@category": "professional_and_business",
+          "url": "https://www.linkedin.com/pub/superman/20/7a/365"
+        }
+      ],
+      "tags": [
+        {
+          "@classification": "Member of:",
+          "content": "Green Lantern Corps"
+        },
+        {
+          "@classification": "Vulnerable to:",
+          "content": "Kryptonite"
+        },
+        {
+          "@classification": "Planet of origin:",
+          "content": "Krypton"
+        }
+      ]
+    }
+  ]
+}
