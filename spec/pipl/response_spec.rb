@@ -12,6 +12,8 @@ describe Pipl::Client::SearchResponse do
     expect(response.warnings).to be_nil
     expect(response.visible_sources).to be_nil
     expect(response.available_sources).to be_nil
+    expect(response.search_id).to be_nil
+    expect(response.http_status_code).to be_nil
   end
 
   it 'initializes with params' do
@@ -31,6 +33,9 @@ describe Pipl::Client::SearchResponse do
     ]
     warnings = %w(warning1 warning2 warning3)
 
+    search_id = 1
+    http_status_code = 200
+
     params = {
         query: query,
         person: person,
@@ -39,6 +44,8 @@ describe Pipl::Client::SearchResponse do
         warnings: warnings,
         visible_sources: 50,
         available_sources: 70,
+        search_id: 1,
+        http_status_code: 200
     }
 
     response = Pipl::Client::SearchResponse.new params
@@ -50,6 +57,8 @@ describe Pipl::Client::SearchResponse do
     expect(response.warnings).to be warnings
     expect(response.visible_sources).to eq(50)
     expect(response.available_sources).to eq(70)
+    expect(response.search_id).to eq(1)
+    expect(response.http_status_code).to eq(200)
   end
 
   it 'creates instance from json' do
@@ -81,7 +90,7 @@ describe Pipl::Client::SearchResponse do
     expect(response.warnings).to be_nil
     expect(response.visible_sources).to eq(2)
     expect(response.available_sources).to eq(1)
-
+    expect(response.http_status_code).to eq(200)
   end
 
   it 'creates instance from json - possible persons' do
@@ -95,6 +104,7 @@ describe Pipl::Client::SearchResponse do
     expect(response.warnings).to be_nil
     expect(response.visible_sources).to eq(16)
     expect(response.available_sources).to eq(16)
+    expect(response.http_status_code).to eq(200)
   end
 
   it 'returns matching sources' do

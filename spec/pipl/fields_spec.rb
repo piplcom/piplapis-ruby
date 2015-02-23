@@ -2,19 +2,19 @@ require_relative '../helper'
 
 describe Pipl::Field do
 
-  it 'initialize with no params' do
+  it 'initializes with no params' do
     field = Pipl::Field.new
     expect(field.valid_since).to be_nil
     expect(field.inferred).to be_nil
   end
 
-  it 'initialize with params' do
+  it 'initializes with params' do
     field = Pipl::Field.new valid_since: TODAY, inferred: true
     expect(field.valid_since).to eq(TODAY)
     expect(field.inferred).to be true
   end
 
-  it 'create instance from hash' do
+  it 'creates instance from hash' do
     field = Pipl::Field.from_hash :@valid_since => TODAY_STR
     expect(field.valid_since).to eq(TODAY)
     expect(field.inferred).to be_nil
@@ -55,7 +55,7 @@ end
 
 describe Pipl::Name do
 
-  it 'initialize with no params' do
+  it 'initializes with no params' do
     name = Pipl::Name.new
     expect(name.first).to be_nil
     expect(name.middle).to be_nil
@@ -69,14 +69,14 @@ describe Pipl::Name do
     expect(name.inferred).to be_nil
   end
 
-  it 'initialize with params' do
+  it 'initializes with params' do
     name = Pipl::Name.new first: 'first', last: 'last', valid_since: TODAY
     expect(name.first).to eq('first')
     expect(name.last).to eq('last')
     expect(name.valid_since).to eq(TODAY)
   end
 
-  it 'create instance from hash' do
+  it 'creates instance from hash' do
     name = Pipl::Name.from_hash first: 'first', last: 'last', :@type => 'maiden',
                                 :@valid_since => TODAY_STR
     expect(name.first).to eq('first')
@@ -134,7 +134,7 @@ end
 
 describe Pipl::Address do
 
-  it 'initialize with no params' do
+  it 'initializes with no params' do
     address = Pipl::Address.new
     expect(address.country).to be_nil
     expect(address.state).to be_nil
@@ -150,14 +150,14 @@ describe Pipl::Address do
     expect(address.inferred).to be_nil
   end
 
-  it 'initialize with params' do
+  it 'initializes with params' do
     address = Pipl::Address.new country: 'US', state: 'AZ', valid_since: TODAY
     expect(address.country).to eq('US')
     expect(address.state).to eq('AZ')
     expect(address.valid_since).to eq(TODAY)
   end
 
-  it 'create instance from hash' do
+  it 'creates instance from hash' do
     address = Pipl::Address.from_hash country: 'US', state: 'AZ', :@type => 'work',
                                       :@valid_since => TODAY_STR
     expect(address.country).to eq('US')
@@ -260,7 +260,7 @@ end
 
 describe Pipl::Phone do
 
-  it 'initialize with no params' do
+  it 'initializes with no params' do
     phone = Pipl::Phone.new
     expect(phone.number).to be_nil
     expect(phone.country_code).to be_nil
@@ -273,14 +273,14 @@ describe Pipl::Phone do
     expect(phone.inferred).to be_nil
   end
 
-  it 'initialize with params' do
+  it 'initializes with params' do
     phone = Pipl::Phone.new number: 2123334444, country_code: 1, valid_since: TODAY
     expect(phone.number).to eq(2123334444)
     expect(phone.country_code).to eq(1)
     expect(phone.valid_since).to eq(TODAY)
   end
 
-  it 'create instance from hash' do
+  it 'creates instance from hash' do
     phone = Pipl::Phone.from_hash number: 2123334444, country_code: 1, :@type => 'home_phone',
                                   :@valid_since => TODAY_STR
     expect(phone.number).to eq(2123334444)
@@ -334,7 +334,7 @@ end
 
 describe Pipl::Email do
 
-  it 'initialize with no params' do
+  it 'initializes with no params' do
     email = Pipl::Email.new
     expect(email.address).to be_nil
     expect(email.address_md5).to be_nil
@@ -345,13 +345,13 @@ describe Pipl::Email do
     expect(email.inferred).to be_nil
   end
 
-  it 'initialize with params' do
+  it 'initializes with params' do
     email = Pipl::Email.new address: 'test@example.com', valid_since: TODAY
     expect(email.address).to eq('test@example.com')
     expect(email.valid_since).to eq(TODAY)
   end
 
-  it 'create instance from hash' do
+  it 'creates instance from hash' do
     email = Pipl::Email.from_hash address: 'test@example.com', address_md5: '55502f40dc8b7c769880b10874abc9d0',
                                   :@type => 'work', :@valid_since => TODAY_STR
     expect(email.address).to eq('test@example.com')
@@ -416,7 +416,7 @@ end
 
 describe Pipl::Job do
 
-  it 'initialize with no params' do
+  it 'initializes with no params' do
     job = Pipl::Job.new
     expect(job.title).to be_nil
     expect(job.organization).to be_nil
@@ -427,13 +427,13 @@ describe Pipl::Job do
     expect(job.inferred).to be_nil
   end
 
-  it 'initialize with params' do
+  it 'initializes with params' do
     job = Pipl::Job.new title: 'title', valid_since: TODAY
     expect(job.title).to eq('title')
     expect(job.valid_since).to eq(TODAY)
   end
 
-  it 'create instance from hash' do
+  it 'creates instance from hash' do
     job = Pipl::Job.from_hash title: 'title', organization: 'organization',
                               :@valid_since => TODAY_STR
     expect(job.title).to eq('title')
@@ -475,7 +475,7 @@ end
 
 describe Pipl::Education do
 
-  it 'initialize with no params' do
+  it 'initializes with no params' do
     education = Pipl::Education.new
     expect(education.degree).to be_nil
     expect(education.school).to be_nil
@@ -485,13 +485,13 @@ describe Pipl::Education do
     expect(education.inferred).to be_nil
   end
 
-  it 'initialize with params' do
+  it 'initializes with params' do
     education = Pipl::Education.new school: 'school', valid_since: TODAY
     expect(education.school).to eq('school')
     expect(education.valid_since).to eq(TODAY)
   end
 
-  it 'create instance from hash' do
+  it 'creates instance from hash' do
     education = Pipl::Education.from_hash school: 'school', degree: 'degree', :@valid_since => TODAY_STR
     expect(education.school).to eq('school')
     expect(education.degree).to eq('degree')
@@ -525,6 +525,52 @@ describe Pipl::Education do
     education = Pipl::Education.new school: 'school', degree: 'degree',
                                     date_range: Pipl::DateRange.new(TODAY - 365, TODAY)
     expect(education.to_s).to eq "degree from school (#{TODAY.year - 1}-#{TODAY.year})"
+  end
+
+end
+
+
+describe Pipl::Image do
+
+  it 'initializes with no params' do
+    image = Pipl::Image.new
+    expect(image.url).to be_nil
+    expect(image.thumbnail_token).to be_nil
+    expect(image.valid_since).to be_nil
+    expect(image.inferred).to be_nil
+  end
+
+  it 'initializes with params' do
+    image = Pipl::Image.new url: 'url', valid_since: TODAY
+    expect(image.url).to eq('url')
+    expect(image.valid_since).to eq(TODAY)
+  end
+
+  it 'creates instance from hash' do
+    image = Pipl::Image.from_hash url: 'url', thumbnail_token: 'thumbnail_token', :@valid_since => TODAY_STR
+    expect(image.url).to eq('url')
+    expect(image.thumbnail_token).to eq('thumbnail_token')
+    expect(image.valid_since).to eq(TODAY)
+  end
+
+  it 'constructs a thumbnail url with no params' do
+    image = Pipl::Image.from_hash thumbnail_token: 'thumbnail_token'
+    expect(image.thumbnail_url).to eq('http://thumb.pipl.com/api/?token=thumbnail_token&width=100&height=100&favicon=true&zoom_face=true')
+  end
+
+  it 'constructs a HTTPS thumbnail url' do
+    image = Pipl::Image.from_hash thumbnail_token: 'thumbnail_token'
+    expect(image.thumbnail_url(use_https: true)).to eq('https://thumb.pipl.com/api/?token=thumbnail_token&width=100&height=100&favicon=true&zoom_face=true')
+  end
+
+  it 'constructs a thumbnail url with given dimensions' do
+    image = Pipl::Image.from_hash thumbnail_token: 'thumbnail_token'
+    expect(image.thumbnail_url(width: 120, height:90)).to eq('http://thumb.pipl.com/api/?token=thumbnail_token&width=120&height=90&favicon=true&zoom_face=true')
+  end
+
+  it 'constructs a thumbnail url without enhancments' do
+    image = Pipl::Image.from_hash thumbnail_token: 'thumbnail_token'
+    expect(image.thumbnail_url(favicon: false, zoom_face:false)).to eq('http://thumb.pipl.com/api/?token=thumbnail_token&width=100&height=100&favicon=false&zoom_face=false')
   end
 
 end

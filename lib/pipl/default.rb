@@ -22,8 +22,8 @@ module Pipl
         ENV['PIPL_MINIMUM_PROBABILITY']
       end
 
-      def possible_results
-        ENV['PIPL_POSSIBLE_RESULTS']
+      def minimum_match
+        ENV['PIPL_MINIMUM_MATCH']
       end
 
       def hide_sponsored

@@ -9,6 +9,7 @@ module Pipl
     class SearchResponse
 
       attr_reader :query, :person, :sources, :possible_persons, :warnings, :visible_sources, :available_sources
+      attr_reader :search_id, :http_status_code
 
       def initialize(params={})
         @query = params[:query]
@@ -18,6 +19,8 @@ module Pipl
         @warnings = params[:warnings]
         @visible_sources = params[:visible_sources]
         @available_sources = params[:available_sources]
+        @search_id = params[:search_id]
+        @http_status_code = params[:http_status_code]
       end
 
       def self.from_json(json_str)
@@ -31,6 +34,8 @@ module Pipl
         params[:warnings] = h[:warnings]
         params[:visible_sources] = h[:@visible_sources]
         params[:available_sources] = h[:@available_sources]
+        params[:search_id] = h[:@search_id]
+        params[:http_status_code] = h[:@http_status_code]
 
         self.new(params)
       end
@@ -97,6 +102,22 @@ module Pipl
 
       def image
         @person.image if @person
+      end
+
+      def url
+        @person.url if @person
+      end
+
+      def username
+        @person.username if @person
+      end
+
+      def user_id
+        @person.user_id if @person
+      end
+
+      def relationship
+        @person.relationship if @person
       end
 
     end

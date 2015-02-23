@@ -6,7 +6,7 @@ module Pipl
     SHOW_SOURCES_MATCHING = 'matching'
     SHOW_SOURCES_NONE = 'false'
 
-    attr_accessor :api_key, :minimum_probability, :possible_results, :hide_sponsored, :live_feeds, :show_sources
+    attr_accessor :api_key, :minimum_probability, :minimum_match, :hide_sponsored, :live_feeds, :show_sources
     attr_accessor :user_agent
     attr_writer :api_endpoint
 
@@ -16,7 +16,7 @@ module Pipl
         @keys ||= [
             :api_key,
             :minimum_probability,
-            :possible_results,
+            :minimum_match,
             :hide_sponsored,
             :live_feeds,
             :show_sources,

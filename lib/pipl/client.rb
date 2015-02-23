@@ -93,6 +93,10 @@ module Pipl
           raise ArgumentError.new('minimum_probability must be a float in 0..1')
         end
 
+        if opts[:minimum_match] and not (0..1).include? opts[:minimum_match]
+          raise ArgumentError.new('minimum_match must be a float in 0..1')
+        end
+
         unless [Pipl::Configurable::SHOW_SOURCES_ALL,
                 Pipl::Configurable::SHOW_SOURCES_MATCHING,
                 Pipl::Configurable::SHOW_SOURCES_NONE, nil].include? opts[:show_sources]
@@ -110,7 +114,7 @@ module Pipl
 
     def create_http_request(opts)
       uri = URI(opts[:api_endpoint])
-      keys = %w(minimum_probability possible_results hide_sponsored live_feeds show_sources)
+      keys = %w(minimum_probability minimum_match hide_sponsored live_feeds show_sources)
       query_params = ["key=#{opts[:api_key]}"] + keys.map { |k| "#{k}=#{opts[k.to_sym]}" unless opts[k.to_sym].nil? }
       uri.query = query_params.compact.join('&')
 

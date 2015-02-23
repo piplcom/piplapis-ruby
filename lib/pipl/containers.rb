@@ -141,6 +141,22 @@ module Pipl
       @images.first unless @images.empty?
     end
 
+    def url
+      @urls.first unless @urls.empty?
+    end
+
+    def username
+      @usernames.first unless @usernames.empty?
+    end
+
+    def user_id
+      @user_ids.first unless @user_ids.empty?
+    end
+
+    def relationship
+      @relationships.first unless @relationships.empty?
+    end
+
   end
 
 
@@ -182,6 +198,10 @@ module Pipl
 
     def to_hash
       fields_to_hash
+    end
+
+    def to_s
+      @names.first.to_s unless @names.empty?
     end
 
   end

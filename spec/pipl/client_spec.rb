@@ -39,6 +39,7 @@ describe Pipl::Client do
         @opts = {
             api_key: 'test api key',
             minimum_probability: 0.7,
+            minimum_match: 0.9,
             show_sources: Pipl::Configurable::SHOW_SOURCES_ALL
         }
       end
@@ -47,6 +48,7 @@ describe Pipl::Client do
         client = Pipl::Client.new(@opts)
         expect(client.api_key).to eq('test api key')
         expect(client.minimum_probability).to eq(0.7)
+        expect(client.minimum_match).to eq(0.9)
         expect(client.show_sources).to eq(Pipl::Configurable::SHOW_SOURCES_ALL)
         expect(client.api_endpoint).to eq(Pipl.api_endpoint)
         expect(client.user_agent).to eq(Pipl.user_agent)
@@ -61,6 +63,7 @@ describe Pipl::Client do
         end
         expect(client.api_key).to eq('test api key')
         expect(client.minimum_probability).to eq(0.7)
+        expect(client.minimum_match).to eq(0.9)
         expect(client.show_sources).to eq(Pipl::Configurable::SHOW_SOURCES_ALL)
         expect(client.api_endpoint).to eq(Pipl.api_endpoint)
         expect(client.user_agent).to eq(Pipl.user_agent)
@@ -172,13 +175,13 @@ describe Pipl::Client do
         expect(request).to have_been_requested
       end
 
-      it 'sets possible_results' do
+      it 'sets minimum_match' do
         request = stub_post.
             with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
-                 query: {key: ENV['PIPL_API_KEY'], possible_results: 'true'})
+                 query: {key: ENV['PIPL_API_KEY'], minimum_match: 0.9})
                       .to_return(empty_json_response)
 
-        @client.search email: 'test@example.com', possible_results: true
+        @client.search email: 'test@example.com', minimum_match: 0.9
         expect(request).to have_been_requested
       end
 
@@ -255,6 +258,12 @@ describe Pipl::Client do
         }.to raise_error ArgumentError
       end
 
+      it 'raises error when minimum_match is out of range in strict validation' do
+        expect {
+          @client.search username: 'username', strict_validation: true, minimum_match: 1.5
+        }.to raise_error ArgumentError
+      end
+
       it 'raises error when show_sources has invalid value in strict validation' do
         expect {
           @client.search username: 'username', strict_validation: true, show_sources: 'show_sources'
@@ -265,6 +274,23 @@ describe Pipl::Client do
         expect {
           @client.search username: 'username', email: 'test@example', strict_validation: true
         }.to raise_error ArgumentError
+      end
+
+    end
+
+    describe 'handles all success codes' do
+
+      it 'handles HTTP 204 - No Content' do
+        request = stub_post.
+            with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
+                      .to_return(body: {:@http_status_code => 204, :@search_id => 1}.to_json,
+                                 status: 204)
+
+        response = @client.search search_pointer: 'search_pointer'
+        expect(request).to have_been_requested
+        expect(response).to be_instance_of(Pipl::Client::SearchResponse)
+        expect(response.http_status_code).to eq(204)
+        expect(response.search_id).to eq(1)
       end
 
     end
