@@ -1,8 +1,6 @@
 require_relative 'lib/pipl'
 
 Pipl.configure do |c|
-  c.api_key = 'sample_key'
-  c.show_sources = 'all'
   c.strict_validation = true
 end
 
@@ -26,8 +24,8 @@ puts resp.inspect
 begin
   resp = Pipl::client.search email: 'clark.kent@example.com', api_key: 'd'
   puts resp.inspect
-rescue Exception => e
-  puts "Error: #{e.message}"
+rescue Pipl::Client::APIError => e
+  puts e.status_code, e.message
 end
 
 
