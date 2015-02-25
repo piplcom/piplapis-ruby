@@ -38,6 +38,10 @@ module Pipl
         ENV['PIPL_SHOW_SOURCES']
       end
 
+      def strict_validation
+        ENV['PIPL_USER_STRICT_VALIDATION']
+      end
+
       def api_endpoint
         ENV.fetch 'PIPL_API_ENDPOINT', API_ENDPOINT
       end

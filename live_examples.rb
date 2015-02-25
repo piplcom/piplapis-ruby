@@ -2,7 +2,8 @@ require_relative 'lib/pipl'
 
 Pipl.configure do |c|
   c.api_key = 'sample_key'
-  c.show_sources = true
+  c.show_sources = 'all'
+  c.strict_validation = true
 end
 
 def print_response(resp)
@@ -13,14 +14,14 @@ def print_response(resp)
   end
 end
 
-# Example for sync call
+# Example for a simple call
 
-resp = Pipl::client.search email: 'clark.kent@example.com', show_sources: 'all'
+resp = Pipl::client.search email: 'clark.kent@example.com'
 puts resp.inspect
 
 
 
-# Example for sync call with error
+# Example for a simple call which returns an error
 
 begin
   resp = Pipl::client.search email: 'clark.kent@example.com', api_key: 'd'
@@ -31,14 +32,14 @@ end
 
 
 
-# Example for async with callback
+# Example for an async call with callback
 
 t = Pipl::client.search email: 'clark.kent@example.com', callback: Proc.new { |resp| print_response resp }
 t.join
 
 
 
-# Example for async with block
+# Example for an async call with a block as callback
 
 t = Pipl::client.search email: 'clark.kent@example.com', async: true do |resp|
   print_response resp
@@ -47,7 +48,7 @@ t.join
 
 
 
-# Example for async with block. error (api key invalid)
+# Example for an async call with a block as callback. Error (api key invalid)
 
 t = Pipl::client.search email: 'clark.kent@example.com', api_key: 'd', async: true do |resp|
   print_response resp
