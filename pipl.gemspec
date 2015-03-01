@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'pipl/version'
 
 Gem::Specification.new do |spec|
-  spec.name = 'pipl'
+  spec.name = 'piplapis-ruby'
   spec.summary = 'Ruby bindings for the Pipl API'
   spec.description = 'Pipl is the most comprehensive people search on the web. See https://pipl.com for details.'
   spec.homepage = 'https://github.com/piplcom/piplapis-ruby'
