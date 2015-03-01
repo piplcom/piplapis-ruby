@@ -16,7 +16,4 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_development_dependency('bundler', '~> 1.6')
-  spec.add_development_dependency('shoulda', '~> 3.4.0')
-  spec.add_development_dependency('test-unit')
-  spec.add_development_dependency('rake')
 end
