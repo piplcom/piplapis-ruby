@@ -556,22 +556,22 @@ describe Pipl::Image do
 
   it 'constructs a thumbnail url with no params' do
     image = Pipl::Image.from_hash thumbnail_token: 'thumbnail_token'
-    expect(image.thumbnail_url).to eq('http://thumb.pipl.com/api/?token=thumbnail_token&width=100&height=100&favicon=true&zoom_face=true')
+    expect(image.thumbnail_url).to eq('http://thumb.pipl.com/image?token=thumbnail_token&width=100&height=100&favicon=true&zoom_face=true')
   end
 
   it 'constructs a HTTPS thumbnail url' do
     image = Pipl::Image.from_hash thumbnail_token: 'thumbnail_token'
-    expect(image.thumbnail_url(use_https: true)).to eq('https://thumb.pipl.com/api/?token=thumbnail_token&width=100&height=100&favicon=true&zoom_face=true')
+    expect(image.thumbnail_url(use_https: true)).to eq('https://thumb.pipl.com/image?token=thumbnail_token&width=100&height=100&favicon=true&zoom_face=true')
   end
 
   it 'constructs a thumbnail url with given dimensions' do
     image = Pipl::Image.from_hash thumbnail_token: 'thumbnail_token'
-    expect(image.thumbnail_url(width: 120, height:90)).to eq('http://thumb.pipl.com/api/?token=thumbnail_token&width=120&height=90&favicon=true&zoom_face=true')
+    expect(image.thumbnail_url(width: 120, height:90)).to eq('http://thumb.pipl.com/image?token=thumbnail_token&width=120&height=90&favicon=true&zoom_face=true')
   end
 
   it 'constructs a thumbnail url without enhancments' do
     image = Pipl::Image.from_hash thumbnail_token: 'thumbnail_token'
-    expect(image.thumbnail_url(favicon: false, zoom_face:false)).to eq('http://thumb.pipl.com/api/?token=thumbnail_token&width=100&height=100&favicon=false&zoom_face=false')
+    expect(image.thumbnail_url(favicon: false, zoom_face:false)).to eq('http://thumb.pipl.com/image?token=thumbnail_token&width=100&height=100&favicon=false&zoom_face=false')
   end
 
 end
