@@ -191,6 +191,7 @@ module Pipl
 
   end
 
+
   class Phone < Field
     # @!attribute country_code
     #   @return [Fixnum] International country calling code
@@ -241,6 +242,7 @@ module Pipl
     end
 
   end
+
 
   class Email < Field
 
@@ -293,6 +295,7 @@ module Pipl
     end
 
   end
+
 
   class Job < Field
 
@@ -485,6 +488,7 @@ module Pipl
 
     def age_range
       if @date_range
+        return [self.age, self.age] unless @date_range.start and @date_range.end
         start_age = DOB.new({date_range: Pipl::DateRange.new(@date_range.start, @date_range.start)}).age
         end_age = DOB.new({date_range: Pipl::DateRange.new(@date_range.end, @date_range.end)}).age
         return end_age, start_age
@@ -627,6 +631,7 @@ module Pipl
 
   end
 
+
   class OriginCountry < Field
 
     attr_accessor :country
@@ -669,31 +674,29 @@ module Pipl
     attr_reader :start, :end
 
     def initialize(start, end_)
-      raise ArgumentError.new('Start/End parameters missing') unless start and end_
-
       @start = start
       @end = end_
-      if @start > @end
+      if @start and @end and @start > @end
         @start, @end = @end, @start
       end
     end
 
-    def ==(other)
-      other.instance_of?(self.class) and inspect == other.inspect
-    end
-
-    alias_method :eql?, :==
+    # def ==(other)
+    #   other.instance_of?(self.class) and inspect == other.inspect
+    # end
+    #
+    # alias_method :eql?, :==
 
     def is_exact?
-      @start == @end
+      @start and @end and @start == @end
     end
 
     def middle
-      @start + ((@end - @start) / 2)
+      @start and @end ? @start + ((@end - @start) / 2) : @start or @end
     end
 
     def years_range
-      return @start.year, @end.year
+      [@start.year, @end.year] if @start and @end
     end
 
     def self.from_years_range(start_year, end_year)
@@ -702,12 +705,16 @@ module Pipl
 
     def self.from_hash(h)
       start_, end_ = h[:start], h[:end]
-      raise ArgumentError.new('DateRange must have both start and end') unless start_ and end_
-      self.new(Date.strptime(start_, Pipl::DATE_FORMAT), Date.strptime(end_, Pipl::DATE_FORMAT))
+      initializing_start = start_ ? Date.strptime(start_, Pipl::DATE_FORMAT) : nil
+      initializing_end = end_ ? Date.strptime(end_, Pipl::DATE_FORMAT) : nil
+      self.new(initializing_start, initializing_end)
     end
 
     def to_hash
-      {start: @start.strftime(Pipl::DATE_FORMAT), end: @end.strftime(Pipl::DATE_FORMAT)}
+      h = {}
+      h[:start] = @start.strftime(Pipl::DATE_FORMAT) if @start
+      h[:end] = @end.strftime(Pipl::DATE_FORMAT) if @end
+      h
     end
   end
 

@@ -132,6 +132,7 @@ describe Pipl::Name do
 
 end
 
+
 describe Pipl::Address do
 
   it 'initializes with no params' do
@@ -573,4 +574,43 @@ describe Pipl::Image do
     expect(image.thumbnail_url(favicon: false, zoom_face:false)).to eq('http://thumb.pipl.com/api/?token=thumbnail_token&width=100&height=100&favicon=false&zoom_face=false')
   end
 
+end
+
+
+describe Pipl::DateRange do
+  it 'should calculate middle when there is both an end and a start' do
+    date_range = Pipl::DateRange.new Date.new(2001,2,3), Date.new(2010,2,3)
+    expect(date_range.middle.to_datetime).to eq(Date.new(2005, 8, 4).to_datetime)
+  end
+
+  it 'should serialize to deserialized hash' do
+    date_hash = {:start => '2013-11-10', :end => '2015-11-10'}
+    date_range = Pipl::DateRange.from_hash date_hash
+    new_hash = date_range.to_hash
+    expect(new_hash).to eq date_hash
+  end
+
+  it 'should allow partial hash' do
+    date_range = Pipl::DateRange.from_hash start: '2013-11-10'
+    new_hash = date_range.to_hash
+    expect(new_hash).to eq start: '2013-11-10'
+
+    date_range = Pipl::DateRange.from_hash end: '2013-11-10'
+    new_hash = date_range.to_hash
+    expect(new_hash).to eq end: '2013-11-10'
+  end
+
+  it 'partial data range should not be exact' do
+    date_range = Pipl::DateRange.from_hash end: '2013-11-10'
+    expect(date_range.is_exact?).to_not be_truthy
+  end
+end
+
+
+describe Pipl::DOB do
+  it 'should should return age twice for partial data ranges' do
+    range = Pipl::DateRange.new Date.new(2001,2,3), nil
+    dob = Pipl::DOB.new({date_range: range})
+    expect([dob.age, dob.age] == dob.age_range).to be_truthy
+  end
 end
