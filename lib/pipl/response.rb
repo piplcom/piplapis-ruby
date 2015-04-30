@@ -9,7 +9,7 @@ module Pipl
     class SearchResponse
 
       attr_reader :query, :person, :sources, :possible_persons, :warnings, :visible_sources, :available_sources
-      attr_reader :search_id, :http_status_code
+      attr_reader :search_id, :http_status_code, :raw_response
 
       def initialize(params={})
         @query = params[:query]
@@ -21,6 +21,7 @@ module Pipl
         @available_sources = params[:available_sources]
         @search_id = params[:search_id]
         @http_status_code = params[:http_status_code]
+        @raw_response = params[:raw_response]
       end
 
       def self.from_json(json_str)
@@ -36,6 +37,7 @@ module Pipl
         params[:available_sources] = h[:@available_sources]
         params[:search_id] = h[:@search_id]
         params[:http_status_code] = h[:@http_status_code]
+        params[:raw_response] = json_str
 
         self.new(params)
       end
