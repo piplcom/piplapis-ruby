@@ -16,7 +16,7 @@ Getting Started & Code Snippets
 
 **Pipl's Search API**
 * Code snippets - [https://pipl.com/dev/guide/code_snippets](https://pipl.com/dev/guide/code_snippets)
-* Full reference - [https://pipl.com/dev/reference](https://pipl.com/dev/reference)  
+* Full reference - [https://pipl.com/dev/reference/](https://pipl.com/dev/reference/)  
 
 
 Credits
