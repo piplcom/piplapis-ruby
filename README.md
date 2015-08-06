@@ -1,38 +1,25 @@
-piplapis Ruby Library
+Pipl API Ruby Library
 ===========================
 
-This is a Ruby client library for easily integrating Pipl's APIs into your application.
+This is the official Ruby client library for easily integrating Pipl's APIs into your application.
 
-* Full details about Pipl's APIs - [http://dev.pipl.com](http://dev.pipl.com)  
-* This library is available in other languages - [http://dev.pipl.com/docs/libraries](http://dev.pipl.com/docs/libraries)
+* Full details about Pipl's API - [https://pipl.com/dev/](https://pipl.com/dev/)  
+* This library is available in other languages - [https://pipl.com/dev/guide/code_libraries](https://pipl.com/dev/guide/code_libraries)
 
 Library Requirements
 --------------------
 
 * Ruby 1.9 and above.
 
-Library Notes
--------------
-
-* According to the [documentation](http://dev.pipl.com/docs/read/search_api/data#fields-objects) some field objects should have a `.display` attribute,
-since this is reserved in Ruby this attribute was renamed to `.show`.
-
 Getting Started & Code Snippets
 -------------------------------
 
 **Pipl's Search API**
-* Getting started tutorial - [http://dev.pipl.com/docs/search_api/getstarted](http://dev.pipl.com/docs/search_api/getstarted)  
-* Code snippets - [http://dev.pipl.com/docs/search_api/code](http://dev.pipl.com/docs/search_api/code)  
+* Code snippets - [https://pipl.com/dev/guide/code_snippets](https://pipl.com/dev/guide/code_snippets)
+* Full reference - [https://pipl.com/dev/reference/](https://pipl.com/dev/reference/)  
 
-**Pipl's Name API**
-* Getting started tutorial - [http://dev.pipl.com/docs/name_api/getstarted](http://dev.pipl.com/docs/name_api/getstarted)  
-* Code snippets - [http://dev.pipl.com/docs/name_api/code](http://dev.pipl.com/docs/name_api/code)  
-
-**Pipl's Thumbnail API**
-* Getting started tutorial - [http://dev.pipl.com/docs/thumbnail_api/getstarted](http://dev.pipl.com/docs/thumbnail_api/getstarted)  
-* Code snippets - [http://dev.pipl.com/docs/thumbnail_api/code](http://dev.pipl.com/docs/thumbnail_api/code)  
 
 Credits
 -------
 
-Thanks to [srochy](https://github.com/srochy) for writing this library!
+Thanks to [srochy](https://github.com/srochy) for writing the first version this library!
