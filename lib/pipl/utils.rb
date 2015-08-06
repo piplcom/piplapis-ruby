@@ -20,11 +20,11 @@ module Pipl
       end
 
       def alpha_chars(s)
-        s.gsub(/^[\p{Alpha}]/, '')
+        s.gsub(/[^\p{Alpha}]/, '')
       end
 
       def alnum_chars(s)
-        s.gsub(/^[\p{Alnum}]/, '')
+        s.gsub(/[^\p{Alnum}]/, '')
       end
 
       def titleize(s)
