@@ -211,24 +211,26 @@ describe Pipl::Address do
     expect(address.is_searchable?).to be true
   end
 
-  it 'is searchable with valid country' do
+  it 'is searchable with a country' do
     address = Pipl::Address.new country: 'US'
     expect(address.is_searchable?).to be true
-    address = Pipl::Address.new country: 'FR'
+  end
+
+  it 'is searchable with a state' do
+    address = Pipl::Address.new state: 'AZ'
     expect(address.is_searchable?).to be true
   end
 
-  it 'is searchable with valid country and state' do
-    address = Pipl::Address.new country: 'US', state: 'AZ'
+
+  it 'is searchable with a city' do
+    address = Pipl::Address.new city: 'New York'
     expect(address.is_searchable?).to be true
   end
 
-  it 'is not searchable without raw address or valid country state combination' do
-    address = Pipl::Address.new country: '__'
+  it 'is not searchable without raw address or country or state or city' do
+    address = Pipl::Address.new street: '__'
     expect(address.is_searchable?).to be false
-    address = Pipl::Address.new country: 'US', state: '__'
-    expect(address.is_searchable?).to be false
-    address = Pipl::Address.new country: 'FR', state: 'PA'
+    address = Pipl::Address.new house: '4'
     expect(address.is_searchable?).to be false
   end
 

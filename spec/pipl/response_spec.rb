@@ -83,7 +83,7 @@ describe Pipl::Client::SearchResponse do
     expect(response.person.images.length).to eq(2)
     expect(response.person.urls.length).to eq(4)
     expect(response.person.gender.content).to eq('male')
-    expect(response.person.dob.age).to eq(28)
+    expect(response.person.dob.age).to eq(29)
 
     expect(response.sources.length).to eq(2)
     expect(response.possible_persons).to be_nil

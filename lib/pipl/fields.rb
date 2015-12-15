@@ -157,8 +157,7 @@ module Pipl
     end
 
     def is_searchable?
-      (@raw and not @raw.empty?) or
-          (is_valid_country? and (@state.nil? or @state.empty? or is_valid_state?))
+      [@raw, @country, @state, @city].any? {|x| x and not x.empty?}
     end
 
     def country_full
