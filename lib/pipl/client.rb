@@ -117,6 +117,7 @@ module Pipl
       keys = %w(minimum_probability minimum_match hide_sponsored live_feeds show_sources)
       query_params = ["key=#{opts[:api_key]}"] + keys.map { |k| "#{k}=#{opts[k.to_sym]}" unless opts[k.to_sym].nil? }
       query_params << opts[:extra] or []
+      query_params << uri.query
       uri.query = query_params.compact.join('&')
 
       req = Net::HTTP::Post.new(uri.request_uri)
