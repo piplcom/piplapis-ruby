@@ -75,10 +75,4 @@ describe 'integration tests' do
     expect(resp.person).not_to be_nil
   end
 
-  it 'makes sure social datatypes are available' do
-    resp = Pipl::client.search email: 'brianperks@gmail.com', extra: ['developer_class=social']
-    social = [Pipl::Name, Pipl::Url, Pipl::Email, Pipl::Username, Pipl::UserID, Pipl::Image]
-    expect(resp.person.all_fields.all? {|x| social.include? x.class}).to be_truthy
-  end
-
 end
