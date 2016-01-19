@@ -86,6 +86,7 @@ describe Pipl::Client::SearchResponse do
     expect(response.person.dob.age).to eq(29)
 
     expect(response.sources.length).to eq(2)
+    expect(response.sources.first.source_id).to eq('edc6aa8fa3f211cfad7c12a0ba5b32f4')
     expect(response.possible_persons).to be_nil
     expect(response.warnings).to be_nil
     expect(response.visible_sources).to eq(2)

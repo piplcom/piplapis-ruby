@@ -317,7 +317,7 @@ describe Pipl::Source do
         :@category => 'category',
         :@origin_url => 'origin_url',
         :@domain => 'domain',
-        :@source_id => 'source_id',
+        :@id => 'source_id',
         :@person_id => 'person_id',
         :@sponsored => true,
         :@premium => false,
