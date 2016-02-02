@@ -16,5 +16,6 @@ task it_test: :it_spec
 task default: :spec
 
 namespace :ci do
-  task :all => %w(ci:setup:rspec spec it_spec)
+  task :spec => %w(ci:setup:rspec spec)
+  task :it_spec => %w(ci:setup:rspec it_spec)
 end
