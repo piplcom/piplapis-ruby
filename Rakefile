@@ -17,5 +17,5 @@ task default: :rspec
 
 namespace :ci do
   task spec: %w(ci:setup:rspec rspec)
-  task it_spec: :it_rspec
+  task it_spec: %w(ci:setup:rspec it_rspec)
 end
