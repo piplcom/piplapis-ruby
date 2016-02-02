@@ -7,4 +7,5 @@ Gemfile.lock
 .idea
 coverage
 pkg
+spec/reports/
 

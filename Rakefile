@@ -2,6 +2,7 @@ require 'bundler'
 Bundler::GemHelper.install_tasks
 
 require 'rspec/core/rake_task'
+require 'ci/reporter/rake/rspec'
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.pattern = 'spec/pipl/**/*_spec.rb'
 end
@@ -13,3 +14,7 @@ end
 task test: :spec
 task it_test: :it_spec
 task default: :spec
+
+namespace :ci do
+  task :all => %w(ci:setup:rspec spec it_spec)
+end
