@@ -1,10 +1,8 @@
 if RUBY_ENGINE == 'ruby'
   require 'simplecov'
   require 'simplecov-rcov'
-  # require 'coveralls'
 
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
-    SimpleCov::Formatter::HTMLFormatter,
     SimpleCov::Formatter::RcovFormatter
   ]
   SimpleCov.start

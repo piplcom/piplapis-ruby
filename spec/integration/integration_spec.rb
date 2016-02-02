@@ -1,3 +1,13 @@
+if RUBY_ENGINE == 'ruby'
+  require 'simplecov'
+  require 'simplecov-rcov'
+
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+      SimpleCov::Formatter::RcovFormatter
+  ]
+  SimpleCov.start
+end
+
 require 'json'
 require 'pipl'
 require 'rspec'
