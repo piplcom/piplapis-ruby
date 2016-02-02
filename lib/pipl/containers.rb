@@ -231,7 +231,7 @@ module Pipl
           category: h[:@category],
           origin_url: h[:@origin_url],
           domain: h[:@domain],
-          source_id: h[:@source_id],
+          source_id: h[:@id],
           person_id: h[:@person_id],
           match: h[:@match],
           sponsored: h[:@sponsored],
