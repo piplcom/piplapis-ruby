@@ -1,10 +1,11 @@
 if RUBY_ENGINE == 'ruby'
   require 'simplecov'
+  require 'simplecov-rcov'
   # require 'coveralls'
 
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
     SimpleCov::Formatter::HTMLFormatter,
-    # Coveralls::SimpleCov::Formatter
+    SimpleCov::Formatter::RcovFormatter
   ]
   SimpleCov.start
 end
@@ -14,7 +15,7 @@ require 'pipl'
 require 'rspec'
 require 'webmock/rspec'
 
-WebMock.disable_net_connect!(:allow => 'coveralls.io')
+WebMock.disable_net_connect!
 
 RSpec.configure do |config|
   config.raise_errors_for_deprecations!
