@@ -69,6 +69,8 @@ module Pipl
                VI: 'Virgin Islands, U.s.', IS: 'Iceland', IR: 'Iran', AM: 'Armenia', AL: 'Albania', VN: 'Vietnam',
                AN: 'Netherlands Antilles', AQ: 'Antarctica', AS: 'American Samoa', AR: 'Argentina', AU: 'Australia',
                VU: 'Vanuat', IO: 'British Indian Ocean Territory', IN: 'India', LB: 'Lebanon', AZ: 'Azerbaijan',
-               IE: 'Ireland', ID: 'Indonesia', PA: 'Panama', UA: 'Ukraine', QA: 'Qatar', MZ: 'Mozambique'}
+               IE: 'Ireland', ID: 'Indonesia', PA: 'Panama', UA: 'Ukraine', QA: 'Qatar', MZ: 'Mozambique',
+               BL: 'Saint Barthélemy', BQ: 'Caribbean Netherlands', MF: 'Saint Martin', SS: 'South Sudan',
+               SX: 'Sint Maarten', XK: 'Kosovo', CW: 'Curaçao', RS: 'Serbia'}
 
 end
