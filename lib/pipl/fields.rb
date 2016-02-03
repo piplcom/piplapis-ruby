@@ -561,8 +561,6 @@ module Pipl
 
     def initialize(params={})
       super params
-      raise ArgumentError.new("#{params[:content]} is not a valid gender") \
-      unless %w(male female).include? params[:content]
       @content = params[:content]
     end
 
