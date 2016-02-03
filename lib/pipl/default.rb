@@ -4,7 +4,7 @@ module Pipl
 
   module Default
 
-    API_ENDPOINT = 'https://api.pipl.com/search/v4/'.freeze
+    API_ENDPOINT = 'https://api.pipl.com/search/'.freeze
     API_KEY = 'sample_key'.freeze
     USER_AGENT   = "piplapis/ruby/#{Pipl::VERSION}".freeze
 
