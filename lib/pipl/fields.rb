@@ -9,11 +9,13 @@ module Pipl
 
     include Pipl::Utils
 
-    attr_accessor :valid_since, :inferred
+    attr_accessor :valid_since, :last_seen, :inferred, :current
 
     def initialize(params={})
       @valid_since = params[:valid_since]
+      @last_seen = params[:last_seen]
       @inferred = params[:inferred]
+      @current = params[:current]
     end
 
     def self.from_hash(h)
@@ -26,10 +28,12 @@ module Pipl
     def self.base_params_from_hash(h)
       params = {
           inferred: h[:@inferred],
+          current: h[:@current],
           type: h[:@type],
           display: h[:display]
       }
       params[:valid_since] = Date.strptime(h[:@valid_since], Pipl::DATE_FORMAT) if h.key? :@valid_since
+      params[:last_seen] = Date.strptime(h[:@last_seen], Pipl::DATE_FORMAT) if h.key? :@last_seen
       params[:date_range] = Pipl::DateRange.from_hash(h[:date_range]) if h.key? :date_range
       params
     end

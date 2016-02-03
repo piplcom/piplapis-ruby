@@ -5,25 +5,33 @@ describe Pipl::Field do
   it 'initializes with no params' do
     field = Pipl::Field.new
     expect(field.valid_since).to be_nil
+    expect(field.last_seen).to be_nil
     expect(field.inferred).to be_nil
+    expect(field.current).to be_nil
   end
 
   it 'initializes with params' do
-    field = Pipl::Field.new valid_since: TODAY, inferred: true
+    field = Pipl::Field.new valid_since: TODAY, last_seen: TODAY, inferred: true, current: false
     expect(field.valid_since).to eq(TODAY)
+    expect(field.last_seen).to eq(TODAY)
     expect(field.inferred).to be true
+    expect(field.current).to be false
   end
 
   it 'creates instance from hash' do
-    field = Pipl::Field.from_hash :@valid_since => TODAY_STR
+    field = Pipl::Field.from_hash :@valid_since => TODAY_STR, :@last_seen => TODAY_STR, :@current => true
     expect(field.valid_since).to eq(TODAY)
+    expect(field.last_seen).to eq(TODAY)
     expect(field.inferred).to be_nil
+    expect(field.current).to be true
   end
 
   it 'extract base params from hash' do
     h = {:@inferred => true,
+         :@current => false,
          :@type => 'type',
          :@valid_since => TODAY_STR,
+         :@last_seen => TODAY_STR,
          :display => 'display',
          date_range: {
              start: TODAY_STR,
@@ -31,9 +39,11 @@ describe Pipl::Field do
          }}
     params = Pipl::Field.base_params_from_hash h
     expect(params[:inferred]).to be true
+    expect(params[:current]).to be false
     expect(params[:type]).to eq 'type'
     expect(params[:display]).to eq 'display'
     expect(params[:valid_since]).to eq(TODAY)
+    expect(params[:last_seen]).to eq(TODAY)
   end
 
   it 'class has no extra metadata attributes by default' do
