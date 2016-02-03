@@ -246,13 +246,14 @@ module Pipl
 
   class Person < FieldsContainer
 
-    attr_reader :id, :match, :search_pointer
+    attr_reader :id, :match, :search_pointer, :inferred
 
     def initialize(params={})
       super params
       @id = params[:id]
       @match = params[:match]
       @search_pointer = params[:search_pointer]
+      @inferred = params[:inferred] || false
     end
 
     def self.from_hash(h)
@@ -260,6 +261,7 @@ module Pipl
           id: h[:@id],
           match: h[:@match],
           search_pointer: h[:@search_pointer],
+          inferred: h[:@inferred],
       }
       params[:fields] = fields_from_hash(h)
       self.new(params)

@@ -356,6 +356,7 @@ describe Pipl::Person do
     expect(person.id).to be_nil
     expect(person.match).to be_nil
     expect(person.search_pointer).to be_nil
+    expect(person.inferred).to be(false)
     expect(person.names).to be_empty
     expect(person.addresses).to be_empty
     expect(person.phones).to be_empty
@@ -368,12 +369,17 @@ describe Pipl::Person do
     phone = Pipl::Phone.new number: 2123334444, country_code: 1
     dob = Pipl::DOB.new date_range: Pipl::DateRange.new(TODAY - 365, TODAY)
 
-    params = {fields: [name, address, phone, dob], id: 'id', match: 0.98, search_pointer: 'search_pointer'}
+    params = {id: 'id',
+              match: 0.98,
+              search_pointer: 'search_pointer',
+              inferred: true,
+              fields: [name, address, phone, dob]}
 
     person = Pipl::Person.new params
     expect(person.id).to eq('id')
     expect(person.match).to eq(0.98)
     expect(person.search_pointer).to eq('search_pointer')
+    expect(person.inferred).to be(true)
     expect(person.names).to contain_exactly(name)
     expect(person.addresses).to contain_exactly(address)
     expect(person.phones).to contain_exactly(phone)
@@ -390,6 +396,7 @@ describe Pipl::Person do
         :@id => 'id',
         :@match => 0.98,
         :@search_pointer => 'search_pointer',
+        :@inferred => true,
         names: [name.to_hash],
         addresses: [address.to_hash],
         phones: [phone.to_hash],
@@ -404,6 +411,7 @@ describe Pipl::Person do
     expect(person.addresses.map(&:to_hash)).to contain_exactly(address.to_hash)
     expect(person.phones.map(&:to_hash)).to contain_exactly(phone.to_hash)
     expect(person.dob.to_hash).to eq(dob.to_hash)
+    expect(person.inferred).to be(true)
   end
 
   it 'hash contain all searchable parts and is compact' do
