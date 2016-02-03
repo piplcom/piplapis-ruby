@@ -40,7 +40,8 @@ describe Pipl::Client do
             api_key: 'test api key',
             minimum_probability: 0.7,
             minimum_match: 0.9,
-            show_sources: Pipl::Configurable::SHOW_SOURCES_ALL
+            show_sources: Pipl::Configurable::SHOW_SOURCES_ALL,
+            match_requirements: 'email & phone'
         }
       end
 
@@ -50,6 +51,7 @@ describe Pipl::Client do
         expect(client.minimum_probability).to eq(0.7)
         expect(client.minimum_match).to eq(0.9)
         expect(client.show_sources).to eq(Pipl::Configurable::SHOW_SOURCES_ALL)
+        expect(client.match_requirements).to eq('email & phone')
         expect(client.api_endpoint).to eq(Pipl.api_endpoint)
         expect(client.user_agent).to eq(Pipl.user_agent)
       end
@@ -65,6 +67,7 @@ describe Pipl::Client do
         expect(client.minimum_probability).to eq(0.7)
         expect(client.minimum_match).to eq(0.9)
         expect(client.show_sources).to eq(Pipl::Configurable::SHOW_SOURCES_ALL)
+        expect(client.match_requirements).to eq('email & phone')
         expect(client.api_endpoint).to eq(Pipl.api_endpoint)
         expect(client.user_agent).to eq(Pipl.user_agent)
       end
@@ -225,6 +228,16 @@ describe Pipl::Client do
         expect(request).to have_been_requested
       end
 
+      it 'sets match_requirements boolean' do
+        request = stub_post.
+            with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
+                 query: {key: ENV['PIPL_API_KEY'], match_requirements: :'match_requirements'})
+                      .to_return(empty_json_response)
+
+        @client.search email: 'test@example.com', match_requirements: 'match_requirements', strict_validation: true
+        expect(request).to have_been_requested
+      end
+
       it 'sets a default user agent' do
         request = stub_post.
             with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent}, query: {key: ENV['PIPL_API_KEY']})
@@ -281,6 +294,12 @@ describe Pipl::Client do
 
         expect {
           @client.search username: 'username', strict_validation: true, show_sources: 8
+        }.to raise_error ArgumentError
+      end
+
+      it 'raises error when match_requirements is not a String in strict validation' do
+        expect {
+          @client.search username: 'username', strict_validation: true, match_requirements: true
         }.to raise_error ArgumentError
       end
 

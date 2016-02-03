@@ -38,6 +38,10 @@ module Pipl
         ENV['PIPL_SHOW_SOURCES']
       end
 
+      def match_requirements
+        ENV['PIPL_MATCH_REQUIREMENTS']
+      end
+
       def strict_validation
         ENV['PIPL_USER_STRICT_VALIDATION']
       end

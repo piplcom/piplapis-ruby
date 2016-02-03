@@ -103,6 +103,10 @@ module Pipl
           raise ArgumentError.new('show_sources must be one of all, matching, false or a boolean value')
         end
 
+        if opts[:match_requirements] and not opts[:match_requirements].is_a? String
+          raise ArgumentError.new('match_requirements must be a String')
+        end
+
         unless opts.key? :search_pointer
           unsearchable = opts[:person].unsearchable_fields
           if unsearchable and not unsearchable.empty?
@@ -114,11 +118,11 @@ module Pipl
 
     def create_http_request(opts)
       uri = URI(opts[:api_endpoint])
-      keys = %w(minimum_probability minimum_match hide_sponsored live_feeds show_sources)
+      keys = %w(minimum_probability minimum_match hide_sponsored live_feeds show_sources match_requirements)
       query_params = ["key=#{opts[:api_key]}"] + keys.map { |k| "#{k}=#{opts[k.to_sym]}" unless opts[k.to_sym].nil? }
       query_params << opts[:extra] or []
       query_params << uri.query
-      uri.query = query_params.compact.join('&')
+      uri.query = URI.escape(query_params.compact.join('&'))
 
       req = Net::HTTP::Post.new(uri.request_uri)
       req['User-Agent'] = opts[:user_agent]
