@@ -171,7 +171,96 @@ describe Pipl::Client::SearchResponse do
   it 'delegates job shorthands to person' do
     response = Pipl::Client::SearchResponse.new
     expect(response.job).to be_nil
+    response = Pipl::Client::SearchResponse.new person: Pipl::Person.new
+    job = Pipl::Job.new
+    response.person.add_field(job)
+    expect(response.job).to be(job)
   end
 
 end
 
+describe Pipl::Client::AvailableData do
+
+  it 'initializes with no params' do
+    data = Pipl::Client::AvailableData.new
+    expect(data.basic).to be_nil
+    expect(data.premium).to be_nil
+  end
+
+  it 'initializes with params' do
+    basic = Pipl::Client::FieldCount.new
+    premium = Pipl::Client::FieldCount.new
+    data = Pipl::Client::AvailableData.new(basic: basic, premium: premium)
+    expect(data.basic).to be basic
+    expect(data.premium).to be premium
+  end
+
+  it 'creates instance from hash' do
+    data = Pipl::Client::AvailableData.from_hash({basic: {emails: 10}, premium: {emails: 20} })
+    expect(data.basic.emails).to eq(10)
+    expect(data.premium.emails).to eq(20)
+  end
+
+end
+
+describe Pipl::Client::FieldCount do
+
+  it 'initializes with no params' do
+    fc = Pipl::Client::FieldCount.new
+    expect(fc.addresses).to eq(0)
+    expect(fc.ethnicities).to eq(0)
+    expect(fc.emails).to eq(0)
+    expect(fc.dobs).to eq(0)
+    expect(fc.genders).to eq(0)
+    expect(fc.user_ids).to eq(0)
+    expect(fc.social_profiles).to eq(0)
+    expect(fc.educations).to eq(0)
+    expect(fc.jobs).to eq(0)
+    expect(fc.images).to eq(0)
+    expect(fc.languages).to eq(0)
+    expect(fc.origin_countries).to eq(0)
+    expect(fc.names).to eq(0)
+    expect(fc.phones).to eq(0)
+    expect(fc.relationships).to eq(0)
+    expect(fc.usernames).to eq(0)
+  end
+
+  it 'initializes with params' do
+    fc = Pipl::Client::FieldCount.new(
+        {
+            addresses: 1,
+            ethnicities: 2,
+            emails: 3,
+            dobs: 4,
+            genders: 5,
+            user_ids: 6,
+            social_profiles: 7,
+            educations: 8,
+            jobs: 9,
+            images: 10,
+            languages: 11,
+            origin_countries: 12,
+            names: 13,
+            phones: 14,
+            relationships: 15,
+            usernames: 16,
+        })
+    expect(fc.addresses).to eq(1)
+    expect(fc.ethnicities).to eq(2)
+    expect(fc.emails).to eq(3)
+    expect(fc.dobs).to eq(4)
+    expect(fc.genders).to eq(5)
+    expect(fc.user_ids).to eq(6)
+    expect(fc.social_profiles).to eq(7)
+    expect(fc.educations).to eq(8)
+    expect(fc.jobs).to eq(9)
+    expect(fc.images).to eq(10)
+    expect(fc.languages).to eq(11)
+    expect(fc.origin_countries).to eq(12)
+    expect(fc.names).to eq(13)
+    expect(fc.phones).to eq(14)
+    expect(fc.relationships).to eq(15)
+    expect(fc.usernames).to eq(16)
+  end
+
+end
