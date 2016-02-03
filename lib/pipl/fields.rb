@@ -401,7 +401,9 @@ module Pipl
 
       opts = {width: 100, height: 100, favicon: true, zoom_face: true, use_https: false}.merge(params)
       schema = opts.delete(:use_https) ? 'https': 'http'
-      query_params = ["token=#{@thumbnail_token}"] + opts.map { |k, v| "#{k}=#{v}" unless v.nil? }
+      tokens = @thumbnail_token.gsub(/&dsid=.*/,'')
+      tokens += ',' + opts.delete(:fallback).thumbnail_token.gsub(/&dsid=.*/,'') if opts[:fallback]
+      query_params = ["tokens=#{tokens}"] + opts.map { |k, v| "#{k}=#{v}" unless v.nil? }
       "#{schema}://thumb.pipl.com/image?#{query_params.compact.join('&')}"
     end
 
