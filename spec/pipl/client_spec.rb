@@ -215,6 +215,16 @@ describe Pipl::Client do
         expect(request).to have_been_requested
       end
 
+      it 'sets show_sources boolean' do
+        request = stub_post.
+            with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
+                 query: {key: ENV['PIPL_API_KEY'], show_sources: :true})
+                      .to_return(empty_json_response)
+
+        @client.search email: 'test@example.com', show_sources: true, strict_validation: true
+        expect(request).to have_been_requested
+      end
+
       it 'sets a default user agent' do
         request = stub_post.
             with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent}, query: {key: ENV['PIPL_API_KEY']})
@@ -267,6 +277,10 @@ describe Pipl::Client do
       it 'raises error when show_sources has invalid value in strict validation' do
         expect {
           @client.search username: 'username', strict_validation: true, show_sources: 'show_sources'
+        }.to raise_error ArgumentError
+
+        expect {
+          @client.search username: 'username', strict_validation: true, show_sources: 8
         }.to raise_error ArgumentError
       end
 

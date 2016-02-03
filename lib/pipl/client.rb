@@ -99,8 +99,8 @@ module Pipl
 
         unless [Pipl::Configurable::SHOW_SOURCES_ALL,
                 Pipl::Configurable::SHOW_SOURCES_MATCHING,
-                Pipl::Configurable::SHOW_SOURCES_NONE, nil].include? opts[:show_sources]
-          raise ArgumentError.new('show_sources must be one of all, matching or false')
+                Pipl::Configurable::SHOW_SOURCES_NONE, nil, true, false].include? opts[:show_sources]
+          raise ArgumentError.new('show_sources must be one of all, matching, false or a boolean value')
         end
 
         unless opts.key? :search_pointer
