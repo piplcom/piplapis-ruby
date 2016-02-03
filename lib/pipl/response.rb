@@ -9,7 +9,7 @@ module Pipl
     class SearchResponse
 
       attr_reader :query, :person, :sources, :possible_persons, :warnings, :visible_sources, :available_sources
-      attr_reader :search_id, :http_status_code, :raw_response
+      attr_reader :search_id, :http_status_code, :raw_response, :available_data
 
       def initialize(params={})
         @query = params[:query]
@@ -22,6 +22,7 @@ module Pipl
         @search_id = params[:search_id]
         @http_status_code = params[:http_status_code]
         @raw_response = params[:raw_response]
+        @available_data = params[:available_data]
       end
 
       def self.from_json(json_str)
@@ -38,6 +39,7 @@ module Pipl
         params[:search_id] = h[:@search_id]
         params[:http_status_code] = h[:@http_status_code]
         params[:raw_response] = json_str
+        params[:available_data] = AvailableData.from_hash(h[:available_data]) if h.key? :available_data
 
         self.new(params)
       end
@@ -123,6 +125,49 @@ module Pipl
       end
 
     end
+
+    class AvailableData
+      attr_reader :basic, :premium
+
+      def initialize(params={})
+        @basic = params[:basic]
+        @premium = params[:premium]
+      end
+
+      def self.from_hash(h)
+        params = {}
+        params[:basic] = FieldCount.new(h[:basic]) if h.key? :basic
+        params[:premium] = FieldCount.new(h[:premium]) if h.key? :premium
+        self.new(params)
+      end
+
+    end
+
+    class FieldCount
+      attr_reader :addresses, :ethnicities, :emails, :dobs, :genders, :user_ids, :social_profiles, :educations, :jobs, 
+                  :images, :languages, :origin_countries, :names, :phones, :relationships, :usernames
+
+      def initialize(params={})
+        @addresses = params[:addresses] || 0
+        @ethnicities = params[:ethnicities] || 0
+        @emails = params[:emails] || 0
+        @dobs = params[:dobs] || 0
+        @genders = params[:genders] || 0
+        @user_ids = params[:user_ids] || 0
+        @social_profiles = params[:social_profiles] || 0
+        @educations = params[:educations] || 0
+        @jobs = params[:jobs] || 0
+        @images = params[:images] || 0
+        @languages = params[:languages] || 0
+        @origin_countries = params[:origin_countries] || 0
+        @names = params[:names] || 0
+        @phones = params[:phones] || 0
+        @relationships = params[:relationships] || 0
+        @usernames = params[:usernames] || 0
+      end
+
+    end
+
   end
 
 end

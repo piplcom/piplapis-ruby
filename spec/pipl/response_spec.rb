@@ -14,6 +14,7 @@ describe Pipl::Client::SearchResponse do
     expect(response.available_sources).to be_nil
     expect(response.search_id).to be_nil
     expect(response.http_status_code).to be_nil
+    expect(response.available_data).to be_nil
   end
 
   it 'initializes with params' do
@@ -33,8 +34,9 @@ describe Pipl::Client::SearchResponse do
     ]
     warnings = %w(warning1 warning2 warning3)
 
-    search_id = 1
-    http_status_code = 200
+    available_data = Pipl::Client::AvailableData.new(
+      basic: Pipl::Client::FieldCount.new(emails:19)
+    )
 
     params = {
         query: query,
@@ -45,7 +47,8 @@ describe Pipl::Client::SearchResponse do
         visible_sources: 50,
         available_sources: 70,
         search_id: 1,
-        http_status_code: 200
+        http_status_code: 200,
+        available_data: available_data
     }
 
     response = Pipl::Client::SearchResponse.new params
@@ -59,6 +62,7 @@ describe Pipl::Client::SearchResponse do
     expect(response.available_sources).to eq(70)
     expect(response.search_id).to eq(1)
     expect(response.http_status_code).to eq(200)
+    expect(response.available_data.basic.emails).to eq(19)
   end
 
   it 'creates instance from json' do
