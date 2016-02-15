@@ -109,7 +109,7 @@ describe Pipl::Name do
     end
   end
 
-  it 'is searchable with raw name' do
+  it 'is searchable with raw url' do
     name = Pipl::Name.new raw: 'first middle last'
     expect(name.is_searchable?).to be true
   end
@@ -119,7 +119,7 @@ describe Pipl::Name do
     expect(name.is_searchable?).to be true
   end
 
-  it 'is not searchable without raw name or first and last names' do
+  it 'is not searchable without raw url or first and last names' do
     name = Pipl::Name.new first: 'first'
     expect(name.is_searchable?).to be false
     name = Pipl::Name.new last: 'last'
@@ -231,7 +231,6 @@ describe Pipl::Address do
     expect(address.is_searchable?).to be true
   end
 
-
   it 'is searchable with a city' do
     address = Pipl::Address.new city: 'New York'
     expect(address.is_searchable?).to be true
@@ -244,12 +243,38 @@ describe Pipl::Address do
     expect(address.is_searchable?).to be false
   end
 
-  it 'show full country name' do
+  it 'is sole searchable with a raw address' do
+    address = Pipl::Address.new raw: 'somewhere in Arizona, US'
+    expect(address.is_sole_searchable?).to be true
+  end
+
+  it 'is sole searchable with exact address' do
+    address = Pipl::Address.new country: 'US', state: 'CA', city: 'Mountain View', street: 'Amphitheatre Parkway',
+                                house: 1600
+    expect(address.is_sole_searchable?).to be true
+    address = Pipl::Address.new city: 'Mountain View', street: 'Amphitheatre Parkway', house: 1600
+    expect(address.is_sole_searchable?).to be true
+  end
+
+  it 'is not sole searchable without exact address' do
+    address = Pipl::Address.new city: 'Mountain View', street: 'Amphitheatre Parkway'
+    expect(address.is_sole_searchable?).to be false
+    address = Pipl::Address.new city: 'Mountain View'
+    expect(address.is_sole_searchable?).to be false
+    address = Pipl::Address.new
+    expect(address.is_sole_searchable?).to be false
+    address = Pipl::Address.new country: 'US'
+    expect(address.is_sole_searchable?).to be false
+    address = Pipl::Address.new country: 'US', state: 'CA'
+    expect(address.is_sole_searchable?).to be false
+  end
+
+  it 'show full country url' do
     address = Pipl::Address.new country: 'US'
     expect(address.country_full).to eq('United States')
   end
 
-  it 'show full state name' do
+  it 'show full state url' do
     address = Pipl::Address.new country: 'US', state: 'AZ'
     expect(address.state_full).to eq('Arizona')
   end
@@ -631,9 +656,48 @@ end
 
 
 describe Pipl::DOB do
-  it 'should should return age twice for partial data ranges' do
+  it 'should return age twice for partial data ranges' do
     range = Pipl::DateRange.new Date.new(2001,2,3), nil
     dob = Pipl::DOB.new({date_range: range})
     expect([dob.age, dob.age] == dob.age_range).to be_truthy
+  end
+end
+
+
+
+describe Pipl::Username do
+  it 'is searchable with a valid username' do
+    username = Pipl::Username.new content: 'my_user'
+    expect(username.is_searchable?).to be true
+    username = Pipl::Username.new content: '16love(4ever)'
+    expect(username.is_searchable?).to be true
+  end
+
+  it 'is not searchable without a valid username' do
+    username = Pipl::Username.new
+    expect(username.is_searchable?).to be false
+    username = Pipl::Username.new content: ''
+    expect(username.is_searchable?).to be false
+    username = Pipl::Username.new content: 'abc'
+    expect(username.is_searchable?).to be false
+    username = Pipl::Username.new content: 'a(b#$c'
+    expect(username.is_searchable?).to be false
+    username = Pipl::Username.new content: 'a(b#$c'
+    expect(username.is_searchable?).to be false
+  end
+end
+
+
+describe Pipl::Url do
+  it 'is searchable with a url' do
+    url = Pipl::Url.new url: 'https://some.social.net/users/1234'
+    expect(url.is_searchable?).to be true
+  end
+
+  it 'is not searchable without url' do
+    url = Pipl::Url.new
+    expect(url.is_searchable?).to be false
+    url = Pipl::Url.new url: ''
+    expect(url.is_searchable?).to be false
   end
 end

@@ -161,7 +161,11 @@ module Pipl
     end
 
     def is_searchable?
-      [@raw, @country, @state, @city].any? {|x| x and not x.empty?}
+      [@raw, @country, @state, @city].any? {|x| not x.to_s.empty?}
+    end
+
+    def is_sole_searchable?
+      not @raw.to_s.empty? or [@city, @street, @house].all? {|x| not x.to_s.empty?}
     end
 
     def country_full
@@ -424,7 +428,7 @@ module Pipl
     end
 
     def is_searchable?
-      @content and Pipl::Utils.alnum_chars(@content).length > 3
+      !@content.nil? and Pipl::Utils.alnum_chars(@content).length > 3
     end
 
   end
@@ -433,7 +437,7 @@ module Pipl
   class UserID < Username
 
     def is_searchable?
-      false
+      not /.+@.+/.match(@content).nil?
     end
 
   end
@@ -552,6 +556,10 @@ module Pipl
 
     def self.extra_metadata
       [:category, :domain, :name, :sponsored, :source_id]
+    end
+
+    def is_searchable?
+      not @url.to_s.empty?
     end
 
   end

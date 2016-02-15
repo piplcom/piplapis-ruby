@@ -84,7 +84,7 @@ module Pipl
 
       unless opts.key? :search_pointer
         unless opts[:person] and opts[:person].is_searchable?
-          raise ArgumentError.new('At least one valid name/username/phone/email is required for search')
+          raise ArgumentError.new('No valid name/username/user_id/phone/email/address or search pointer in request')
         end
       end
 
