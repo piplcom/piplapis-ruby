@@ -437,23 +437,26 @@ describe Pipl::Person do
     expect(person.is_searchable?).to be true
   end
 
-  it 'is searchable if at least one of name/email/phone/username is searchable' do
+  it 'is searchable if at least one of name/username/user_id/phone/email/address is searchable' do
     name = Pipl::Name.new first: 'first', last: 'last'
     email = Pipl::Email.new address: 'test@example.com'
     phone = Pipl::Phone.new number: 2123334444, country_code: 1
     username = Pipl::Username.new content: 'username@service'
-    address = Pipl::Address.new country: 'US', state: 'AZ', city: 'Phoenix'
+    user_id = Pipl::UserID.new content: 'u9876@service'
+    address = Pipl::Address.new city: 'Austin', street: 'North MoPac Expressway', house: 9606, apartment: 'Suite 700'
 
     person = Pipl::Person.new fields: [name]
     expect(person.is_searchable?).to be true
     person = Pipl::Person.new fields: [username]
+    expect(person.is_searchable?).to be true
+    person = Pipl::Person.new fields: [user_id]
     expect(person.is_searchable?).to be true
     person = Pipl::Person.new fields: [phone]
     expect(person.is_searchable?).to be true
     person = Pipl::Person.new fields: [email]
     expect(person.is_searchable?).to be true
     person = Pipl::Person.new fields: [address]
-    expect(person.is_searchable?).to be false
+    expect(person.is_searchable?).to be true
   end
 
   it 'returns all non searchable fields' do

@@ -279,7 +279,10 @@ module Pipl
           @names.any? { |f| f.is_searchable? } or
           @emails.any? { |f| f.is_searchable? } or
           @phones.any? { |f| f.is_searchable? } or
-          @usernames.any? { |f| f.is_searchable? }
+          @usernames.any? { |f| f.is_searchable? } or
+          @user_ids.any? { |f| f.is_searchable? } or
+          @urls.any? { |f| f.is_searchable? } or
+          @addresses.any? { |f| f.is_sole_searchable? }
     end
 
     def unsearchable_fields
