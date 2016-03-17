@@ -3,11 +3,11 @@ Bundler::GemHelper.install_tasks
 
 require 'rspec/core/rake_task'
 require 'ci/reporter/rake/rspec'
-RSpec::Core::RakeTask.new(:spec)
+RSpec::Core::RakeTask.new(:rspec)
 
-task test: :spec
-task default: :spec
+task test: :rspec
+task default: :rspec
 
 namespace :ci do
-  task spec: %w(ci:setup:rspec spec)
+  task spec: %w(ci:setup:rspec rspec)
 end
