@@ -107,6 +107,10 @@ module Pipl
           raise ArgumentError.new('match_requirements must be a String')
         end
 
+        if opts[:source_category_requirements] and not opts[:source_category_requirements].is_a? String
+          raise ArgumentError.new('source_category_requirements must be a String')
+        end
+
         unless opts.key? :search_pointer
           unsearchable = opts[:person].unsearchable_fields
           if unsearchable and not unsearchable.empty?
@@ -118,7 +122,7 @@ module Pipl
 
     def create_http_request(opts)
       uri = URI(opts[:api_endpoint])
-      keys = %w(minimum_probability minimum_match hide_sponsored live_feeds show_sources match_requirements)
+      keys = %w(minimum_probability minimum_match hide_sponsored live_feeds show_sources match_requirements source_category_requirements)
       query_params = ["key=#{opts[:api_key]}"] + keys.map { |k| "#{k}=#{opts[k.to_sym]}" unless opts[k.to_sym].nil? }
       query_params << opts[:extra] or []
       query_params << uri.query

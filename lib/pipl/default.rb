@@ -42,6 +42,10 @@ module Pipl
         ENV['PIPL_MATCH_REQUIREMENTS']
       end
 
+      def source_category_requirements
+        ENV['PIPL_SOURCE_CATEGORY_REQUIREMENTS']
+      end
+
       def strict_validation
         ENV['PIPL_USER_STRICT_VALIDATION']
       end
