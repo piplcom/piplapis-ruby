@@ -253,7 +253,7 @@ module Pipl
 
   class Email < Field
 
-    RE_EMAIL = Regexp.new('^[\w.%\-+]+@[\w.%\-]+\.[a-zA-Z]{2,6}$')
+    RE_EMAIL = Regexp.new('^[a-zA-Z0-9\'._%\-+]+@[a-zA-Z0-9._%\-]+\.[a-zA-Z]{2,24}$')
 
     # @!attribute address
     #   @return [String] Plain email address
