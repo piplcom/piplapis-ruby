@@ -54,8 +54,8 @@ module Pipl
         person.add_field Pipl::Name.new(first: opts[:first_name], middle: opts[:middle_name], last: opts[:last_name])
       end
 
-      if opts[:country] || opts[:state] || opts[:city]
-        person.add_field Pipl::Address.new(country: opts[:country], state: opts[:state], city: opts[:city])
+      if opts[:country] || opts[:state] || opts[:city] || opts[:zip_code]
+        person.add_field Pipl::Address.new(country: opts[:country], state: opts[:state], city: opts[:city], zip_code: opts[:zip_code])
       end
 
       if opts[:phone]
