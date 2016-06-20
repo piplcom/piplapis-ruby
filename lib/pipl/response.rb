@@ -10,7 +10,7 @@ module Pipl
 
       attr_reader :query, :person, :sources, :possible_persons, :warnings, :visible_sources, :available_sources
       attr_reader :search_id, :http_status_code, :raw_response, :available_data, :match_requirements
-      attr_reader :source_category_requirements
+      attr_reader :source_category_requirements, :person_count
 
       def initialize(params={})
         @query = params[:query]
@@ -26,6 +26,7 @@ module Pipl
         @available_data = params[:available_data]
         @match_requirements = params[:match_requirements]
         @source_category_requirements = params[:source_category_requirements]
+        @person_count = params[:person_count]
       end
 
       def self.from_json(json_str)
@@ -45,6 +46,17 @@ module Pipl
         params[:match_requirements] = h[:match_requirements]
         params[:source_category_requirements] = h[:source_category_requirements]
         params[:available_data] = AvailableData.from_hash(h[:available_data]) if h.key? :available_data
+
+        # person_count: API v4 doesn't send this in the response so we compute it here
+        if h.key? :@person_count
+          params[:person_count] = h[:@person_count]
+        elsif h.key?(:person)
+          params[:person_count] = 1
+        elsif h.key?(:possible_persons)
+          params[:person_count] = h[:possible_persons].length
+        else
+          params[:person_count] = 0
+        end
 
         self.new(params)
       end
