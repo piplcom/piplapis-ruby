@@ -14,6 +14,9 @@ module Pipl
 
     include Pipl::Configurable
 
+    QUERY_PARAMS = %w(minimum_probability minimum_match hide_sponsored live_feeds show_sources match_requirements
+                source_category_requirements infer_persons)
+
     def initialize(options = {})
       Pipl::Configurable.keys.each do |key|
         instance_variable_set(:"@#{key}", options[key] || Pipl.instance_variable_get(:"@#{key}"))
@@ -111,6 +114,10 @@ module Pipl
           raise ArgumentError.new('source_category_requirements must be a String')
         end
 
+        if opts[:infer_persons] and not [nil, false, true].include? opts[:infer_persons]
+          raise ArgumentError.new('infer_persons must be true, false or nil')
+        end
+
         unless opts.key? :search_pointer
           unsearchable = opts[:person].unsearchable_fields
           if unsearchable and not unsearchable.empty?
@@ -122,8 +129,8 @@ module Pipl
 
     def create_http_request(opts)
       uri = URI(opts[:api_endpoint])
-      keys = %w(minimum_probability minimum_match hide_sponsored live_feeds show_sources match_requirements source_category_requirements)
-      query_params = ["key=#{opts[:api_key]}"] + keys.map { |k| "#{k}=#{opts[k.to_sym]}" unless opts[k.to_sym].nil? }
+      query_params = ["key=#{opts[:api_key]}"] +
+          QUERY_PARAMS.map { |k| "#{k}=#{opts[k.to_sym]}" unless opts[k.to_sym].nil? }
       query_params << opts[:extra] or []
       query_params << uri.query
       uri.query = URI.escape(query_params.compact.join('&'))

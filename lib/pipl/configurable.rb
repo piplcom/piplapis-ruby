@@ -7,7 +7,7 @@ module Pipl
     SHOW_SOURCES_NONE = 'false'
 
     attr_accessor :api_key, :minimum_probability, :minimum_match, :hide_sponsored, :live_feeds, :show_sources
-    attr_accessor :match_requirements, :source_category_requirements, :strict_validation, :user_agent
+    attr_accessor :match_requirements, :source_category_requirements, :infer_persons, :strict_validation, :user_agent
     attr_writer :api_endpoint
 
     class << self
@@ -22,6 +22,7 @@ module Pipl
             :show_sources,
             :match_requirements,
             :source_category_requirements,
+            :infer_persons,
             :strict_validation,
             :api_endpoint,
             :user_agent

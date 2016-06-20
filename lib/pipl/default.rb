@@ -46,6 +46,10 @@ module Pipl
         ENV['PIPL_SOURCE_CATEGORY_REQUIREMENTS']
       end
 
+      def infer_persons
+        ENV['PIPL_INFER_PERSONS']
+      end
+
       def strict_validation
         ENV['PIPL_USER_STRICT_VALIDATION']
       end

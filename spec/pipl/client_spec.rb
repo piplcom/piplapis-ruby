@@ -42,7 +42,8 @@ describe Pipl::Client do
             minimum_match: 0.9,
             show_sources: Pipl::Configurable::SHOW_SOURCES_ALL,
             match_requirements: 'email & phone',
-            source_category_requirements: 'personal_profiles'
+            source_category_requirements: 'personal_profiles',
+            infer_persons: true
         }
       end
 
@@ -54,6 +55,7 @@ describe Pipl::Client do
         expect(client.show_sources).to eq(Pipl::Configurable::SHOW_SOURCES_ALL)
         expect(client.match_requirements).to eq('email & phone')
         expect(client.source_category_requirements).to eq('personal_profiles')
+        expect(client.infer_persons).to eq(true)
         expect(client.api_endpoint).to eq(Pipl.api_endpoint)
         expect(client.user_agent).to eq(Pipl.user_agent)
       end
@@ -71,6 +73,7 @@ describe Pipl::Client do
         expect(client.show_sources).to eq(Pipl::Configurable::SHOW_SOURCES_ALL)
         expect(client.match_requirements).to eq('email & phone')
         expect(client.source_category_requirements).to eq('personal_profiles')
+        expect(client.infer_persons).to eq(true)
         expect(client.api_endpoint).to eq(Pipl.api_endpoint)
         expect(client.user_agent).to eq(Pipl.user_agent)
       end
@@ -251,6 +254,16 @@ describe Pipl::Client do
         expect(request).to have_been_requested
       end
 
+      it 'sets infer_persons boolean' do
+        request = stub_post.
+            with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
+                 query: {key: ENV['PIPL_API_KEY'], infer_persons: :true})
+                      .to_return(empty_json_response)
+
+        @client.search email: 'test@example.com', infer_persons: true, strict_validation: true
+        expect(request).to have_been_requested
+      end
+
       it 'sets a default user agent' do
         request = stub_post.
             with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent}, query: {key: ENV['PIPL_API_KEY']})
@@ -319,6 +332,12 @@ describe Pipl::Client do
       it 'raises error when source_category_requirements is not a String in strict validation' do
         expect {
           @client.search username: 'username', strict_validation: true, source_category_requirements: true
+        }.to raise_error ArgumentError
+      end
+
+      it 'raises error when infer_persons is not true, false or nil in strict validation' do
+        expect {
+          @client.search username: 'username', strict_validation: true, infer_persons: 8
         }.to raise_error ArgumentError
       end
 
