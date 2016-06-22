@@ -154,7 +154,7 @@ module Pipl
     def do_send(http, req)
       response = http.request(req)
       if response.is_a? Net::HTTPSuccess
-        SearchResponse.from_json(response.body)
+        SearchResponse.from_http_response(response)
       else
         begin
           err = Pipl::Client::APIError.from_json(response.body)

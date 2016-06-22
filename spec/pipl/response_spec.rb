@@ -18,6 +18,11 @@ describe Pipl::Client::SearchResponse do
     expect(response.match_requirements).to be_nil
     expect(response.source_category_requirements).to be_nil
     expect(response.person_count).to be_nil
+    expect(response.qps_allotted).to be_nil
+    expect(response.qps_current).to be_nil
+    expect(response.quota_allotted).to be_nil
+    expect(response.quota_current).to be_nil
+    expect(response.quota_reset).to be_nil
   end
 
   it 'initializes with params' do
@@ -54,7 +59,12 @@ describe Pipl::Client::SearchResponse do
         available_data: available_data,
         match_requirements: 'match_requirements',
         source_category_requirements: 'source_category_requirements',
-        person_count: 34
+        person_count: 34,
+        qps_allotted: 10,
+        qps_current: 11,
+        quota_allotted: 12,
+        quota_current: 13,
+        quota_reset: DateTime.now
     }
 
     response = Pipl::Client::SearchResponse.new params
@@ -72,6 +82,11 @@ describe Pipl::Client::SearchResponse do
     expect(response.match_requirements).to eq('match_requirements')
     expect(response.source_category_requirements).to eq('source_category_requirements')
     expect(response.person_count).to eq(34)
+    expect(response.qps_allotted).to eq(10)
+    expect(response.qps_current).to eq(11)
+    expect(response.quota_allotted).to eq(12)
+    expect(response.quota_current).to eq(13)
+    expect(response.quota_reset).to eq(params[:quota_reset])
   end
 
   it 'creates instance from json' do
