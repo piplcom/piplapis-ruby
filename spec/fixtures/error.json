@@ -1,0 +1,4 @@
+{
+  "@http_status_code": 403,
+  "error": "Per second limit reached."
+}

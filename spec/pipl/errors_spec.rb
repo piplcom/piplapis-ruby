@@ -10,13 +10,33 @@ describe Pipl::Client::APIError do
   end
 
   it 'initializes with quota headers' do
+    reset_time = DateTime.now
     e = Pipl::Client::APIError.new 'Per second limit reached.', 403, {
-        :'X-APIKey-QPS-Allotted' => 1,
-        :'X-APIKey-QPS-Current' => 2,
-        :'X-APIKey-Quota-Allotted' => 3,
-        :'X-APIKey-Quota-Current' => 4,
-        :'X-Quota-Reset' => 'Tuesday, September 03, 2013 07:06:05 AM UTC'
+        qps_allotted: 1,
+        qps_current: 2,
+        quota_allotted: 3,
+        quota_current: 4,
+        quota_reset: reset_time
     }
+    expect(e.message).to eq 'Per second limit reached.'
+    expect(e.status_code).to eq 403
+    expect(e.qps_allotted).to eq(1)
+    expect(e.qps_current).to eq(2)
+    expect(e.quota_allotted).to eq(3)
+    expect(e.quota_current).to eq(4)
+    expect(e.quota_reset).to eq(reset_time)
+  end
+
+  it 'deserialize with quota headers' do
+    json_str = fixture('error.json').read
+    headers = {
+        'X-APIKey-QPS-Allotted' => 1,
+        'X-APIKey-QPS-Current' => 2,
+        'X-APIKey-Quota-Allotted' => 3,
+        'X-APIKey-Quota-Current' => 4,
+        'X-Quota-Reset' => 'Tuesday, September 03, 2013 07:06:05 AM UTC'
+    }
+    e = Pipl::Client::APIError.deserialize(json_str, headers)
     expect(e.message).to eq 'Per second limit reached.'
     expect(e.status_code).to eq 403
     expect(e.qps_allotted).to eq(1)
