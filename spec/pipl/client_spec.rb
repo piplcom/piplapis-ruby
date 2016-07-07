@@ -404,6 +404,63 @@ describe Pipl::Client do
 
     end
 
+    describe 'exposes quota and throttle headers' do
+
+      it 'store values in response' do
+        request = stub_post.
+            with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
+                      .to_return(body: {:@http_status_code => 200, :@search_id => 1}.to_json,
+                                 status: 200,
+                                 headers: {
+                                     :'X-APIKey-QPS-Allotted' => 1,
+                                     :'X-APIKey-QPS-Current' => 2,
+                                     :'X-APIKey-Quota-Allotted' => 3,
+                                     :'X-APIKey-Quota-Current' => 4,
+                                     :'X-Quota-Reset' => 'Tuesday, September 03, 2013 07:06:05 AM UTC'
+                                 }
+                      )
+
+        response = @client.search search_pointer: 'search_pointer'
+        expect(request).to have_been_requested
+        expect(response).to be_instance_of(Pipl::Client::SearchResponse)
+        expect(response.http_status_code).to eq(200)
+        expect(response.search_id).to eq(1)
+        expect(response.qps_allotted).to eq(1)
+        expect(response.qps_current).to eq(2)
+        expect(response.quota_allotted).to eq(3)
+        expect(response.quota_current).to eq(4)
+        expect(response.quota_reset).to eq(DateTime.strptime('Tuesday, September 03, 2013 07:06:05 AM UTC', '%A, %B %d, %Y %I:%M:%S %p %Z'))
+      end
+
+      it 'store values in error' do
+        request = stub_post.
+            with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
+                      .to_return(body: {:@http_status_code => 403, error: 'Per second limit reached.'}.to_json,
+                                 status: 403,
+                                 headers: {
+                                     :'X-APIKey-QPS-Allotted' => 1,
+                                     :'X-APIKey-QPS-Current' => 2,
+                                     :'X-APIKey-Quota-Allotted' => 3,
+                                     :'X-APIKey-Quota-Current' => 4,
+                                     :'X-Quota-Reset' => 'Tuesday, September 03, 2013 07:06:05 AM UTC'
+                                 })
+
+        expect {
+          @client.search search_pointer: 'search_pointer'
+        }.to raise_error { |err|
+          expect(err).to be_instance_of(Pipl::Client::APIError)
+          expect(err.message).to eq('Per second limit reached.')
+          expect(err.qps_allotted).to eq(1)
+          expect(err.qps_current).to eq(2)
+          expect(err.quota_allotted).to eq(3)
+          expect(err.quota_current).to eq(4)
+          expect(err.quota_reset).to eq(DateTime.strptime('Tuesday, September 03, 2013 07:06:05 AM UTC', '%A, %B %d, %Y %I:%M:%S %p %Z'))
+        }
+        expect(request).to have_been_requested
+      end
+
+    end
+
   end
 
   describe 'when making async requests' do

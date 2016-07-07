@@ -156,12 +156,7 @@ module Pipl
       if response.is_a? Net::HTTPSuccess
         SearchResponse.from_http_response(response)
       else
-        begin
-          err = Pipl::Client::APIError.from_json(response.body)
-        rescue
-          err = Pipl::Client::APIError.new response.message, response.code
-        end
-        raise err
+        raise Pipl::Client::APIError.from_http_response(response)
       end
     end
 

@@ -9,6 +9,23 @@ describe Pipl::Client::APIError do
     expect(e.status_code).to eq 400
   end
 
+  it 'initializes with quota headers' do
+    e = Pipl::Client::APIError.new 'Per second limit reached.', 403, {
+        :'X-APIKey-QPS-Allotted' => 1,
+        :'X-APIKey-QPS-Current' => 2,
+        :'X-APIKey-Quota-Allotted' => 3,
+        :'X-APIKey-Quota-Current' => 4,
+        :'X-Quota-Reset' => 'Tuesday, September 03, 2013 07:06:05 AM UTC'
+    }
+    expect(e.message).to eq 'Per second limit reached.'
+    expect(e.status_code).to eq 403
+    expect(e.qps_allotted).to eq(1)
+    expect(e.qps_current).to eq(2)
+    expect(e.quota_allotted).to eq(3)
+    expect(e.quota_current).to eq(4)
+    expect(e.quota_reset).to eq(DateTime.strptime('Tuesday, September 03, 2013 07:06:05 AM UTC', '%A, %B %d, %Y %I:%M:%S %p %Z'))
+  end
+
   it 'creates instance from json' do
     e = Pipl::Client::APIError.from_json({error:'Bad Request', :@http_status_code => 400}.to_json)
     expect(e.message).to eq 'Bad Request'
