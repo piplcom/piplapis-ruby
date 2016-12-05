@@ -111,7 +111,7 @@ describe Pipl::Client::SearchResponse do
     expect(response.person.images.length).to eq(2)
     expect(response.person.urls.length).to eq(4)
     expect(response.person.gender.content).to eq('male')
-    expect(response.person.dob.age).to eq(29)
+    expect(response.person.dob.age).to eq(30)
 
     expect(response.sources.length).to eq(2)
     expect(response.sources.first.source_id).to eq('edc6aa8fa3f211cfad7c12a0ba5b32f4')
@@ -247,6 +247,8 @@ describe Pipl::Client::FieldCount do
     expect(fc.origin_countries).to eq(0)
     expect(fc.names).to eq(0)
     expect(fc.phones).to eq(0)
+    expect(fc.mobile_phones).to eq(0)
+    expect(fc.landline_phones).to eq(0)
     expect(fc.relationships).to eq(0)
     expect(fc.usernames).to eq(0)
   end
@@ -268,6 +270,8 @@ describe Pipl::Client::FieldCount do
             origin_countries: 12,
             names: 13,
             phones: 14,
+            mobile_phones: 8,
+            landline_phones: 6,
             relationships: 15,
             usernames: 16,
         })
@@ -285,6 +289,8 @@ describe Pipl::Client::FieldCount do
     expect(fc.origin_countries).to eq(12)
     expect(fc.names).to eq(13)
     expect(fc.phones).to eq(14)
+    expect(fc.mobile_phones).to eq(8)
+    expect(fc.landline_phones).to eq(6)
     expect(fc.relationships).to eq(15)
     expect(fc.usernames).to eq(16)
   end

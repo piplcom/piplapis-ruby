@@ -184,7 +184,8 @@ module Pipl
 
     class FieldCount
       attr_reader :addresses, :ethnicities, :emails, :dobs, :genders, :user_ids, :social_profiles, :educations, :jobs, 
-                  :images, :languages, :origin_countries, :names, :phones, :relationships, :usernames
+                  :images, :languages, :origin_countries, :names, :phones, :mobile_phones, :landline_phones,
+                  :relationships, :usernames
 
       def initialize(params={})
         @addresses = params[:addresses] || 0
@@ -201,6 +202,8 @@ module Pipl
         @origin_countries = params[:origin_countries] || 0
         @names = params[:names] || 0
         @phones = params[:phones] || 0
+        @mobile_phones = params[:mobile_phones] || 0
+        @landline_phones = params[:landline_phones] || 0
         @relationships = params[:relationships] || 0
         @usernames = params[:usernames] || 0
       end
