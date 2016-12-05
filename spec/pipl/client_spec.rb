@@ -412,11 +412,18 @@ describe Pipl::Client do
                       .to_return(body: {:@http_status_code => 200, :@search_id => 1}.to_json,
                                  status: 200,
                                  headers: {
-                                     :'X-APIKey-QPS-Allotted' => 1,
-                                     :'X-APIKey-QPS-Current' => 2,
-                                     :'X-APIKey-Quota-Allotted' => 3,
-                                     :'X-APIKey-Quota-Current' => 4,
-                                     :'X-Quota-Reset' => 'Tuesday, September 03, 2013 07:06:05 AM UTC'
+                                     :'X-QPS-Allotted' => 1,
+                                     :'X-QPS-Current' => 2,
+                                     :'X-QPS-Live-Allotted' => 3,
+                                     :'X-QPS-Live-Current' => 4,
+                                     :'X-QPS-Demo-Allotted' => 5,
+                                     :'X-QPS-Demo-Current' => 6,
+                                     :'X-APIKey-Quota-Allotted' => 7,
+                                     :'X-APIKey-Quota-Current' => 8,
+                                     :'X-Quota-Reset' => 'Tuesday, September 03, 2013 07:06:05 AM UTC',
+                                     :'X-Demo-Usage-Allotted' => 9,
+                                     :'X-Demo-Usage-Current' => 10,
+                                     :'X-Demo-Usage-Expiry' => 'Tuesday, September 03, 2013 07:06:05 AM UTC'
                                  }
                       )
 
@@ -427,9 +434,16 @@ describe Pipl::Client do
         expect(response.search_id).to eq(1)
         expect(response.qps_allotted).to eq(1)
         expect(response.qps_current).to eq(2)
-        expect(response.quota_allotted).to eq(3)
-        expect(response.quota_current).to eq(4)
+        expect(response.qps_live_allotted).to eq(3)
+        expect(response.qps_live_current).to eq(4)
+        expect(response.qps_demo_allotted).to eq(5)
+        expect(response.qps_demo_current).to eq(6)
+        expect(response.quota_allotted).to eq(7)
+        expect(response.quota_current).to eq(8)
         expect(response.quota_reset).to eq(DateTime.strptime('Tuesday, September 03, 2013 07:06:05 AM UTC', '%A, %B %d, %Y %I:%M:%S %p %Z'))
+        expect(response.demo_usage_allotted).to eq(9)
+        expect(response.demo_usage_current).to eq(10)
+        expect(response.demo_usage_expiry).to eq(DateTime.strptime('Tuesday, September 03, 2013 07:06:05 AM UTC', '%A, %B %d, %Y %I:%M:%S %p %Z'))
       end
 
       it 'store values in error' do
@@ -438,11 +452,18 @@ describe Pipl::Client do
                       .to_return(body: {:@http_status_code => 403, error: 'Per second limit reached.'}.to_json,
                                  status: 403,
                                  headers: {
-                                     :'X-APIKey-QPS-Allotted' => 1,
-                                     :'X-APIKey-QPS-Current' => 2,
-                                     :'X-APIKey-Quota-Allotted' => 3,
-                                     :'X-APIKey-Quota-Current' => 4,
-                                     :'X-Quota-Reset' => 'Tuesday, September 03, 2013 07:06:05 AM UTC'
+                                     :'X-QPS-Allotted' => 1,
+                                     :'X-QPS-Current' => 2,
+                                     :'X-QPS-Live-Allotted' => 3,
+                                     :'X-QPS-Live-Current' => 4,
+                                     :'X-QPS-Demo-Allotted' => 5,
+                                     :'X-QPS-Demo-Current' => 6,
+                                     :'X-APIKey-Quota-Allotted' => 7,
+                                     :'X-APIKey-Quota-Current' => 8,
+                                     :'X-Quota-Reset' => 'Tuesday, September 03, 2013 07:06:05 AM UTC',
+                                     :'X-Demo-Usage-Allotted' => 9,
+                                     :'X-Demo-Usage-Current' => 10,
+                                     :'X-Demo-Usage-Expiry' => 'Tuesday, September 03, 2013 07:06:05 AM UTC'
                                  })
 
         expect {
@@ -452,9 +473,16 @@ describe Pipl::Client do
           expect(err.message).to eq('Per second limit reached.')
           expect(err.qps_allotted).to eq(1)
           expect(err.qps_current).to eq(2)
-          expect(err.quota_allotted).to eq(3)
-          expect(err.quota_current).to eq(4)
+          expect(err.qps_live_allotted).to eq(3)
+          expect(err.qps_live_current).to eq(4)
+          expect(err.qps_demo_allotted).to eq(5)
+          expect(err.qps_demo_current).to eq(6)
+          expect(err.quota_allotted).to eq(7)
+          expect(err.quota_current).to eq(8)
           expect(err.quota_reset).to eq(DateTime.strptime('Tuesday, September 03, 2013 07:06:05 AM UTC', '%A, %B %d, %Y %I:%M:%S %p %Z'))
+          expect(err.demo_usage_allotted).to eq(9)
+          expect(err.demo_usage_current).to eq(10)
+          expect(err.demo_usage_expiry).to eq(DateTime.strptime('Tuesday, September 03, 2013 07:06:05 AM UTC', '%A, %B %d, %Y %I:%M:%S %p %Z'))
         }
         expect(request).to have_been_requested
       end

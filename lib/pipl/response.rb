@@ -11,7 +11,10 @@ module Pipl
       attr_reader :query, :person, :sources, :possible_persons, :warnings, :visible_sources, :available_sources
       attr_reader :search_id, :http_status_code, :raw_response, :available_data, :match_requirements
       attr_reader :source_category_requirements, :person_count
-      attr_reader :qps_allotted, :qps_current, :quota_allotted, :quota_current, :quota_reset
+      attr_reader :qps_allotted, :qps_current, :qps_live_allotted, :qps_live_current, :qps_demo_allotted,
+                  :qps_demo_current, :quota_allotted, :quota_current, :quota_reset, :demo_usage_allotted,
+                  :demo_usage_current, :demo_usage_expiry
+
 
       def initialize(params={})
         @query = params[:query]
@@ -30,9 +33,16 @@ module Pipl
         @person_count = params[:person_count]
         @qps_allotted = params[:qps_allotted]
         @qps_current = params[:qps_current]
+        @qps_live_allotted = params[:qps_live_allotted]
+        @qps_live_current = params[:qps_live_current]
+        @qps_demo_allotted = params[:qps_demo_allotted]
+        @qps_demo_current = params[:qps_demo_current]
         @quota_allotted = params[:quota_allotted]
         @quota_current = params[:quota_current]
         @quota_reset = params[:quota_reset]
+        @demo_usage_allotted = params[:demo_usage_allotted]
+        @demo_usage_current = params[:demo_usage_current]
+        @demo_usage_expiry = params[:demo_usage_expiry]
       end
 
       def self.deserialize(json_str, headers={})
@@ -64,12 +74,7 @@ module Pipl
           params[:person_count] = 0
         end
 
-        # Quota and Throttle headers
-        params[:qps_allotted] = headers['X-APIKey-QPS-Allotted'].to_i if headers.key? 'X-APIKey-QPS-Allotted'
-        params[:qps_current] = headers['X-APIKey-QPS-Current'].to_i if headers.key? 'X-APIKey-QPS-Current'
-        params[:quota_allotted] = headers['X-APIKey-Quota-Allotted'].to_i if headers.key? 'X-APIKey-Quota-Allotted'
-        params[:quota_current] = headers['X-APIKey-Quota-Current'].to_i if headers.key? 'X-APIKey-Quota-Current'
-        params[:quota_reset] = DateTime.strptime(headers['X-Quota-Reset'], '%A, %B %d, %Y %I:%M:%S %p %Z') if headers.key? 'X-Quota-Reset'
+        params.merge! Utils::extract_rate_limits(headers)
 
         self.new(params)
       end
@@ -80,7 +85,7 @@ module Pipl
 
       # Here for backward compatibility
       def self.from_json(json_str)
-         self.deserialize(json_str)
+        self.deserialize(json_str)
       end
 
       def matching_sources
@@ -183,8 +188,9 @@ module Pipl
     end
 
     class FieldCount
-      attr_reader :addresses, :ethnicities, :emails, :dobs, :genders, :user_ids, :social_profiles, :educations, :jobs, 
-                  :images, :languages, :origin_countries, :names, :phones, :relationships, :usernames
+      attr_reader :addresses, :ethnicities, :emails, :dobs, :genders, :user_ids, :social_profiles, :educations, :jobs,
+                  :images, :languages, :origin_countries, :names, :phones, :mobile_phones, :landline_phones,
+                  :relationships, :usernames
 
       def initialize(params={})
         @addresses = params[:addresses] || 0
@@ -201,6 +207,8 @@ module Pipl
         @origin_countries = params[:origin_countries] || 0
         @names = params[:names] || 0
         @phones = params[:phones] || 0
+        @mobile_phones = params[:mobile_phones] || 0
+        @landline_phones = params[:landline_phones] || 0
         @relationships = params[:relationships] || 0
         @usernames = params[:usernames] || 0
       end

@@ -20,9 +20,16 @@ describe Pipl::Client::SearchResponse do
     expect(response.person_count).to be_nil
     expect(response.qps_allotted).to be_nil
     expect(response.qps_current).to be_nil
+    expect(response.qps_live_allotted).to be_nil
+    expect(response.qps_live_current).to be_nil
+    expect(response.qps_demo_allotted).to be_nil
+    expect(response.qps_demo_current).to be_nil
     expect(response.quota_allotted).to be_nil
     expect(response.quota_current).to be_nil
     expect(response.quota_reset).to be_nil
+    expect(response.demo_usage_allotted).to be_nil
+    expect(response.demo_usage_current).to be_nil
+    expect(response.demo_usage_expiry).to be_nil
   end
 
   it 'initializes with params' do
@@ -62,9 +69,16 @@ describe Pipl::Client::SearchResponse do
         person_count: 34,
         qps_allotted: 10,
         qps_current: 11,
-        quota_allotted: 12,
-        quota_current: 13,
-        quota_reset: DateTime.now
+        qps_live_allotted: 12,
+        qps_live_current: 13,
+        qps_demo_allotted: 14,
+        qps_demo_current: 15,
+        quota_allotted: 16,
+        quota_current: 17,
+        quota_reset: DateTime.now,
+        demo_usage_allotted: 18,
+        demo_usage_current: 19,
+        demo_usage_expiry: DateTime.now
     }
 
     response = Pipl::Client::SearchResponse.new params
@@ -84,9 +98,16 @@ describe Pipl::Client::SearchResponse do
     expect(response.person_count).to eq(34)
     expect(response.qps_allotted).to eq(10)
     expect(response.qps_current).to eq(11)
-    expect(response.quota_allotted).to eq(12)
-    expect(response.quota_current).to eq(13)
+    expect(response.qps_live_allotted).to eq(12)
+    expect(response.qps_live_current).to eq(13)
+    expect(response.qps_demo_allotted).to eq(14)
+    expect(response.qps_demo_current).to eq(15)
+    expect(response.quota_allotted).to eq(16)
+    expect(response.quota_current).to eq(17)
     expect(response.quota_reset).to eq(params[:quota_reset])
+    expect(response.demo_usage_allotted).to eq(18)
+    expect(response.demo_usage_current).to eq(19)
+    expect(response.demo_usage_expiry).to eq(params[:demo_usage_expiry])
   end
 
   it 'creates instance from json' do
@@ -111,7 +132,7 @@ describe Pipl::Client::SearchResponse do
     expect(response.person.images.length).to eq(2)
     expect(response.person.urls.length).to eq(4)
     expect(response.person.gender.content).to eq('male')
-    expect(response.person.dob.age).to eq(29)
+    expect(response.person.dob.age).to eq(30)
 
     expect(response.sources.length).to eq(2)
     expect(response.sources.first.source_id).to eq('edc6aa8fa3f211cfad7c12a0ba5b32f4')
@@ -247,6 +268,8 @@ describe Pipl::Client::FieldCount do
     expect(fc.origin_countries).to eq(0)
     expect(fc.names).to eq(0)
     expect(fc.phones).to eq(0)
+    expect(fc.mobile_phones).to eq(0)
+    expect(fc.landline_phones).to eq(0)
     expect(fc.relationships).to eq(0)
     expect(fc.usernames).to eq(0)
   end
@@ -268,6 +291,8 @@ describe Pipl::Client::FieldCount do
             origin_countries: 12,
             names: 13,
             phones: 14,
+            mobile_phones: 8,
+            landline_phones: 6,
             relationships: 15,
             usernames: 16,
         })
@@ -285,6 +310,8 @@ describe Pipl::Client::FieldCount do
     expect(fc.origin_countries).to eq(12)
     expect(fc.names).to eq(13)
     expect(fc.phones).to eq(14)
+    expect(fc.mobile_phones).to eq(8)
+    expect(fc.landline_phones).to eq(6)
     expect(fc.relationships).to eq(15)
     expect(fc.usernames).to eq(16)
   end
