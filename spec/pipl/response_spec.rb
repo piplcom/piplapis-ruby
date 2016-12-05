@@ -20,9 +20,16 @@ describe Pipl::Client::SearchResponse do
     expect(response.person_count).to be_nil
     expect(response.qps_allotted).to be_nil
     expect(response.qps_current).to be_nil
+    expect(response.qps_live_allotted).to be_nil
+    expect(response.qps_live_current).to be_nil
+    expect(response.qps_demo_allotted).to be_nil
+    expect(response.qps_demo_current).to be_nil
     expect(response.quota_allotted).to be_nil
     expect(response.quota_current).to be_nil
     expect(response.quota_reset).to be_nil
+    expect(response.demo_usage_allotted).to be_nil
+    expect(response.demo_usage_current).to be_nil
+    expect(response.demo_usage_expiry).to be_nil
   end
 
   it 'initializes with params' do
@@ -62,9 +69,16 @@ describe Pipl::Client::SearchResponse do
         person_count: 34,
         qps_allotted: 10,
         qps_current: 11,
-        quota_allotted: 12,
-        quota_current: 13,
-        quota_reset: DateTime.now
+        qps_live_allotted: 12,
+        qps_live_current: 13,
+        qps_demo_allotted: 14,
+        qps_demo_current: 15,
+        quota_allotted: 16,
+        quota_current: 17,
+        quota_reset: DateTime.now,
+        demo_usage_allotted: 18,
+        demo_usage_current: 19,
+        demo_usage_expiry: DateTime.now
     }
 
     response = Pipl::Client::SearchResponse.new params
@@ -84,9 +98,16 @@ describe Pipl::Client::SearchResponse do
     expect(response.person_count).to eq(34)
     expect(response.qps_allotted).to eq(10)
     expect(response.qps_current).to eq(11)
-    expect(response.quota_allotted).to eq(12)
-    expect(response.quota_current).to eq(13)
+    expect(response.qps_live_allotted).to eq(12)
+    expect(response.qps_live_current).to eq(13)
+    expect(response.qps_demo_allotted).to eq(14)
+    expect(response.qps_demo_current).to eq(15)
+    expect(response.quota_allotted).to eq(16)
+    expect(response.quota_current).to eq(17)
     expect(response.quota_reset).to eq(params[:quota_reset])
+    expect(response.demo_usage_allotted).to eq(18)
+    expect(response.demo_usage_current).to eq(19)
+    expect(response.demo_usage_expiry).to eq(params[:demo_usage_expiry])
   end
 
   it 'creates instance from json' do
