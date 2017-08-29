@@ -428,7 +428,7 @@ module Pipl
     end
 
     def is_searchable?
-      !@content.nil? and Pipl::Utils.alnum_chars(@content).length > 3
+      !@content.nil? and Pipl::Utils.alnum_chars(@content).length > 2
     end
 
   end

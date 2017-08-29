@@ -5,7 +5,6 @@ module Pipl
   module Default
 
     API_ENDPOINT = 'https://api.pipl.com/search/'.freeze
-    API_KEY = 'sample_key'.freeze
     USER_AGENT   = "piplapis/ruby/#{Pipl::VERSION}".freeze
 
     class << self
@@ -15,7 +14,7 @@ module Pipl
       end
 
       def api_key
-        ENV.fetch 'PIPL_API_KEY', API_KEY
+        ENV['PIPL_API_KEY']
       end
 
       def minimum_probability
