@@ -119,7 +119,7 @@ describe Pipl::Client do
         person.add_field Pipl::Name.new raw: 'raw name'
         person.add_field Pipl::Name.new first: 'first', middle: 'middle', last: 'last'
         person.add_field Pipl::Address.new raw: 'raw address'
-        person.add_field Pipl::Address.new country: 'US', state: 'AZ', city: 'Phoenix'
+        person.add_field Pipl::Address.new country: 'US', state: 'AZ', city: 'Phoenix', zip_code: '85001'
         person.add_field Pipl::DOB.from_age_range 20, 30
 
         request = stub_post.
@@ -138,6 +138,7 @@ describe Pipl::Client do
             country: 'US',
             state: 'AZ',
             city: 'Phoenix',
+            zip_code: '85001',
             raw_address: 'raw address',
             from_age: '20',
             to_age: '30',
