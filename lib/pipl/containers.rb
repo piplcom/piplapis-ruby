@@ -275,14 +275,14 @@ module Pipl
     end
 
     def is_searchable?
-      ! @search_pointer.nil? ||
+      !(@search_pointer.nil? ||
         @names.any? { |f| f.is_searchable? } ||
         @emails.any? { |f| f.is_searchable? } ||
         @phones.any? { |f| f.is_searchable? } ||
         @usernames.any? { |f| f.is_searchable? } ||
         @user_ids.any? { |f| f.is_searchable? } ||
         @urls.any? { |f| f.is_searchable? } ||
-        @addresses.any? { |f| f.is_sole_searchable? }
+        @addresses.any? { |f| f.is_sole_searchable? })
     end
 
     def unsearchable_fields
