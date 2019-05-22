@@ -562,6 +562,10 @@ module Pipl
       ! @url.to_s.empty?
     end
 
+    def to_hash
+      {url: @url} if @url
+    end
+
   end
 
 

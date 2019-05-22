@@ -52,6 +52,7 @@ module Pipl
       person.add_field Pipl::Email.new(address: opts[:email]) if opts[:email]
       person.add_field Pipl::Username.new(content: opts[:username]) if opts[:username]
       person.add_field Pipl::Address.new(raw: opts[:raw_address]) if opts[:raw_address]
+      person.add_field Pipl::Url.new(url: opts[:url]) if opts[:url]
 
       if opts[:first_name] || opts[:middle_name] || opts[:last_name]
         person.add_field Pipl::Name.new(first: opts[:first_name], middle: opts[:middle_name], last: opts[:last_name])
