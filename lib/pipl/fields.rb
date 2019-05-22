@@ -90,7 +90,7 @@ module Pipl
       first = Pipl::Utils.alpha_chars(@first || '')
       last = Pipl::Utils.alpha_chars(@last || '')
       raw = Pipl::Utils.alpha_chars(@raw || '')
-      (first.length > 1 and last.length > 1) or raw.length > 3
+      (first.length > 1 && last.length > 1) || raw.length > 3
     end
 
     def to_s
@@ -146,12 +146,12 @@ module Pipl
     end
 
     def is_valid_country?
-      @country and Pipl::COUNTRIES.key? @country.upcase.to_sym
+      @country && Pipl::COUNTRIES.key?(@country.upcase.to_sym)
     end
 
     def is_valid_state?
-      is_valid_country? and Pipl::STATES.key?(@country.upcase.to_sym) and
-          @state and Pipl::STATES[@country.upcase.to_sym].key?(@state.upcase.to_sym)
+      is_valid_country? && Pipl::STATES.key?(@country.upcase.to_sym) and
+          @state && Pipl::STATES[@country.upcase.to_sym].key?(@state.upcase.to_sym)
     end
 
     def to_hash
@@ -161,11 +161,11 @@ module Pipl
     end
 
     def is_searchable?
-      [@raw, @country, @state, @city].any? {|x| not x.to_s.empty?}
+      [@raw, @country, @state, @city].any? {|x| ! x.to_s.empty?}
     end
 
     def is_sole_searchable?
-      not @raw.to_s.empty? or [@city, @street, @house].all? {|x| not x.to_s.empty?}
+      ! @raw.to_s.empty? || [@city, @street, @house].all? {|x| ! x.to_s.empty?}
     end
 
     def country_full
@@ -184,12 +184,12 @@ module Pipl
       vals = [@street, @city, state, country]
       s = vals.any? ? vals.select { |v| v }.join(', ') : ''
 
-      if @street and (@house or @apartment)
-        prefix = [@house, @apartment].select { |v| v and not v.empty? }.join('-')
+      if @street && (@house || @apartment)
+        prefix = [@house, @apartment].select { |v| v && ! v.empty? }.join('-')
         s = prefix + ' ' + (s || '')
       end
 
-      if @po_box and @street.nil?
+      if @po_box && @street.nil?
         s = "P.O. Box #{@po_box} " + (s || '')
       end
 
@@ -245,7 +245,7 @@ module Pipl
     end
 
     def is_searchable?
-      (@raw and not @raw.empty?) or not @number.nil?
+      (@raw && ! @raw.empty?) || ! @number.nil?
     end
 
   end
@@ -282,11 +282,11 @@ module Pipl
     end
 
     def is_valid_email?
-      not RE_EMAIL.match(@address).nil?
+      ! RE_EMAIL.match(@address).nil?
     end
 
     def is_searchable?
-      is_valid_email? or (not @address_md5.nil? and @address_md5.length == 32)
+      is_valid_email? || (! @address_md5.nil? && @address_md5.length == 32)
     end
 
     def to_hash
@@ -326,13 +326,13 @@ module Pipl
     def to_s
       return @display if @display
 
-      if @title and @organization
+      if @title && @organization
         s = @title + ' at ' + @organization
       else
         s = @title || @organization
       end
 
-      if s and @industry
+      if s && @industry
         if @date_range
           range = @date_range.years_range
           s += ' (%s, %d-%d)' % [@industry, range[0], range[1]]
@@ -341,7 +341,7 @@ module Pipl
         end
       else
         s = ((s || '') + ' ' + (@industry || '')).strip
-        if s and @date_range
+        if s && @date_range
           range = @date_range.years_range
           s += ' (%d-%d)' % [range[0], range[1]]
         end
@@ -373,13 +373,13 @@ module Pipl
     def to_s
       return @display if @display
 
-      if @degree and @school
+      if @degree && @school
         s = @degree + ' from ' + @school
       else
         s = @degree || @school
       end
 
-      if s and @date_range
+      if s && @date_range
         range = @date_range.years_range
         s += ' (%d-%d)' % [range[0], range[1]]
       end
@@ -428,7 +428,7 @@ module Pipl
     end
 
     def is_searchable?
-      !@content.nil? and Pipl::Utils.alnum_chars(@content).length > 2
+      !@content.nil? && Pipl::Utils.alnum_chars(@content).length > 2
     end
 
   end
@@ -437,7 +437,7 @@ module Pipl
   class UserID < Username
 
     def is_searchable?
-      not /.+@.+/.match(@content).nil?
+      ! /.+@.+/.match(@content).nil?
     end
 
   end
@@ -468,7 +468,7 @@ module Pipl
     end
 
     def self.from_age_range(start_age, end_age)
-      raise ArgumentError.new('start_age and end_age can\'t be negative') if start_age < 0 or end_age < 0
+      raise ArgumentError.new('start_age and end_age can\'t be negative') if start_age < 0 || end_age < 0
 
       if start_age > end_age
         start_age, end_age = end_age, start_age
@@ -482,7 +482,7 @@ module Pipl
     end
 
     def to_s
-      @display or Pipl::Utils.to_utf8(age.to_s)
+      @display || Pipl::Utils.to_utf8(age.to_s)
     end
 
     def age
@@ -490,14 +490,14 @@ module Pipl
         dob = @date_range.middle
         today = Date.today
         diff = today.year - dob.year
-        diff = diff - 1 if dob.month > today.month or (dob.month >= today.month and dob.day > today.day)
+        diff = diff - 1 if dob.month > today.month || (dob.month >= today.month && dob.day > today.day)
         diff
       end
     end
 
     def age_range
       if @date_range
-        return [self.age, self.age] unless @date_range.start and @date_range.end
+        return [self.age, self.age] unless @date_range.start && @date_range.end
         start_age = DOB.new({date_range: Pipl::DateRange.new(@date_range.start, @date_range.start)}).age
         end_age = DOB.new({date_range: Pipl::DateRange.new(@date_range.end, @date_range.end)}).age
         return end_age, start_age
@@ -511,7 +511,7 @@ module Pipl
     end
 
     def is_searchable?
-      not @date_range.nil?
+      ! @date_range.nil?
     end
 
   end
@@ -559,7 +559,7 @@ module Pipl
     end
 
     def is_searchable?
-      not @url.to_s.empty?
+      ! @url.to_s.empty?
     end
 
   end
@@ -635,8 +635,8 @@ module Pipl
 
     def to_s
       return @display if @display
-      return "#{@language}_#{@region}" if @language and @region
-      return @language if @language and not @language.empty?
+      return "#{@language}_#{@region}" if @language && @region
+      return @language if @language && ! @language.empty?
       @region
     end
 
@@ -687,27 +687,27 @@ module Pipl
     def initialize(start, end_)
       @start = start
       @end = end_
-      if @start and @end and @start > @end
+      if @start && @end && @start > @end
         @start, @end = @end, @start
       end
     end
 
     # def ==(other)
-    #   other.instance_of?(self.class) and inspect == other.inspect
+    #   other.instance_of?(self.class) && inspect == other.inspect
     # end
     #
     # alias_method :eql?, :==
 
     def is_exact?
-      @start and @end and @start == @end
+      @start && @end && @start == @end
     end
 
     def middle
-      @start and @end ? @start + ((@end - @start) / 2) : @start or @end
+      @start && @end ? @start + ((@end - @start) / 2) : @start || @end
     end
 
     def years_range
-      [@start.year, @end.year] if @start and @end
+      [@start.year, @end.year] if @start && @end
     end
 
     def self.from_years_range(start_year, end_year)

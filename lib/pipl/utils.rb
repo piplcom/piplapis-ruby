@@ -16,7 +16,7 @@ module Pipl
       end
 
       def is_valid_url?(url)
-        not ((url =~ URI::ABS_URI).nil?)
+        ! ((url =~ URI::ABS_URI).nil?)
       end
 
       def alpha_chars(s)

@@ -35,7 +35,7 @@ module Pipl
       http, req = create_http_request(opts)
       if opts.key? :callback
         do_send_async http, req, opts[:callback]
-      elsif opts[:async] and block_given?
+      elsif opts[:async] && block_given?
         do_send_async http, req, Proc.new
       else
         do_send http, req
@@ -77,26 +77,26 @@ module Pipl
     end
 
     def validate_search_params(opts)
-      unless opts[:api_key] and not opts[:api_key].empty?
+      unless opts[:api_key] && !opts[:api_key].empty?
         raise ArgumentError.new('API key is missing')
       end
 
-      if opts[:search_pointer] and opts[:search_pointer].empty?
+      if opts[:search_pointer] && opts[:search_pointer].empty?
         raise ArgumentError.new('Given search pointer is empty')
       end
 
       unless opts.key? :search_pointer
-        unless opts[:person] and opts[:person].is_searchable?
+        unless opts[:person] && opts[:person].is_searchable?
           raise ArgumentError.new('No valid name/username/user_id/phone/email/address or search pointer in request')
         end
       end
 
       if opts[:strict_validation]
-        if opts[:minimum_probability] and not (0..1).include? opts[:minimum_probability]
+        if opts[:minimum_probability] && !(0..1).include?(opts[:minimum_probability])
           raise ArgumentError.new('minimum_probability must be a float in 0..1')
         end
 
-        if opts[:minimum_match] and not (0..1).include? opts[:minimum_match]
+        if opts[:minimum_match] && !(0..1).include?(opts[:minimum_match])
           raise ArgumentError.new('minimum_match must be a float in 0..1')
         end
 
@@ -106,21 +106,21 @@ module Pipl
           raise ArgumentError.new('show_sources must be one of all, matching, false or a boolean value')
         end
 
-        if opts[:match_requirements] and not opts[:match_requirements].is_a? String
+        if opts[:match_requirements] && !opts[:match_requirements].is_a?(String)
           raise ArgumentError.new('match_requirements must be a String')
         end
 
-        if opts[:source_category_requirements] and not opts[:source_category_requirements].is_a? String
+        if opts[:source_category_requirements] && !opts[:source_category_requirements].is_a?(String)
           raise ArgumentError.new('source_category_requirements must be a String')
         end
 
-        if opts[:infer_persons] and not [nil, false, true].include? opts[:infer_persons]
+        if opts[:infer_persons] && ! [nil, false, true].include?(opts[:infer_persons])
           raise ArgumentError.new('infer_persons must be true, false or nil')
         end
 
         unless opts.key? :search_pointer
           unsearchable = opts[:person].unsearchable_fields
-          if unsearchable and not unsearchable.empty?
+          if unsearchable && ! unsearchable.empty?
             raise ArgumentError.new("Some fields are unsearchable: #{unsearchable}")
           end
         end
@@ -131,7 +131,7 @@ module Pipl
       uri = URI(opts[:api_endpoint])
       query_params = ["key=#{opts[:api_key]}"] +
           QUERY_PARAMS.map { |k| "#{k}=#{opts[k.to_sym]}" unless opts[k.to_sym].nil? }
-      query_params << opts[:extra] or []
+      query_params << opts[:extra] || []
       query_params << uri.query
       uri.query = URI.escape(query_params.compact.join('&'))
 

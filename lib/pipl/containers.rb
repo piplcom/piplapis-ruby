@@ -72,7 +72,7 @@ module Pipl
         fields = instance_variable_get("@#{container}")
         h[container.to_sym] = fields.map { |field| field.to_hash }.compact unless fields.empty?
       end
-      h.reject { |_, value| value.nil? or (value.kind_of?(Array) and value.empty?) }
+      h.reject { |_, value| value.nil? || (value.kind_of?(Array) && value.empty?) }
     end
 
     def add_fields(fields)
@@ -269,20 +269,20 @@ module Pipl
 
     def to_hash
       h = {}
-      h[:search_pointer] = @search_pointer if @search_pointer and not @search_pointer.empty?
+      h[:search_pointer] = @search_pointer if @search_pointer && ! @search_pointer.empty?
       h.update(fields_to_hash)
       h
     end
 
     def is_searchable?
-      not @search_pointer.nil? or
-          @names.any? { |f| f.is_searchable? } or
-          @emails.any? { |f| f.is_searchable? } or
-          @phones.any? { |f| f.is_searchable? } or
-          @usernames.any? { |f| f.is_searchable? } or
-          @user_ids.any? { |f| f.is_searchable? } or
-          @urls.any? { |f| f.is_searchable? } or
-          @addresses.any? { |f| f.is_sole_searchable? }
+      ! @search_pointer.nil? ||
+        @names.any? { |f| f.is_searchable? } ||
+        @emails.any? { |f| f.is_searchable? } ||
+        @phones.any? { |f| f.is_searchable? } ||
+        @usernames.any? { |f| f.is_searchable? } ||
+        @user_ids.any? { |f| f.is_searchable? } ||
+        @urls.any? { |f| f.is_searchable? } ||
+        @addresses.any? { |f| f.is_sole_searchable? }
     end
 
     def unsearchable_fields

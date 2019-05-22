@@ -33,7 +33,7 @@
       end
 
       def is_pipl_error?
-        not is_user_error?
+        ! is_user_error?
       end
 
       def self.deserialize(json_str, headers={})
