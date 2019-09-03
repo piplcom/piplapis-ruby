@@ -19,7 +19,6 @@ Getting Started & Code Snippets
 * Code snippets - [https://docs.pipl.com/docs/code-snippets](https://docs.pipl.com/docs/code-snippets)  
 * Full reference - [https://docs.pipl.com/reference/](https://docs.pipl.com/reference/)
 
-
 Credits
 -------
 
