@@ -8,4 +8,5 @@ Gemfile.lock
 coverage
 pkg
 spec/reports/
-
+.env
+.vscode

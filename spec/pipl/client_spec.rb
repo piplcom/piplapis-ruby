@@ -570,6 +570,33 @@ describe Pipl::Client do
       expect(request).to have_been_requested
     end
 
+    it 'uses username with link' do
+      request = stub_post.
+          with(body: {"person"=>"{\"urls\":[{\"url\":\"https://www.linkedin.com/in/danlahat\"}]}"}, query: {key: ENV['PIPL_API_KEY']})
+          .to_return(empty_json_response)
+
+      pipl_person = Pipl::Person.new
+      pipl_url = Pipl::Url.new(url: 'https://www.linkedin.com/in/danlahat')
+      pipl_person.add_field(pipl_url)
+      response = @client.search(person: pipl_person)
+      expect(request).to have_been_requested
+      expect(response).to be_instance_of(Pipl::Client::SearchResponse)
+      
+
+
+    end
+
+    it 'uses username with link as a parameter' do
+      request = stub_post.
+      with(body: {"person"=>"{\"usernames\":[{\"content\":\"https://www.linkedin.com/in/yury\"}]}"}, query: {key: ENV['PIPL_API_KEY']})
+                .to_return(empty_json_response)
+
+      response = @client.search username: 'https://www.linkedin.com/in/yury'
+      expect(request).to have_been_requested
+      expect(response).to be_instance_of(Pipl::Client::SearchResponse)
+
+    end
+
   end
 
 end

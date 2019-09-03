@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  ruby:
+    restart: on-failure
+    build:
+      context: .
+    image: piplsearch/piplapis-ruby:development
+    command: bash -c "bundle exec rake -t ci:spec"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    networks:
+      - apps_network
+
+networks:
+  apps_network:
+    external: true
