@@ -678,11 +678,11 @@ describe Pipl::Username do
     expect(username.is_searchable?).to be false
     username = Pipl::Username.new content: ''
     expect(username.is_searchable?).to be false
-    username = Pipl::Username.new content: 'abc'
+    username = Pipl::Username.new content: 'ab'
     expect(username.is_searchable?).to be false
-    username = Pipl::Username.new content: 'a(b#$c'
+    username = Pipl::Username.new content: 'a(b#$'
     expect(username.is_searchable?).to be false
-    username = Pipl::Username.new content: 'a(b#$c'
+    username = Pipl::Username.new content: 'a(b#$'
     expect(username.is_searchable?).to be false
   end
 end
