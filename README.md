@@ -1,10 +1,10 @@
 Pipl API Ruby Library
 ===========================
 
-This is the official Ruby client library for easily integrating Pipl's APIs into your application.
+This is a Python client library for easily integrating Pipl's APIs into your application.
 
-* Full details about Pipl's API - [https://pipl.com/dev/](https://pipl.com/dev/)  
-* This library is available in other languages - [https://pipl.com/dev/guide/code_libraries](https://pipl.com/dev/guide/code_libraries)
+* Full details about Pipl's APIs - [https://pipl.com/api](https://pipl.com/api)  
+* This library is available in other languages - [https://docs.pipl.com/docs/code-libraries](https://docs.pipl.com/docs/code-libraries)
 
 Library Requirements
 --------------------
@@ -15,8 +15,9 @@ Getting Started & Code Snippets
 -------------------------------
 
 **Pipl's Search API**
-* Code snippets - [https://pipl.com/dev/guide/code_snippets](https://pipl.com/dev/guide/code_snippets)
-* Full reference - [https://pipl.com/dev/reference/](https://pipl.com/dev/reference/)  
+* API Portal - [https://pipl.com/api/](https://pipl.com/api/)
+* Code snippets - [https://docs.pipl.com/docs/code-snippets](https://docs.pipl.com/docs/code-snippets)  
+* Full reference - [https://docs.pipl.com/reference/](https://docs.pipl.com/reference/)
 
 
 Credits
