@@ -4,7 +4,7 @@ gem 'rake'
 gem 'jruby-openssl', platforms: :jruby
 
 group :test do
-  gem 'rspec', '~> 3.0.0'
+  gem 'rspec', '~> 3.4.0'
   gem 'simplecov', require: false
   gem 'simplecov-rcov', require: false
   gem 'ci_reporter_rspec', require: false
