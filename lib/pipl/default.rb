@@ -61,6 +61,10 @@ module Pipl
         ENV.fetch 'PIPL_USER_AGENT', USER_AGENT
       end
 
+      def top_match
+        ENV['PIPL_TOP_MATCH']
+      end
+
     end
   end
 end

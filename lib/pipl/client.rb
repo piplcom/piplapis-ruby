@@ -15,7 +15,7 @@ module Pipl
     include Pipl::Configurable
 
     QUERY_PARAMS = %w(minimum_probability minimum_match hide_sponsored live_feeds show_sources match_requirements
-                source_category_requirements infer_persons)
+                source_category_requirements infer_persons top_match)
 
     def initialize(options = {})
       Pipl::Configurable.keys.each do |key|
@@ -119,6 +119,10 @@ module Pipl
           raise ArgumentError.new('infer_persons must be true, false or nil')
         end
 
+        if opts[:top_match] && ! [nil, false, true].include?(opts[:top_match])
+          raise ArgumentError.new('top_match must be true, false or nil')
+        end
+
         unless opts.key? :search_pointer
           unsearchable = opts[:person].unsearchable_fields
           if unsearchable && ! unsearchable.empty?
@@ -131,8 +135,8 @@ module Pipl
     def create_http_request(opts)
       uri = URI(opts[:api_endpoint])
       query_params = ["key=#{opts[:api_key]}"] +
-          QUERY_PARAMS.map { |k| "#{k}=#{opts[k.to_sym]}" unless opts[k.to_sym].nil? }
-      query_params << opts[:extra] || []
+        QUERY_PARAMS.map { |k| "#{k}=#{opts[k.to_sym]}" unless opts[k.to_sym].nil? }
+        query_params << opts[:extra] || []
       query_params << uri.query
       uri.query = URI.escape(query_params.compact.join('&'))
 

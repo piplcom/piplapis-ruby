@@ -8,24 +8,26 @@ module Pipl
 
     attr_accessor :api_key, :minimum_probability, :minimum_match, :hide_sponsored, :live_feeds, :show_sources
     attr_accessor :match_requirements, :source_category_requirements, :infer_persons, :strict_validation, :user_agent
+    attr_accessor :top_match
     attr_writer :api_endpoint
 
     class << self
 
       def keys
         @keys ||= [
-            :api_key,
-            :minimum_probability,
-            :minimum_match,
-            :hide_sponsored,
-            :live_feeds,
-            :show_sources,
-            :match_requirements,
-            :source_category_requirements,
-            :infer_persons,
-            :strict_validation,
-            :api_endpoint,
-            :user_agent
+          :api_key,
+          :minimum_probability,
+          :minimum_match,
+          :hide_sponsored,
+          :live_feeds,
+          :show_sources,
+          :match_requirements,
+          :source_category_requirements,
+          :infer_persons,
+          :strict_validation,
+          :api_endpoint,
+          :user_agent,
+          :top_match
         ]
       end
 
