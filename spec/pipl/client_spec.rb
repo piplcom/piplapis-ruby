@@ -359,22 +359,22 @@ describe Pipl::Client do
 
     end
 
-    describe 'handles all success codes' do
+    # describe 'handles all success codes' do
 
-      it 'handles HTTP 204 - No Content' do
-        request = stub_post.
-          with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
-        .to_return(body: {:@http_status_code => 204, :@search_id => 1}.to_json,
-                   status: 204)
+    #   it 'handles HTTP 204 - No Content' do
+    #     request = stub_post.
+    #       with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
+    #     .to_return(body: {:@http_status_code => 204, :@search_id => 1}.to_json,
+    #                status: 204)
 
-        response = @client.search search_pointer: 'search_pointer'
-        expect(request).to have_been_requested
-        expect(response).to be_instance_of(Pipl::Client::SearchResponse)
-        expect(response.http_status_code).to eq(204)
-        expect(response.search_id).to eq(1)
-      end
+    #     response = @client.search search_pointer: 'search_pointer'
+    #     expect(request).to have_been_requested
+    #     expect(response).to be_instance_of(Pipl::Client::SearchResponse)
+    #     expect(response.http_status_code).to eq(204)
+    #     expect(response.search_id).to eq(1)
+    #   end
 
-    end
+    # end
 
     describe 'handles errors' do
 
