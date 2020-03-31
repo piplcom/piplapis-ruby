@@ -90,7 +90,7 @@ module Pipl
       first = Pipl::Utils.alpha_chars(@first || '')
       last = Pipl::Utils.alpha_chars(@last || '')
       raw = Pipl::Utils.alpha_chars(@raw || '')
-      (first.length > 1 && last.length > 1) || raw.length > 3
+      first.length > 0 || last.length > 0 || raw.length > 0
     end
 
     def to_s
