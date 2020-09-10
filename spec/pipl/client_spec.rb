@@ -37,13 +37,13 @@ describe Pipl::Client do
 
       before do
         @opts = {
-            api_key: 'test api key',
-            minimum_probability: 0.7,
-            minimum_match: 0.9,
-            show_sources: Pipl::Configurable::SHOW_SOURCES_ALL,
-            match_requirements: 'email & phone',
-            source_category_requirements: 'personal_profiles',
-            infer_persons: true
+          api_key: 'test api key',
+          minimum_probability: 0.7,
+          minimum_match: 0.9,
+          show_sources: Pipl::Configurable::SHOW_SOURCES_ALL,
+          match_requirements: 'email & phone',
+          source_category_requirements: 'personal_profiles',
+          infer_persons: true
         }
       end
 
@@ -91,8 +91,8 @@ describe Pipl::Client do
 
       it 'uses a search_token first' do
         request = stub_post.
-            with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
-                      .to_return(empty_json_response)
+          with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
+        .to_return(empty_json_response)
 
         @client.search search_pointer: 'search_pointer'
         expect(request).to have_been_requested
@@ -104,8 +104,8 @@ describe Pipl::Client do
         person.add_field Pipl::Address.new country: 'US', state: 'AZ'
 
         request = stub_post.
-            with(body: {person: person.to_hash.to_json}, query: {key: ENV['PIPL_API_KEY']})
-                      .to_return(empty_json_response)
+          with(body: {person: person.to_hash.to_json}, query: {key: ENV['PIPL_API_KEY']})
+        .to_return(empty_json_response)
 
         @client.search person: person
         expect(request).to have_been_requested
@@ -123,24 +123,24 @@ describe Pipl::Client do
         person.add_field Pipl::DOB.from_age_range 20, 30
 
         request = stub_post.
-            with(body: {person: person.to_hash.to_json},
-                 query: {key: ENV['PIPL_API_KEY']})
-                      .to_return(empty_json_response)
+          with(body: {person: person.to_hash.to_json},
+               query: {key: ENV['PIPL_API_KEY']})
+          .to_return(empty_json_response)
 
         params = {
-            email: 'test@example.com',
-            username: 'username@service',
-            phone: '+44 123456789',
-            first_name: 'first',
-            middle_name: 'middle',
-            last_name: 'last',
-            raw_name: 'raw name',
-            country: 'US',
-            state: 'AZ',
-            city: 'Phoenix',
-            raw_address: 'raw address',
-            from_age: '20',
-            to_age: '30',
+          email: 'test@example.com',
+          username: 'username@service',
+          phone: '+44 123456789',
+          first_name: 'first',
+          middle_name: 'middle',
+          last_name: 'last',
+          raw_name: 'raw name',
+          country: 'US',
+          state: 'AZ',
+          city: 'Phoenix',
+          raw_address: 'raw address',
+          from_age: '20',
+          to_age: '30',
         }
         @client.search params
         expect(request).to have_been_requested
@@ -151,9 +151,9 @@ describe Pipl::Client do
         person.add_field Pipl::Phone.new number: 123456789
 
         request = stub_post.
-            with(body: {person: person.to_hash.to_json},
-                 query: {key: ENV['PIPL_API_KEY']})
-                      .to_return(empty_json_response)
+          with(body: {person: person.to_hash.to_json},
+               query: {key: ENV['PIPL_API_KEY']})
+          .to_return(empty_json_response)
 
         params = {phone: 123456789 }
         @client.search params
@@ -166,9 +166,9 @@ describe Pipl::Client do
         person.add_field Pipl::Address.new country: 'US', state: 'AZ'
 
         request = stub_post.
-            with(body: {person: person.to_hash.merge!({emails: [{address: 'test@example.com'}]}).to_json},
-                 query: {key: ENV['PIPL_API_KEY']})
-                      .to_return(empty_json_response)
+          with(body: {person: person.to_hash.merge!({emails: [{address: 'test@example.com'}]}).to_json},
+               query: {key: ENV['PIPL_API_KEY']})
+          .to_return(empty_json_response)
 
         @client.search person: person, email: 'test@example.com'
         expect(request).to have_been_requested
@@ -176,9 +176,9 @@ describe Pipl::Client do
 
       it 'sets minimum_probability' do
         request = stub_post.
-            with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
-                 query: {key: ENV['PIPL_API_KEY'], minimum_probability: 0.7})
-                      .to_return(empty_json_response)
+          with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
+               query: {key: ENV['PIPL_API_KEY'], minimum_probability: 0.7})
+          .to_return(empty_json_response)
 
         @client.search email: 'test@example.com', minimum_probability: 0.7
         expect(request).to have_been_requested
@@ -186,9 +186,9 @@ describe Pipl::Client do
 
       it 'sets minimum_match' do
         request = stub_post.
-            with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
-                 query: {key: ENV['PIPL_API_KEY'], minimum_match: 0.9})
-                      .to_return(empty_json_response)
+          with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
+               query: {key: ENV['PIPL_API_KEY'], minimum_match: 0.9})
+          .to_return(empty_json_response)
 
         @client.search email: 'test@example.com', minimum_match: 0.9
         expect(request).to have_been_requested
@@ -196,9 +196,9 @@ describe Pipl::Client do
 
       it 'sets hide_sponsored' do
         request = stub_post.
-            with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
-                 query: {key: ENV['PIPL_API_KEY'], hide_sponsored: 'false'})
-                      .to_return(empty_json_response)
+          with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
+               query: {key: ENV['PIPL_API_KEY'], hide_sponsored: 'false'})
+          .to_return(empty_json_response)
 
         @client.search email: 'test@example.com', hide_sponsored: false
         expect(request).to have_been_requested
@@ -206,9 +206,9 @@ describe Pipl::Client do
 
       it 'sets live_feeds' do
         request = stub_post.
-            with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
-                 query: {key: ENV['PIPL_API_KEY'], live_feeds: 'true'})
-                      .to_return(empty_json_response)
+          with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
+               query: {key: ENV['PIPL_API_KEY'], live_feeds: 'true'})
+          .to_return(empty_json_response)
 
         @client.search email: 'test@example.com', live_feeds: true
         expect(request).to have_been_requested
@@ -216,9 +216,9 @@ describe Pipl::Client do
 
       it 'sets show_sources' do
         request = stub_post.
-            with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
-                 query: {key: ENV['PIPL_API_KEY'], show_sources: Pipl::Configurable::SHOW_SOURCES_ALL})
-                      .to_return(empty_json_response)
+          with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
+               query: {key: ENV['PIPL_API_KEY'], show_sources: Pipl::Configurable::SHOW_SOURCES_ALL})
+          .to_return(empty_json_response)
 
         @client.search email: 'test@example.com', show_sources: Pipl::Configurable::SHOW_SOURCES_ALL
         expect(request).to have_been_requested
@@ -226,9 +226,9 @@ describe Pipl::Client do
 
       it 'sets show_sources boolean' do
         request = stub_post.
-            with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
-                 query: {key: ENV['PIPL_API_KEY'], show_sources: :true})
-                      .to_return(empty_json_response)
+          with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
+               query: {key: ENV['PIPL_API_KEY'], show_sources: :true})
+          .to_return(empty_json_response)
 
         @client.search email: 'test@example.com', show_sources: true, strict_validation: true
         expect(request).to have_been_requested
@@ -236,9 +236,9 @@ describe Pipl::Client do
 
       it 'sets match_requirements string' do
         request = stub_post.
-            with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
-                 query: {key: ENV['PIPL_API_KEY'], match_requirements: :'match_requirements'})
-                      .to_return(empty_json_response)
+          with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
+               query: {key: ENV['PIPL_API_KEY'], match_requirements: :'match_requirements'})
+          .to_return(empty_json_response)
 
         @client.search email: 'test@example.com', match_requirements: 'match_requirements', strict_validation: true
         expect(request).to have_been_requested
@@ -246,9 +246,9 @@ describe Pipl::Client do
 
       it 'sets source_category_requirements string' do
         request = stub_post.
-            with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
-                 query: {key: ENV['PIPL_API_KEY'], source_category_requirements: :'source_category_requirements'})
-                      .to_return(empty_json_response)
+          with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
+               query: {key: ENV['PIPL_API_KEY'], source_category_requirements: :'source_category_requirements'})
+          .to_return(empty_json_response)
 
         @client.search email: 'test@example.com', source_category_requirements: 'source_category_requirements', strict_validation: true
         expect(request).to have_been_requested
@@ -256,9 +256,9 @@ describe Pipl::Client do
 
       it 'sets infer_persons boolean' do
         request = stub_post.
-            with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
-                 query: {key: ENV['PIPL_API_KEY'], infer_persons: :true})
-                      .to_return(empty_json_response)
+          with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
+               query: {key: ENV['PIPL_API_KEY'], infer_persons: :true})
+          .to_return(empty_json_response)
 
         @client.search email: 'test@example.com', infer_persons: true, strict_validation: true
         expect(request).to have_been_requested
@@ -266,8 +266,8 @@ describe Pipl::Client do
 
       it 'sets a default user agent' do
         request = stub_post.
-            with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent}, query: {key: ENV['PIPL_API_KEY']})
-                      .to_return(empty_json_response)
+          with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent}, query: {key: ENV['PIPL_API_KEY']})
+        .to_return(empty_json_response)
 
         @client.search email: 'test@example.com'
         expect(request).to have_been_requested
@@ -276,11 +276,21 @@ describe Pipl::Client do
       it 'sets a custom user agent' do
         user_agent = 'Mozilla/5.0 I am Spartacus!'
         request = stub_post.
-            with(body: /.*/, headers: {user_agent: user_agent}, query: {key: ENV['PIPL_API_KEY']})
-                      .to_return(empty_json_response)
+          with(body: /.*/, headers: {user_agent: user_agent}, query: {key: ENV['PIPL_API_KEY']})
+        .to_return(empty_json_response)
 
         client = Pipl::Client.new(user_agent: user_agent)
         client.search email: 'test@example.com'
+        expect(request).to have_been_requested
+      end
+
+      it 'sets top_match' do
+        request = stub_post.
+          with(body: /.*/, headers: {user_agent: Pipl::Default.user_agent},
+               query: {key: ENV['PIPL_API_KEY'], top_match: 'true'})
+          .to_return(empty_json_response)
+
+        @client.search email: 'test@example.com', top_match: true
         expect(request).to have_been_requested
       end
 
@@ -349,30 +359,30 @@ describe Pipl::Client do
 
     end
 
-    describe 'handles all success codes' do
+    # describe 'handles all success codes' do
 
-      it 'handles HTTP 204 - No Content' do
-        request = stub_post.
-            with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
-                      .to_return(body: {:@http_status_code => 204, :@search_id => 1}.to_json,
-                                 status: 204)
+    #   it 'handles HTTP 204 - No Content' do
+    #     request = stub_post.
+    #       with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
+    #     .to_return(body: {:@http_status_code => 204, :@search_id => 1}.to_json,
+    #                status: 204)
 
-        response = @client.search search_pointer: 'search_pointer'
-        expect(request).to have_been_requested
-        expect(response).to be_instance_of(Pipl::Client::SearchResponse)
-        expect(response.http_status_code).to eq(204)
-        expect(response.search_id).to eq(1)
-      end
+    #     response = @client.search search_pointer: 'search_pointer'
+    #     expect(request).to have_been_requested
+    #     expect(response).to be_instance_of(Pipl::Client::SearchResponse)
+    #     expect(response.http_status_code).to eq(204)
+    #     expect(response.search_id).to eq(1)
+    #   end
 
-    end
+    # end
 
     describe 'handles errors' do
 
       it 'raises error on user mistake' do
         request = stub_post.
-            with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
-                      .to_return(body: {:@http_status_code => 401, error: 'API key is missing or invalid'}.to_json,
-                                 status: 401)
+          with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
+        .to_return(body: {:@http_status_code => 401, error: 'API key is missing or invalid'}.to_json,
+                   status: 401)
 
         expect {
           @client.search search_pointer: 'search_pointer'
@@ -382,8 +392,8 @@ describe Pipl::Client do
 
       it 'raises error on server crush' do
         request = stub_post.
-            with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
-                      .to_return(status: [500, 'Internal Server Error'])
+          with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
+        .to_return(status: [500, 'Internal Server Error'])
 
         expect {
           @client.search search_pointer: 'search_pointer'
@@ -393,8 +403,8 @@ describe Pipl::Client do
 
       it 'raises error on timeout' do
         request = stub_post.
-            with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
-                      .to_timeout
+          with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
+        .to_timeout
 
         expect {
           @client.search search_pointer: 'search_pointer'
@@ -408,24 +418,24 @@ describe Pipl::Client do
 
       it 'store values in response' do
         request = stub_post.
-            with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
-                      .to_return(body: {:@http_status_code => 200, :@search_id => 1}.to_json,
-                                 status: 200,
-                                 headers: {
-                                     :'X-QPS-Allotted' => 1,
-                                     :'X-QPS-Current' => 2,
-                                     :'X-QPS-Live-Allotted' => 3,
-                                     :'X-QPS-Live-Current' => 4,
-                                     :'X-QPS-Demo-Allotted' => 5,
-                                     :'X-QPS-Demo-Current' => 6,
-                                     :'X-APIKey-Quota-Allotted' => 7,
-                                     :'X-APIKey-Quota-Current' => 8,
-                                     :'X-Quota-Reset' => 'Tuesday, September 03, 2013 07:06:05 AM UTC',
-                                     :'X-Demo-Usage-Allotted' => 9,
-                                     :'X-Demo-Usage-Current' => 10,
-                                     :'X-Demo-Usage-Expiry' => 'Tuesday, September 03, 2013 07:06:05 AM UTC'
-                                 }
-                      )
+          with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
+        .to_return(body: {:@http_status_code => 200, :@search_id => 1}.to_json,
+                   status: 200,
+                   headers: {
+                     :'X-QPS-Allotted' => 1,
+                     :'X-QPS-Current' => 2,
+                     :'X-QPS-Live-Allotted' => 3,
+                     :'X-QPS-Live-Current' => 4,
+                     :'X-QPS-Demo-Allotted' => 5,
+                     :'X-QPS-Demo-Current' => 6,
+                     :'X-APIKey-Quota-Allotted' => 7,
+                     :'X-APIKey-Quota-Current' => 8,
+                     :'X-Quota-Reset' => 'Tuesday, September 03, 2013 07:06:05 AM UTC',
+                     :'X-Demo-Usage-Allotted' => 9,
+                     :'X-Demo-Usage-Current' => 10,
+                     :'X-Demo-Usage-Expiry' => 'Tuesday, September 03, 2013 07:06:05 AM UTC'
+                   }
+                   )
 
         response = @client.search search_pointer: 'search_pointer'
         expect(request).to have_been_requested
@@ -448,23 +458,23 @@ describe Pipl::Client do
 
       it 'store values in error' do
         request = stub_post.
-            with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
-                      .to_return(body: {:@http_status_code => 403, error: 'Per second limit reached.'}.to_json,
-                                 status: 403,
-                                 headers: {
-                                     :'X-QPS-Allotted' => 1,
-                                     :'X-QPS-Current' => 2,
-                                     :'X-QPS-Live-Allotted' => 3,
-                                     :'X-QPS-Live-Current' => 4,
-                                     :'X-QPS-Demo-Allotted' => 5,
-                                     :'X-QPS-Demo-Current' => 6,
-                                     :'X-APIKey-Quota-Allotted' => 7,
-                                     :'X-APIKey-Quota-Current' => 8,
-                                     :'X-Quota-Reset' => 'Tuesday, September 03, 2013 07:06:05 AM UTC',
-                                     :'X-Demo-Usage-Allotted' => 9,
-                                     :'X-Demo-Usage-Current' => 10,
-                                     :'X-Demo-Usage-Expiry' => 'Tuesday, September 03, 2013 07:06:05 AM UTC'
-                                 })
+          with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
+        .to_return(body: {:@http_status_code => 403, error: 'Per second limit reached.'}.to_json,
+                   status: 403,
+                   headers: {
+                     :'X-QPS-Allotted' => 1,
+                     :'X-QPS-Current' => 2,
+                     :'X-QPS-Live-Allotted' => 3,
+                     :'X-QPS-Live-Current' => 4,
+                     :'X-QPS-Demo-Allotted' => 5,
+                     :'X-QPS-Demo-Current' => 6,
+                     :'X-APIKey-Quota-Allotted' => 7,
+                     :'X-APIKey-Quota-Current' => 8,
+                     :'X-Quota-Reset' => 'Tuesday, September 03, 2013 07:06:05 AM UTC',
+                     :'X-Demo-Usage-Allotted' => 9,
+                     :'X-Demo-Usage-Current' => 10,
+                     :'X-Demo-Usage-Expiry' => 'Tuesday, September 03, 2013 07:06:05 AM UTC'
+        })
 
         expect {
           @client.search search_pointer: 'search_pointer'
@@ -500,8 +510,8 @@ describe Pipl::Client do
 
     it 'uses passed block as callback' do
       request = stub_post.
-          with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
-                    .to_return(empty_json_response)
+        with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
+      .to_return(empty_json_response)
 
       expect { |b|
         t = @client.search search_pointer: 'search_pointer', async: true, &b
@@ -512,8 +522,8 @@ describe Pipl::Client do
 
     it 'uses passed block as callback for errors' do
       request = stub_post.
-          with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
-                    .to_return(status: [500, 'Internal Server Error'])
+        with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
+      .to_return(status: [500, 'Internal Server Error'])
 
       expect { |b|
         t = @client.search search_pointer: 'search_pointer', async: true, &b
@@ -524,8 +534,8 @@ describe Pipl::Client do
 
     it 'uses passed block as callback for timeout errors' do
       request = stub_post.
-          with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
-                    .to_timeout
+        with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
+      .to_timeout
 
       expect { |b|
         t = @client.search search_pointer: 'search_pointer', async: true, &b
@@ -536,8 +546,8 @@ describe Pipl::Client do
 
     it 'uses callback option' do
       request = stub_post.
-          with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
-                    .to_return(empty_json_response)
+        with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
+      .to_return(empty_json_response)
 
       expect { |b|
         t = @client.search search_pointer: 'search_pointer', callback: Proc.new(&b)
@@ -548,8 +558,8 @@ describe Pipl::Client do
 
     it 'uses callback option for errors' do
       request = stub_post.
-          with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
-                    .to_return(status: [500, 'Internal Server Error'])
+        with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
+      .to_return(status: [500, 'Internal Server Error'])
 
       expect { |b|
         t = @client.search search_pointer: 'search_pointer', callback: Proc.new(&b)
@@ -560,8 +570,8 @@ describe Pipl::Client do
 
     it 'uses callback option for timeout errors' do
       request = stub_post.
-          with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
-                    .to_timeout
+        with(body: {search_pointer: 'search_pointer'}, query: {key: ENV['PIPL_API_KEY']})
+      .to_timeout
 
       expect { |b|
         t = @client.search search_pointer: 'search_pointer', callback: Proc.new(&b)
@@ -572,8 +582,8 @@ describe Pipl::Client do
 
     it 'uses username with link' do
       request = stub_post.
-          with(body: {"person"=>"{\"urls\":[{\"url\":\"https://www.linkedin.com/in/danlahat\"}]}"}, query: {key: ENV['PIPL_API_KEY']})
-          .to_return(empty_json_response)
+        with(body: {"person"=>"{\"urls\":[{\"url\":\"https://www.linkedin.com/in/danlahat\"}]}"}, query: {key: ENV['PIPL_API_KEY']})
+      .to_return(empty_json_response)
 
       pipl_person = Pipl::Person.new
       pipl_url = Pipl::Url.new(url: 'https://www.linkedin.com/in/danlahat')
@@ -581,15 +591,15 @@ describe Pipl::Client do
       response = @client.search(person: pipl_person)
       expect(request).to have_been_requested
       expect(response).to be_instance_of(Pipl::Client::SearchResponse)
-      
+
 
 
     end
 
     it 'uses username with link as a parameter' do
       request = stub_post.
-      with(body: {"person"=>"{\"usernames\":[{\"content\":\"https://www.linkedin.com/in/yury\"}]}"}, query: {key: ENV['PIPL_API_KEY']})
-                .to_return(empty_json_response)
+        with(body: {"person"=>"{\"usernames\":[{\"content\":\"https://www.linkedin.com/in/yury\"}]}"}, query: {key: ENV['PIPL_API_KEY']})
+      .to_return(empty_json_response)
 
       response = @client.search username: 'https://www.linkedin.com/in/yury'
       expect(request).to have_been_requested
