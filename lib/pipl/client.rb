@@ -1,5 +1,6 @@
 require 'uri'
 require 'net/http'
+require 'addressable/uri'
 
 require_relative 'configurable'
 require_relative 'containers'
@@ -138,7 +139,7 @@ module Pipl
         QUERY_PARAMS.map { |k| "#{k}=#{opts[k.to_sym]}" unless opts[k.to_sym].nil? }
         query_params << opts[:extra] || []
       query_params << uri.query
-      uri.query = URI.encode_www_form_component(query_params.compact.join('&'))
+      uri.query = Addressable::URI.escape(query_params.compact.join('&'))
 
       req = Net::HTTP::Post.new(uri.request_uri)
       req['User-Agent'] = opts[:user_agent]
