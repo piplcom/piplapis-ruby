@@ -4,7 +4,7 @@ module Pipl
 
   module Default
 
-    API_ENDPOINT = 'https://api.pipl.com/search/'.freeze
+    API_ENDPOINT = 'https://qa-api.pipl.pro/apis/gateway/search/'.freeze
     USER_AGENT   = "piplapis/ruby/#{Pipl::VERSION}".freeze
 
     class << self
