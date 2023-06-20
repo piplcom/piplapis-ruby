@@ -14,8 +14,17 @@ module Pipl
 
     include Pipl::Configurable
 
-    QUERY_PARAMS = %w(minimum_probability minimum_match hide_sponsored live_feeds show_sources match_requirements
-                source_category_requirements infer_persons top_match)
+    QUERY_PARAMS = %w(
+      minimum_probability
+      minimum_match
+      hide_sponsored
+      live_feeds
+      show_sources
+      match_requirements
+      source_category_requirements
+      infer_persons
+      top_match
+    )
 
     def initialize(options = {})
       Pipl::Configurable.keys.each do |key|
@@ -134,11 +143,13 @@ module Pipl
 
     def create_http_request(opts)
       uri = URI(opts[:api_endpoint])
-      query_params = ["key=#{opts[:api_key]}"] +
-        QUERY_PARAMS.map { |k| "#{k}=#{opts[k.to_sym]}" unless opts[k.to_sym].nil? }
-        query_params << opts[:extra] || []
+      query_params = ["key=#{opts[:api_key]}"]
+      QUERY_PARAMS.each do |k|
+        query_params << "#{k}=#{URI.encode_www_form_component(opts[k.to_sym])}" unless opts[k.to_sym].nil?
+      end
+      query_params << opts[:extra]
       query_params << uri.query
-      uri.query = URI.encode(query_params.compact.join('&'))
+      uri.query = query_params.compact.join('&')
 
       req = Net::HTTP::Post.new(uri.request_uri)
       req['User-Agent'] = opts[:user_agent]
