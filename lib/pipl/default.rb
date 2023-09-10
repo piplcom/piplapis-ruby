@@ -65,6 +65,10 @@ module Pipl
         ENV['PIPL_TOP_MATCH']
       end
 
+      def api_endpoint
+        ENV.fetch 'PIPL_SEARCH_API_ENDPOINT', API_ENDPOINT
+      end
+
     end
   end
 end
