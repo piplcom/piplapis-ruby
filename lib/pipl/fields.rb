@@ -222,7 +222,7 @@ module Pipl
     # @!attribute display_international
     #   @return [String] Well formatted international representation of this phone number for display purposes.
 
-    attr_accessor :country_code, :number, :extension, :type, :raw, :display, :display_international
+    attr_accessor :country_code, :number, :extension, :type, :raw, :display, :display_international, :voip
 
     def initialize(params={})
       super params
@@ -233,6 +233,7 @@ module Pipl
       @raw = params[:raw]
       @display = params[:display]
       @display_international = params[:display_international]
+      @voip = params[:@voip] unless params[:@voip].nil?
     end
 
     def self.extra_metadata
@@ -731,6 +732,73 @@ module Pipl
       h[:end] = @end.strftime(Pipl::DATE_FORMAT) if @end
       h
     end
+  end
+
+  class Vehicle < Field
+    attr_accessor :vin, :year, :make, :model, :color, :vehicle_type, :display
+
+    def initialize(params={})
+      @vin = params[:vin]
+      @year = params[:year]
+      @make = params[:make]
+      @model = params[:model]
+      @color = params[:color]
+      @vehicle_type = params[:vehicle_type]
+      @display = params[:display]
+    end
+
+    def to_hash
+      {vin: @vin, year: @year, make: @make, model: @model, color: @color, vehicle_type: @vehicle_type}
+          .reject { |_, value| value.nil? }
+    end
+
+    def validate_vin(vin)
+      vin_valid = true
+      if vin
+        vin_valid = vin.length == 17 &&
+                    !(vin.downcase.chars.to_set & %w[i o q]).any? &&
+                    !%w[u z 0].include?(vin[9].downcase) &&
+                    vin.match?(/\A\w+\z/)
+        vin_valid &&= validate_vin_checksum(vin) if vin_valid
+      end
+      vin_valid
+    end
+
+    def validate_vin_checksum(vin)
+      vin = vin.downcase
+      check_digit = vin[8]
+    
+      return false if check_digit.nil? # Handle the case when check_digit is nil
+    
+      replace_map = {
+        "1" => ["a", "j"],
+        "2" => ["b", "k", "s"],
+        "3" => ["c", "l", "t"],
+        "4" => ["d", "m", "u"],
+        "5" => ["e", "n", "v"],
+        "6" => ["f", "w"],
+        "7" => ["g", "p", "x"],
+        "8" => ["h", "y"],
+        "9" => ["r", "z"]
+      }
+      positional_weights = [8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2]
+    
+      replace_map.each do |digit, replacements|
+        replacements.each do |c|
+          vin.gsub!(c, digit)
+        end
+      end
+
+      checksum = vin.chars.each_with_index.reject { |_, i| i == 8 }.sum { |num, i| num.to_i * positional_weights[i] } % 11
+    
+      checksum = 'x' if checksum == 10
+      checksum.to_s == check_digit.to_s # Convert check_digit to string for comparison
+    end
+
+    def is_searchable?
+      validate_vin(@vin)
+    end
+
   end
 
 end

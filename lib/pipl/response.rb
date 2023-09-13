@@ -168,6 +168,10 @@ module Pipl
         @person.relationship if @person
       end
 
+      def vehicle
+        @person.vehicle if @person
+      end
+
     end
 
     class AvailableData
@@ -188,14 +192,16 @@ module Pipl
     end
 
     class FieldCount
-      attr_reader :addresses, :ethnicities, :emails, :dobs, :genders, :user_ids, :social_profiles, :educations, :jobs,
-                  :images, :languages, :origin_countries, :names, :phones, :mobile_phones, :landline_phones,
-                  :relationships, :usernames
+      attr_reader :addresses, :ethnicities, :emails, :work_emails, :personal_emails, :dobs, :genders, :user_ids, :social_profiles, :educations, :jobs,
+                  :images, :languages, :origin_countries, :names, :phones, :mobile_phones, :landline_phones, :voip_phones,
+                  :relationships, :usernames, :vehicles
 
       def initialize(params={})
         @addresses = params[:addresses] || 0
         @ethnicities = params[:ethnicities] || 0
         @emails = params[:emails] || 0
+        @work_emails = params[:work_emails] || 0
+        @personal_emails = params[:personal_emails] || 0
         @dobs = params[:dobs] || 0
         @genders = params[:genders] || 0
         @user_ids = params[:user_ids] || 0
@@ -208,9 +214,11 @@ module Pipl
         @names = params[:names] || 0
         @phones = params[:phones] || 0
         @mobile_phones = params[:mobile_phones] || 0
+        @voip_phones = params[:voip_phones] || 0
         @landline_phones = params[:landline_phones] || 0
         @relationships = params[:relationships] || 0
         @usernames = params[:usernames] || 0
+        @vehicles = params[:vehicles] || 0
       end
 
     end
