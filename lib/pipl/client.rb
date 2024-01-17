@@ -15,8 +15,18 @@ module Pipl
 
     include Pipl::Configurable
 
-    QUERY_PARAMS = %w(minimum_probability minimum_match hide_sponsored live_feeds show_sources match_requirements
-                source_category_requirements infer_persons top_match)
+    QUERY_PARAMS = %w(
+      minimum_probability
+      minimum_match
+      hide_sponsored
+      live_feeds
+      show_sources
+      match_requirements
+      source_category_requirements
+      infer_persons
+      top_match
+      api_version
+    )
 
     def initialize(options = {})
       Pipl::Configurable.keys.each do |key|
@@ -54,6 +64,7 @@ module Pipl
       person.add_field Pipl::Username.new(content: opts[:username]) if opts[:username]
       person.add_field Pipl::Address.new(raw: opts[:raw_address]) if opts[:raw_address]
       person.add_field Pipl::Url.new(url: opts[:url]) if opts[:url]
+      person.add_field Pipl::Vehicle.new(vin: opts[:vin]) if opts[:vin]
 
       if opts[:first_name] || opts[:middle_name] || opts[:last_name]
         person.add_field Pipl::Name.new(first: opts[:first_name], middle: opts[:middle_name], last: opts[:last_name])
@@ -89,7 +100,7 @@ module Pipl
 
       unless opts.key? :search_pointer
         unless opts[:person] && opts[:person].is_searchable?
-          raise ArgumentError.new('No valid name/username/user_id/phone/email/address or search pointer in request')
+          raise ArgumentError.new('No valid name/username/user_id/phone/email/address/vin or search pointer in request')
         end
       end
 
@@ -133,11 +144,19 @@ module Pipl
       end
     end
 
+    def get_api_version(opts)
+      api_version = opts[:api_version].to_s.gsub(/\.0$/, "") unless opts[:api_version].nil?
+      api_version ? api_version : DEFAULT_API_VERSION
+    end
+
     def create_http_request(opts)
-      uri = URI(opts[:api_endpoint])
-      query_params = ["key=#{opts[:api_key]}"] +
-        QUERY_PARAMS.map { |k| "#{k}=#{opts[k.to_sym]}" unless opts[k.to_sym].nil? }
-        query_params << opts[:extra] || []
+      api_version = get_api_version(opts)
+      uri = URI("#{opts[:api_endpoint]}v#{api_version}/")
+      query_params = ["key=#{opts[:api_key]}"]
+      QUERY_PARAMS.each do |k|
+        query_params << "#{k}=#{URI.encode_www_form_component(opts[k.to_sym])}" unless opts[k.to_sym].nil?
+      end
+      query_params << opts[:extra]
       query_params << uri.query
       uri.query = Addressable::URI.escape(query_params.compact.join('&'))
 

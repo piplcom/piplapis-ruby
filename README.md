@@ -7,7 +7,7 @@ This is a Ruby client library for easily integrating Pipl's APIs into your appli
 
 ## Library Requirements
 
-- Ruby 1.9 and above.
+- From Ruby SDK version 5.2.0 and above, Ruby 3.0 and above is supported
 
 ## Getting Started & Code Snippets
 
