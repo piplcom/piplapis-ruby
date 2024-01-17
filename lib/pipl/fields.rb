@@ -81,10 +81,10 @@ module Pipl
       @display = params[:display]
     end
 
-    def to_hash
-      {first: @first, middle: @middle, last: @last, prefix: @prefix, suffix: @suffix, raw: @raw}
-          .reject { |_, value| value.nil? }
-    end
+    # def to_hash
+    #   {first: @first, middle: @middle, last: @last, prefix: @prefix, suffix: @suffix, raw: @raw}
+    #       .reject { |_, value| value.nil? }
+    # end
 
     def is_searchable?
       first = Pipl::Utils.alpha_chars(@first || '')
@@ -412,7 +412,7 @@ module Pipl
     end
 
     def to_hash
-      super({url: @url, thumbnail_token: @thumbnail_token })
+      super({ url: @url, thumbnail_token: @thumbnail_token })
     end
 
   end
