@@ -42,9 +42,9 @@ module Pipl
       []
     end
 
-    # def to_hash(options = {})
-    #   options.merge(valid_since: @valid_since, last_seen: @last_seen, inferred: @inferred, current: @current).reject { |_, value| value.nil? }
-    # end
+    def to_hash(options = {})
+      options.merge(valid_since: @valid_since, last_seen: @last_seen, inferred: @inferred, current: @current).reject { |_, value| value.nil? }
+    end
 
     def is_searchable?
       true
@@ -81,10 +81,9 @@ module Pipl
       @display = params[:display]
     end
 
-    # def to_hash
-    #   {first: @first, middle: @middle, last: @last, prefix: @prefix, suffix: @suffix, raw: @raw}
-    #       .reject { |_, value| value.nil? }
-    # end
+    def to_hash
+      super({ first: @first, middle: @middle, last: @last, prefix: @prefix, suffix: @suffix, raw: @raw})
+    end
 
     def is_searchable?
       first = Pipl::Utils.alpha_chars(@first || '')
