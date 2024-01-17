@@ -22,10 +22,11 @@ module Pipl
         OriginCountry: 'origin_countries',
         Relationship: 'relationships',
         Tag: 'tags',
+        Vehicle: 'vehicles',
     }
 
     attr_reader :names, :addresses, :phones, :emails, :jobs, :educations, :images, :usernames, :user_ids, :urls
-    attr_reader :relationships, :tags, :ethnicities, :languages, :origin_countries, :dob, :gender
+    attr_reader :relationships, :tags, :ethnicities, :languages, :origin_countries, :dob, :gender, :vehicles
 
     def initialize(params={})
       @names = []
@@ -45,6 +46,7 @@ module Pipl
       @tags = []
       @dob = nil
       @gender = nil
+      @vehicles = []
 
       add_fields params[:fields] if params.key? :fields
     end
@@ -155,6 +157,10 @@ module Pipl
 
     def relationship
       @relationships.first unless @relationships.empty?
+    end
+
+    def vehicle
+      @vehicles.first unless @vehicles.empty?
     end
 
   end
@@ -282,7 +288,8 @@ module Pipl
        @usernames.any? { |f| f.is_searchable? } ||
        @user_ids.any? { |f| f.is_searchable? } ||
        @urls.any? { |f| f.is_searchable? } ||
-       @addresses.any? { |f| f.is_sole_searchable? }
+       @addresses.any? { |f| f.is_sole_searchable? } ||
+       @vehicles.any? { |f| f.is_searchable? }
     end
 
     def unsearchable_fields
