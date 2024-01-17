@@ -411,6 +411,10 @@ module Pipl
       "#{schema}://thumb.pipl.com/image?#{query_params.compact.join('&')}"
     end
 
+    def to_hash
+      {url: @url, thumbnail_token: @thumbnail_token }.reject { |_, value| value.nil? }
+    end
+
   end
 
 
