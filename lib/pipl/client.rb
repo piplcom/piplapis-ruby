@@ -1,6 +1,5 @@
 require 'uri'
 require 'net/http'
-require 'addressable/uri'
 
 require_relative 'configurable'
 require_relative 'containers'

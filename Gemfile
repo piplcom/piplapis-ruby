@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rake'
 gem 'jruby-openssl', platforms: :jruby
-gem 'addressable'
 
 group :test do
   gem 'rspec', '~> 3.4.0'
