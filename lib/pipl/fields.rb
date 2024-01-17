@@ -287,7 +287,7 @@ module Pipl
     end
 
     def to_hash
-      {address: @address, address_md5: @address_md5}.reject { |_, value| value.nil? }
+      super({address: @address, address_md5: @address_md5, type: @type})
     end
 
     def username
@@ -315,9 +315,8 @@ module Pipl
     end
 
     def to_hash
-      {title: @title, organization: @organization, industry: @industry,
-       date_range: @date_range ? @date_range.to_hash : nil}
-          .reject { |_, value| value.nil? }
+      super({title: @title, organization: @organization, industry: @industry,
+       date_range: @date_range ? @date_range.to_hash : nil})
     end
 
     def to_s
@@ -363,8 +362,7 @@ module Pipl
     end
 
     def to_hash
-      {degree: @degree, school: @school, date_range: @date_range ? @date_range.to_hash : nil}
-          .reject { |_, value| value.nil? }
+      super({degree: @degree, school: @school, date_range: @date_range ? @date_range.to_hash : nil})
     end
 
     def to_s
@@ -425,7 +423,7 @@ module Pipl
     end
 
     def to_hash
-      {content: @content} if @content
+      super({content: @content})
     end
 
     def is_searchable?
@@ -508,7 +506,7 @@ module Pipl
     end
 
     def to_hash
-      {date_range: @date_range.to_hash} if @date_range
+      super({date_range: @date_range.to_hash})
     end
 
     def is_searchable?
@@ -564,7 +562,7 @@ module Pipl
     end
 
     def to_hash
-      {url: @url} if @url
+      super({url: @url, category: @category, domain: @domain, name: @name})
     end
 
   end
@@ -584,7 +582,7 @@ module Pipl
     end
 
     def to_hash
-      {content: @content} if @content
+      super({content: @content})
     end
 
   end
@@ -622,6 +620,10 @@ module Pipl
 
     def to_s
       Pipl::Utils.titleize @content.gsub(/_/, ' ') if @content
+    end
+
+    def to_hash
+      super({content: @content})
     end
 
   end
