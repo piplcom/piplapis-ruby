@@ -158,7 +158,7 @@ module Pipl
       end
       query_params << opts[:extra]
       query_params << uri.query
-      uri.query = Addressable::URI.escape(query_params.compact.join('&'))
+      uri.query = query_params.compact.join('&')
 
       req = Net::HTTP::Post.new(uri.request_uri)
       req['User-Agent'] = opts[:user_agent]
