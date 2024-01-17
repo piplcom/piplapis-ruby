@@ -82,7 +82,7 @@ module Pipl
     end
 
     def to_hash
-      super({ first: @first, middle: @middle, last: @last, prefix: @prefix, suffix: @suffix, raw: @raw})
+      super({ first: @first, middle: @middle, last: @last, prefix: @prefix, suffix: @suffix, raw: @raw, type: @type })
     end
 
     def is_searchable?
@@ -154,9 +154,8 @@ module Pipl
     end
 
     def to_hash
-      {country: @country, state: @state, city: @city, street: @street, house: @house, apartment: @apartment,
-       zip_code: @zip_code, po_box: @po_box, raw: @raw}
-          .reject { |_, value| value.nil? }
+      super({country: @country, state: @state, city: @city, street: @street, house: @house, apartment: @apartment,
+       zip_code: @zip_code, po_box: @po_box, raw: @raw, type: @type})
     end
 
     def is_searchable?
