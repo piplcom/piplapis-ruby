@@ -42,9 +42,9 @@ module Pipl
       []
     end
 
-    def to_hash(options)
-      options.merge(valid_since: @valid_since, last_seen: @last_seen, inferred: @inferred, current: @current).reject { |_, value| value.nil? }
-    end
+    # def to_hash(options = {})
+    #   options.merge(valid_since: @valid_since, last_seen: @last_seen, inferred: @inferred, current: @current).reject { |_, value| value.nil? }
+    # end
 
     def is_searchable?
       true
