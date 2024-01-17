@@ -238,8 +238,7 @@ module Pipl
     end
 
     def to_hash
-      {country_code: @country_code, number: @number, extension: @extension, raw: @raw}
-          .reject { |_, value| value.nil? }
+      super({country_code: @country_code, number: @number, extension: @extension, raw: @raw, type: @type})
     end
 
     def is_searchable?
