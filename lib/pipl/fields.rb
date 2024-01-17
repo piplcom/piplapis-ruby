@@ -751,8 +751,7 @@ module Pipl
     end
 
     def to_hash
-      {vin: @vin, year: @year, make: @make, model: @model, color: @color, vehicle_type: @vehicle_type}
-          .reject { |_, value| value.nil? }
+      super({vin: @vin, year: @year, make: @make, model: @model, color: @color, vehicle_type: @vehicle_type})
     end
 
     def validate_vin(vin)
